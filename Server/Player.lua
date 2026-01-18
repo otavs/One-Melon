@@ -26,5 +26,5 @@ Player.Subscribe("Spawn", SpawnPlayer)
 
 -- spawn 40 random characters
 for i = 1, 40 do
-    Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
+  local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 end

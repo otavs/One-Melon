@@ -11,7 +11,7 @@ function MelonGun:Constructor(location, rotation)
 	self:SetLeftHandTransform(Vector(0, 1, -5), Rotator(0, 60, 100))
 	self:SetRightHandOffset(Vector(-25, -5, 0))
 	self:SetHandlingMode(HandlingMode.SingleHandedWeapon)
-	self:SetCadence(0.1)
+	self:SetCadence(0.6)
 	self:SetSoundDry("nanos-world::A_Pistol_Dry")
 	self:SetSoundZooming("nanos-world::A_AimZoom")
 	self:SetSoundAim("nanos-world::A_Rattle")
@@ -29,12 +29,14 @@ function MelonGun:OnFire(character)
 
 	local melon = Melon(spawn_location, Rotator.Random(), "nanos-world::SM_Fruit_Watermelon_01", CollisionType.Normal, true, GrabMode.Disabled, CCDMode.Disabled)
 	melon:SetLifeSpan(5)
-	melon:SetScale(Vector(2, 2, 2))
+	melon:SetScale(2)
 	melon:SetValue("DebrisLifeSpan", 2)
+	-- melon:SetMassOverride(100000000)
 
 	SetupBreakableProp(melon)
 
 	melon:Subscribe("Hit", function(melon, intensity, normal_impulse, impact_location, velocity, other)
+		print("Melon hit something")
 		if other and other:IsValid() and other:IsA(Melon) then
 			print("Melon hit melon")
 			BreakProp(melon, intensity)
@@ -42,7 +44,7 @@ function MelonGun:OnFire(character)
 		elseif other and other:IsValid() and other:IsA(Character) and other:GetHealth() > 0 then
 			print("Melon hit char")
 			BreakProp(melon, intensity)
-			other:ApplyDamage(1000)
+			other:ApplyDamage(1000, nil, nil, nil, character:GetPlayer(), nil)
 			Events.BroadcastRemote("PlaySound", "bonk.mp3", impact_location)
 		end
 	end)

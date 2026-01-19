@@ -1,8 +1,6 @@
 local SoundsDir = "package://" .. Package.GetName() .. "/Client/Sounds/"
 
 Events.SubscribeRemote("PlaySound", function(sound, location)
-    print(sound)
-    print(location)
     Sound(
         location, -- Location (if a 3D sound)
         SoundsDir .. sound, -- Asset Path

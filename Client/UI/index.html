@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Titan+One&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Top Left: Leaderboard -->
+    <div class="leaderboard">
+      <div class="leaderboard-header">
+        <h2>🍉 Leaderboard 🍉</h2>
+      </div>
+      <div class="leaderboard-content">
+        <table id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <!-- Players will be populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Top Center: Power-ups and Combo -->
+    <div class="top-center">
+      <div class="powerups-container">
+        <div id="powerups-list" class="powerups-list">
+          <!-- Power-ups will be populated by JS -->
+        </div>
+      </div>
+      <div class="combo-container" id="combo-container">
+        <div class="combo-text">COMBO</div>
+        <div class="combo-number" id="combo-number">0</div>
+        <div class="combo-multiplier">x</div>
+      </div>
+    </div>
+
+    <!-- Top Right: Kill Feed -->
+    <div class="killfeed">
+      <div id="killfeed-list">
+        <!-- Kills will be populated by JS -->
+      </div>
+    </div>
+
+    <!-- Bottom Right: Weapon and Ammo -->
+    <div class="weapon-display">
+      <div class="weapon-icon" id="weapon-icon">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2909/2909886.png"
+          alt="Gun"
+          id="weapon-image"
+        />
+      </div>
+      <div class="ammo-display">
+        <div class="ammo-count" id="ammo-count">30</div>
+        <div class="ammo-separator">/</div>
+        <div class="ammo-reserve" id="ammo-reserve">120</div>
+      </div>
+      <div class="weapon-name" id="weapon-name">Melon Gun</div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

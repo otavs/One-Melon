@@ -1,0 +1,3 @@
+// Events.Subscribe('UpdateScoreA', (score) => {
+//   teamAScoreEl.textContent = score.toString()
+// })

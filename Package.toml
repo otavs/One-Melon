@@ -20,7 +20,6 @@
     # packages requirements
     packages_requirements = [
                             "default-weapons",
-                            "battlefield-kill-ui",
     ]
     # asset packs requirements
     assets_requirements = [

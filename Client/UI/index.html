@@ -1,224 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>Watermelon Shooter UI</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Watermelon Shooter UI</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
 
-<style>
-:root {
-  --melon-red: #ff4d6d;
-  --melon-green: #3cb371;
-  --melon-dark: #1f4037;
-  --melon-light: #eaffea;
-  --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.3);
-}
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-* {
-  box-sizing: border-box;
-  font-family: 'Baloo 2', cursive;
-}
+  <body>
+    <!-- LEADERBOARD -->
+    <div id="leaderboard" class="panel">
+      <h2>🍉 Top Melons 🍉</h2>
 
-body {
-  margin: 0;
-  background: transparent;
-  overflow: hidden;
-}
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=12" />
+        <span>SliceMaster</span>
+        <span class="points">1200</span>
+      </div>
 
-/* GENERAL PANEL STYLE */
-.panel {
-  /* background: var(--glass-bg); */
-  backdrop-filter: blur(10px);
-  border: none;
-  border-radius: 16px;
-  padding: 14px;
-  color: white;
-  /* box-shadow: 0 8px 30px rgba(0,0,0,0.25); */
-}
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=32" />
+        <span>MelonKing</span>
+        <span class="points">980</span>
+      </div>
 
-/* LEADERBOARD */
-#leaderboard {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 300px;
-}
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+      <div class="leader-row">
+        <img src="https://i.pravatar.cc/40?img=45" />
+        <span>SeedSniper</span>
+        <span class="points">860</span>
+      </div>
+    </div>
 
-#leaderboard h2 {
-  margin: 0 0 10px;
-  text-align: center;
-  color: var(--melon-red);
-}
+    <!-- POWER UPS -->
+    <div id="powerups" class="panel">
+      <div class="powerup">⚡ Double Jump — 12s</div>
+      <div class="powerup">🔥 Fast Fire — 8s</div>
 
-.leader-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
+      <div class="combo">🍉 Combo x5</div>
+    </div>
 
-.leader-row img {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  margin-right: 10px;
-  border: 2px solid var(--melon-green);
-}
+    <!-- KILL FEED -->
+    <div id="killfeed" class="panel">
+      <div class="kill">
+        <span class="killer">SliceMaster</span> eliminated
+        <span class="victim">WaterNoob</span>
+      </div>
 
-.points {
-  margin-left: auto;
-  color: #ffe066;
-}
+      <div class="kill">
+        <span class="killer">MelonKing</span> eliminated
+        <span class="victim">SeedSniper</span>
+      </div>
+    </div>
 
-/* POWER UPS */
-#powerups {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 360px;
-  text-align: center;
-}
+    <!-- WEAPON -->
+    <div id="weapon" class="panel">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2997/2997933.png"
+        alt="Gun"
+      />
+      <div class="ammo">🔫 24 / 120</div>
+    </div>
 
-.powerup {
-  display: inline-block;
-  background: rgba(0,0,0,0.25);
-  padding: 6px 12px;
-  margin: 4px;
-  border-radius: 20px;
-  font-size: 14px;
-}
-
-.combo {
-  margin-top: 8px;
-  font-size: 20px;
-  color: #ffe066;
-  text-shadow: 0 0 8px rgba(255,224,102,0.8);
-}
-
-/* KILL FEED */
-#killfeed {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 300px;
-}
-
-.kill {
-  margin-bottom: 8px;
-  font-size: 14px;
-  animation: fadeIn 0.4s ease;
-}
-
-.killer {
-  color: var(--melon-green);
-}
-
-.victim {
-  color: var(--melon-red);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* WEAPON PANEL */
-#weapon {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-#weapon img {
-  width: 80px;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.6));
-}
-
-.ammo {
-  font-size: 26px;
-  color: #ffe066;
-}
-
-/* WATERMELON DECOR LINE */
-.watermelon-bar {
-  height: 6px;
-  border-radius: 6px;
-  background: linear-gradient(
-    to right,
-    var(--melon-green) 0%,
-    var(--melon-green) 35%,
-    #fff 35%,
-    #fff 40%,
-    var(--melon-red) 40%,
-    var(--melon-red) 100%
-  );
-  margin-bottom: 10px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- LEADERBOARD -->
-<div id="leaderboard" class="panel">
-  <div class="watermelon-bar"></div>
-  <h2>🍉 Leaderboard</h2>
-
-  <div class="leader-row">
-    <img src="https://i.pravatar.cc/40?img=12">
-    <span>SliceMaster</span>
-    <span class="points">1200</span>
-  </div>
-
-  <div class="leader-row">
-    <img src="https://i.pravatar.cc/40?img=32">
-    <span>MelonKing</span>
-    <span class="points">980</span>
-  </div>
-
-  <div class="leader-row">
-    <img src="https://i.pravatar.cc/40?img=45">
-    <span>SeedSniper</span>
-    <span class="points">860</span>
-  </div>
-</div>
-
-<!-- POWER UPS -->
-<div id="powerups" class="panel">
-  <div class="watermelon-bar"></div>
-
-  <div class="powerup">⚡ Double Jump — 12s</div>
-  <div class="powerup">🔥 Fast Fire — 8s</div>
-
-  <div class="combo">🍉 Combo x5</div>
-</div>
-
-<!-- KILL FEED -->
-<div id="killfeed" class="panel">
-  <div class="watermelon-bar"></div>
-
-  <div class="kill">
-    <span class="killer">SliceMaster</span> eliminated
-    <span class="victim">WaterNoob</span>
-  </div>
-
-  <div class="kill">
-    <span class="killer">MelonKing</span> eliminated
-    <span class="victim">SeedSniper</span>
-  </div>
-</div>
-
-<!-- WEAPON -->
-<div id="weapon" class="panel">
-  <img src="https://cdn-icons-png.flaticon.com/512/2997/2997933.png" alt="Gun">
-  <div class="ammo">🔫 24 / 120</div>
-</div>
-
-</body>
+    <!-- External JavaScript -->
+    <script src="index.js"></script>
+  </body>
 </html>

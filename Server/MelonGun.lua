@@ -4,7 +4,7 @@ Melon = Prop.Inherit("Melon")
 function MelonGun:Constructor(location, rotation)
 	self.Super:Constructor(location or Vector(), rotation or Rotator(), "nanos-world::SK_FlareGun")
 
-	self:SetAmmoSettings(9999, 0)
+	self:SetAmmoSettings(1, 0)
 	self:SetDamage(0)
 	self:SetRecoil(0)
 	self:SetSightTransform(Vector(0, 0, -4), Rotator(0, 0, 0))
@@ -50,6 +50,10 @@ function MelonGun:OnFire(character)
 	end)
 
 	melon:AddImpulse(forward_vector * 3000, true)
+end
+
+function MelonGun:AddAmmo(amount)
+	self:SetAmmoClip(self:GetAmmoClip() + amount)
 end
 
 MelonGun.SubscribeRemote("Fire", MelonGun.OnFire)

@@ -1,4 +1,5 @@
 Package.Require("MelonGun.lua")
+Package.Require("Bonker.lua")
 
 function SpawnPlayer(player)
   local character = Character(Vector(1000, 0, 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
@@ -12,9 +13,34 @@ function SpawnPlayer(player)
 
   player:Possess(character)
 
-  local veggie_gun = MelonGun(Vector(1000, 0, 5000))
-  character:PickUp(veggie_gun)
+  local melonGun = MelonGun(Vector(), Rotator())
+  local bonker = Bonker(Vector(0, 0, -10000), Rotator())
 
+  player:SetValue("MelonGun", melonGun)
+  player:SetValue("Bonker", bonker)
+
+  EquipWeapon(player, "MelonGun")
+  
+end
+
+function EquipWeapon(player, weaponName)
+  local character = player:GetControlledCharacter()
+  if not character or not character:IsValid() then
+    return
+  end
+  local weapon = player:GetValue(weaponName)
+  character:PickUp(weapon)
+  player:SetValue("EquippedWeapon", weapon)
+end
+
+function SwitchWeapon(player)
+  local equippedWeapon = player:GetValue("EquippedWeapon")
+  if equippedWeapon:IsA(MelonGun) then
+    EquipWeapon(player, "Bonker")
+  else
+    EquipWeapon(player, "MelonGun")
+  end
+  equippedWeapon:SetLocation(Vector(0, 0, -10000))
 end
 
 for _, player in pairs(Player.GetAll()) do
@@ -22,9 +48,3 @@ for _, player in pairs(Player.GetAll()) do
 end
 
 Player.Subscribe("Spawn", SpawnPlayer)
-
-
--- spawn 40 random characters
-for i = 1, 40 do
-  local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
-end

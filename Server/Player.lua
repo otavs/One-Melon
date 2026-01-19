@@ -31,6 +31,7 @@ function EquipWeapon(player, weaponName)
   local weapon = player:GetValue(weaponName)
   character:PickUp(weapon)
   player:SetValue("EquippedWeapon", weapon)
+  ShowWeapon(weapon)
 end
 
 function SwitchWeapon(player)
@@ -40,7 +41,16 @@ function SwitchWeapon(player)
   else
     EquipWeapon(player, "MelonGun")
   end
-  equippedWeapon:SetLocation(Vector(0, 0, -10000))
+  HideWeapon(equippedWeapon)
+end
+
+function HideWeapon(weapon)
+  weapon:SetLocation(Vector(0, 0, -10000))
+  weapon:SetVisibility(false)
+end
+
+function ShowWeapon(weapon)
+  weapon:SetVisibility(true)
 end
 
 for _, player in pairs(Player.GetAll()) do

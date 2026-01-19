@@ -19,6 +19,7 @@ function MelonGun:Constructor(location, rotation)
 	self:SetAnimationCharacterFire("nanos-world::A_Mannequin_Sight_Fire_Pistol")
 	self:SetCrosshairMaterial("nanos-world::MI_Crosshair_Square")
 	self:SetUsageSettings(true, false)
+	self:SetGravityEnabled(false)
 end
 
 function MelonGun:OnFire(character)

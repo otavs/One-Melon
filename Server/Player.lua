@@ -22,7 +22,10 @@ function SpawnPlayer(player)
   EquipWeapon(player, "MelonGun")
 
   Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
-  
+
+  character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
+    AddAmmo(instigator, 1)
+  end)
 end
 
 function EquipWeapon(player, weaponName)
@@ -53,6 +56,14 @@ end
 
 function ShowWeapon(weapon)
   weapon:SetVisibility(true)
+end
+
+function AddAmmo(player, amount)
+  local melonGun = player:GetValue("MelonGun")
+  if melonGun and melonGun:IsValid() then
+    melonGun:AddAmmo(amount)
+    Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
+  end
 end
 
 for _, player in pairs(Player.GetAll()) do

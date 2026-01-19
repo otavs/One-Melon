@@ -51,6 +51,8 @@ function MelonGun:OnFire(character)
 	end)
 
 	melon:AddImpulse(forward_vector * 3000, true)
+
+	Events.CallRemote("UpdateAmmo", character:GetPlayer(), self:GetAmmoClip())
 end
 
 function MelonGun:AddAmmo(amount)

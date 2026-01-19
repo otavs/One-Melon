@@ -20,6 +20,8 @@ function SpawnPlayer(player)
   player:SetValue("Bonker", bonker)
 
   EquipWeapon(player, "MelonGun")
+
+  Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
   
 end
 

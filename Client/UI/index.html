@@ -1,75 +1,224 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Titan+One&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+<head>
+<meta charset="UTF-8" />
+<title>Watermelon Shooter UI</title>
 
-  <body>
-    <!-- Top Left: Leaderboard -->
-    <div class="leaderboard">
-      <div class="leaderboard-header">
-        <h2>🍉 Leaderboard 🍉</h2>
-      </div>
-      <div class="leaderboard-content">
-        <table id="leaderboard-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody id="leaderboard-body">
-            <!-- Players will be populated by JS -->
-          </tbody>
-        </table>
-      </div>
-    </div>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 
-    <!-- Top Center: Power-ups and Combo -->
-    <div class="top-center">
-      <div class="powerups-container">
-        <div id="powerups-list" class="powerups-list">
-          <!-- Power-ups will be populated by JS -->
-        </div>
-      </div>
-      <div class="combo-container" id="combo-container">
-        <div class="combo-text">COMBO</div>
-        <div class="combo-number" id="combo-number">0</div>
-        <div class="combo-multiplier">x</div>
-      </div>
-    </div>
+<style>
+:root {
+  --melon-red: #ff4d6d;
+  --melon-green: #3cb371;
+  --melon-dark: #1f4037;
+  --melon-light: #eaffea;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
 
-    <!-- Top Right: Kill Feed -->
-    <div class="killfeed">
-      <div id="killfeed-list">
-        <!-- Kills will be populated by JS -->
-      </div>
-    </div>
+* {
+  box-sizing: border-box;
+  font-family: 'Baloo 2', cursive;
+}
 
-    <!-- Bottom Right: Weapon and Ammo -->
-    <div class="weapon-display">
-      <div class="weapon-icon" id="weapon-icon">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2909/2909886.png"
-          alt="Gun"
-          id="weapon-image"
-        />
-      </div>
-      <div class="ammo-display">
-        <div class="ammo-count" id="ammo-count">30</div>
-        <div class="ammo-separator">/</div>
-        <div class="ammo-reserve" id="ammo-reserve">120</div>
-      </div>
-      <div class="weapon-name" id="weapon-name">Melon Gun</div>
-    </div>
+body {
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
+}
 
-    <script src="index.js"></script>
-  </body>
+/* GENERAL PANEL STYLE */
+.panel {
+  /* background: var(--glass-bg); */
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 16px;
+  padding: 14px;
+  color: white;
+  /* box-shadow: 0 8px 30px rgba(0,0,0,0.25); */
+}
+
+/* LEADERBOARD */
+#leaderboard {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 300px;
+}
+
+#leaderboard h2 {
+  margin: 0 0 10px;
+  text-align: center;
+  color: var(--melon-red);
+}
+
+.leader-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.leader-row img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid var(--melon-green);
+}
+
+.points {
+  margin-left: auto;
+  color: #ffe066;
+}
+
+/* POWER UPS */
+#powerups {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 360px;
+  text-align: center;
+}
+
+.powerup {
+  display: inline-block;
+  background: rgba(0,0,0,0.25);
+  padding: 6px 12px;
+  margin: 4px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.combo {
+  margin-top: 8px;
+  font-size: 20px;
+  color: #ffe066;
+  text-shadow: 0 0 8px rgba(255,224,102,0.8);
+}
+
+/* KILL FEED */
+#killfeed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+}
+
+.kill {
+  margin-bottom: 8px;
+  font-size: 14px;
+  animation: fadeIn 0.4s ease;
+}
+
+.killer {
+  color: var(--melon-green);
+}
+
+.victim {
+  color: var(--melon-red);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* WEAPON PANEL */
+#weapon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#weapon img {
+  width: 80px;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.6));
+}
+
+.ammo {
+  font-size: 26px;
+  color: #ffe066;
+}
+
+/* WATERMELON DECOR LINE */
+.watermelon-bar {
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(
+    to right,
+    var(--melon-green) 0%,
+    var(--melon-green) 35%,
+    #fff 35%,
+    #fff 40%,
+    var(--melon-red) 40%,
+    var(--melon-red) 100%
+  );
+  margin-bottom: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LEADERBOARD -->
+<div id="leaderboard" class="panel">
+  <div class="watermelon-bar"></div>
+  <h2>🍉 Leaderboard</h2>
+
+  <div class="leader-row">
+    <img src="https://i.pravatar.cc/40?img=12">
+    <span>SliceMaster</span>
+    <span class="points">1200</span>
+  </div>
+
+  <div class="leader-row">
+    <img src="https://i.pravatar.cc/40?img=32">
+    <span>MelonKing</span>
+    <span class="points">980</span>
+  </div>
+
+  <div class="leader-row">
+    <img src="https://i.pravatar.cc/40?img=45">
+    <span>SeedSniper</span>
+    <span class="points">860</span>
+  </div>
+</div>
+
+<!-- POWER UPS -->
+<div id="powerups" class="panel">
+  <div class="watermelon-bar"></div>
+
+  <div class="powerup">⚡ Double Jump — 12s</div>
+  <div class="powerup">🔥 Fast Fire — 8s</div>
+
+  <div class="combo">🍉 Combo x5</div>
+</div>
+
+<!-- KILL FEED -->
+<div id="killfeed" class="panel">
+  <div class="watermelon-bar"></div>
+
+  <div class="kill">
+    <span class="killer">SliceMaster</span> eliminated
+    <span class="victim">WaterNoob</span>
+  </div>
+
+  <div class="kill">
+    <span class="killer">MelonKing</span> eliminated
+    <span class="victim">SeedSniper</span>
+  </div>
+</div>
+
+<!-- WEAPON -->
+<div id="weapon" class="panel">
+  <img src="https://cdn-icons-png.flaticon.com/512/2997/2997933.png" alt="Gun">
+  <div class="ammo">🔫 24 / 120</div>
+</div>
+
+</body>
 </html>

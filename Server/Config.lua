@@ -11,11 +11,11 @@ Config = {
 
     PlayerSpeed = 2,
     PowerUpSpeed = 4,
-    PowerUpSpeedDuration = 5,
+    PowerUpSpeedDuration = 10,
     
     PlayerJumpForce = 600,
     PowerUpJumpForce = 1000,
-    PowerUpJumpDuration = 3,
+    PowerUpJumpDuration = 10,
 
     KillFeedDuration = 5
 }

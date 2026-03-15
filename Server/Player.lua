@@ -26,6 +26,11 @@ function SpawnPlayer(player)
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     AddAmmo(instigator, 1)
     BroadcastKill(instigator, self)
+    Timer.SetTimeout(function()
+      if player:IsValid() then
+        SpawnPlayer(player)
+      end
+    end, Config.RespawnDelay * 1000)
   end)
 end
 

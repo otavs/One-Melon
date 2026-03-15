@@ -20,5 +20,7 @@ Config = {
     KillFeedDuration = 5,
 
     ComboDuration = 5,
-    LeaderboardMaxTop = 5
+    LeaderboardMaxTop = 5,
+
+    RespawnDelay = 2
 }

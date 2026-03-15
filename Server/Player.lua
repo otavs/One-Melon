@@ -25,6 +25,7 @@ function SpawnPlayer(player)
 
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     AddAmmo(instigator, 1)
+    BroadcastKill(instigator, self)
   end)
 end
 
@@ -64,6 +65,13 @@ function AddAmmo(player, amount)
     melonGun:AddAmmo(amount)
     Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
   end
+end
+
+function BroadcastKill(instigator, victimCharacter)
+  local killerName = instigator and instigator:IsValid() and instigator:GetName() or "Unknown"
+  local victimPlayer = victimCharacter:GetPlayer()
+  local victimName = victimPlayer and victimPlayer:IsValid() and victimPlayer:GetName() or "Bot"
+  Events.BroadcastRemote("KillFeed", killerName, victimName, Config.KillFeedDuration)
 end
 
 for _, player in pairs(Player.GetAll()) do

@@ -15,5 +15,7 @@ Config = {
     
     PlayerJumpForce = 600,
     PowerUpJumpForce = 1000,
-    PowerUpJumpDuration = 3
+    PowerUpJumpDuration = 3,
+
+    KillFeedDuration = 5
 }

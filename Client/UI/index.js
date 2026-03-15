@@ -44,3 +44,12 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
 
   activePowerUps[name] = { interval, element: el }
 })
+
+Events.Subscribe('KillFeed', (killer, victim, duration) => {
+  const el = document.createElement('div')
+  el.className = 'kill'
+  el.innerHTML = `<span class="killer">${killer}</span> eliminated <span class="victim">${victim}</span>`
+  document.getElementById('killfeed').appendChild(el)
+
+  setTimeout(() => el.remove(), duration * 1000)
+})

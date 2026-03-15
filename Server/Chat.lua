@@ -1,15 +1,4 @@
-local Commands = {}
-
-Commands["/reload"] = function(player, args)
-    Server.ReloadPackage(Package.GetName())
-end
-
-Commands["/kill"] = function(player, args)
-    local character = player:GetControlledCharacter()
-    if character and character:IsValid() then
-        character:ApplyDamage(100000000, nil, nil, nil, character:GetPlayer(), nil)
-    end
-end
+Package.Require("Commands.lua")
 
 Chat.Subscribe("PlayerSubmit", function(message, player)
     -- Split message into command + arguments

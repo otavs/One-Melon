@@ -19,3 +19,18 @@ end)
 Events.SubscribeRemote("KillFeed", function(killer, victim, duration)
     UI:CallEvent("KillFeed", killer, victim, duration)
 end)
+
+Events.SubscribeRemote("UpdateCombo", function(combo)
+    UI:CallEvent("UpdateCombo", combo)
+end)
+
+Events.SubscribeRemote("UpdateScoreboard", function(entries, maxTop)
+    UI:CallEvent("UpdateScoreboard", entries, maxTop)
+end)
+
+UI:Subscribe("Ready", function()
+    local localPlayer = Player.GetLocalPlayer()
+    if localPlayer and localPlayer:IsValid() then
+        UI:CallEvent("SetLocalPlayer", localPlayer:GetAccountID())
+    end
+end)

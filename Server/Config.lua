@@ -17,5 +17,8 @@ Config = {
     PowerUpJumpForce = 1000,
     PowerUpJumpDuration = 10,
 
-    KillFeedDuration = 5
+    KillFeedDuration = 5,
+
+    ComboDuration = 5,
+    LeaderboardMaxTop = 5
 }

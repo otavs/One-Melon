@@ -29,7 +29,7 @@ function SetupBreakableProp(prop)
 		end)
 	else
 		prop:Subscribe("TakeDamage", function(breakable, damage, bone_name, damage_type, hit_from_direction, instigator, causer)
-			BreakProp(breakable, damage * 50, Vector())
+			BreakProp(breakable, damage * 50)
 		end)
 	end
 end
@@ -39,7 +39,7 @@ function InflameProp(prop)
 	local breakable_data = BreakableProps[prop:GetMesh()]
 
 	if (not breakable_data) then
-		Package.Warn("Failed to find Breakable data for Prop '" .. prop:GetMesh() .."'. Maybe missed configuration?")
+		-- Package.Warn("Failed to find Breakable data for Prop '" .. prop:GetMesh() .."'. Maybe missed configuration?")
 		return
 	end
 
@@ -83,7 +83,7 @@ function BreakProp(prop, intensity)
 	local breakable_data = BreakableProps[prop:GetMesh()]
 
 	if (not breakable_data) then
-		Package.Warn("Failed to find Breakable data for Prop '" .. prop:GetMesh() .."'. Maybe missed configuration?")
+		-- Package.Warn("Failed to find Breakable data for Prop '" .. prop:GetMesh() .."'. Maybe missed configuration?")
 		return
 	end
 

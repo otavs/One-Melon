@@ -1,6 +1,7 @@
 Package.Require("Config.lua")
 Package.Require("Utils.lua")
 Package.Require("Log.lua")
+Package.Require("Chat.lua")
 Package.Require("Breakable.lua")
 Package.Require("MelonGun.lua")
 Package.Require("Bonker.lua")

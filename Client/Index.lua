@@ -28,9 +28,15 @@ Events.SubscribeRemote("UpdateScoreboard", function(entries, maxTop)
     UI:CallEvent("UpdateScoreboard", entries, maxTop)
 end)
 
+Events.SubscribeRemote("UpdateHealth", function(health, maxHealth)
+    UI:CallEvent("UpdateHealth", health, maxHealth)
+end)
+
 UI:Subscribe("Ready", function()
-    local localPlayer = Player.GetLocalPlayer()
+    local localPlayer = Client.GetLocalPlayer()
     if localPlayer and localPlayer:IsValid() then
         UI:CallEvent("SetLocalPlayer", localPlayer:GetAccountID())
     end
 end)
+
+Client.SetBloodScreenEnabled(false)

@@ -52,11 +52,27 @@ PowerUps = {
             character:SetValue("SpeedBoostTimer", timer)
         end
     },
-    Ultimate = {
-        image = "ultimate.png",
+    Health = {
+        image = "health.png",
         handler = function(character)
-            local player = character:GetPlayer()
-            AddAmmo(player, 1)
+           local player = character:GetPlayer()
+            character:SetMaxHealth(Config.PowerUpHealth)
+            character:SetHealth(Config.PowerUpHealth)
+            local timeLeft = Config.PowerUpHealthDuration
+            Events.CallRemote("PowerUpActivated", player, "Health", "Health Boost", timeLeft)
+            local timer = Timer.SetInterval(function()
+                if timeLeft == nil or timeLeft <= 0 then
+                    character:SetMaxHealth(Config.PlayerMaxHealth)
+                    Timer.ClearInterval(character:GetValue("HealthBoostTimer"))
+                    return
+                end
+                timeLeft = timeLeft - 1
+            end, 1000)
+            local oldTimer = character:GetValue("HealthBoostTimer")
+            if oldTimer then
+                Timer.ClearInterval(oldTimer)
+            end
+            character:SetValue("HealthBoostTimer", timer)
         end
     },
 }
@@ -70,6 +86,10 @@ function PowerUp:Constructor(type, location)
 
     local trigger = Trigger(location, Rotator(), Vector(100), TriggerType.Sphere, false, Color(1, 0, 0),  {"Character"})
     trigger:Subscribe("BeginOverlap", function(trigger, character)
+        local player = character:GetPlayer()
+        if not player or not player:IsValid() then
+            return
+        end
         self:Destroy()
         PowerUps[type].handler(character)
     end)

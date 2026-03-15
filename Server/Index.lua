@@ -12,7 +12,7 @@ Package.Require("PowerUp.lua")
 Hats = Assets.GetStaticMeshes("polygon-hats")
 table.insert(Hats, false)
 
-for i = 1, 2 do
+for i = 1, 20 do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
@@ -35,10 +35,11 @@ for i = 1, 2 do
     end
 end
 
-local powerup = PowerUp("Melon", Vector(0, 0, 150))
-local powerup2 = PowerUp("Jump", Vector(200, 0, 150))
-local powerup3 = PowerUp("Jump", Vector(400, 0, 150))
-local powerup4 = PowerUp("Speed", Vector(800, 0, 150))
+PowerUp("Melon", Vector(0, 0, 150))
+PowerUp("Jump", Vector(200, 0, 150))
+PowerUp("Jump", Vector(400, 0, 150))
+PowerUp("Speed", Vector(800, 0, 150))
+PowerUp("Health", Vector(1200, 0, 150))
 
 Server.Subscribe("Tick", function(delta)
     for _, powerUp in pairs(PowerUp.GetAll()) do

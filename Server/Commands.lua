@@ -7,6 +7,6 @@ end
 Commands["/kill"] = function(player, args)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
-        character:ApplyDamage(100000000, nil, nil, nil, character:GetPlayer(), nil)
+        character:ApplyDamage(1, nil, nil, nil, character:GetPlayer(), nil)
     end
 end

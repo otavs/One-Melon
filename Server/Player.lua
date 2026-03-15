@@ -5,8 +5,8 @@ function SpawnPlayer(player)
   local character = Character(Vector(1000, 0, 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
   character:SetFallDamageTaken(0)
   character:SetImpactDamageTaken(0)
-  character:SetMaxHealth(1000)
-  character:SetHealth(100000)
+  character:SetMaxHealth(Config.PlayerMaxHealth)
+  character:SetHealth(Config.PlayerMaxHealth)
   character:SetSpeedMultiplier(Config.PlayerSpeed)
   character:SetJumpZVelocity(Config.PlayerJumpForce)
   character:SetRagdollOnHitEnabled(false)
@@ -22,10 +22,16 @@ function SpawnPlayer(player)
   EquipWeapon(player, "MelonGun")
 
   Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
+  Events.CallRemote("UpdateHealth", player, character:GetHealth(), character:GetMaxHealth())
+
+  character:Subscribe("HealthChange", function(self, old_health, new_health)
+    Events.CallRemote("UpdateHealth", player, new_health, self:GetMaxHealth())
+  end)
 
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     AddAmmo(instigator, 1)
     BroadcastKill(instigator, self)
+    Events.CallRemote("UpdateHealth", player, 0, character:GetMaxHealth())
     Timer.SetTimeout(function()
       if player:IsValid() then
         SpawnPlayer(player)
@@ -75,12 +81,14 @@ end
 PlayerScores = {}
 PlayerCombos = {}
 PlayerComboTimers = {}
+AAA = 0
 
 function BroadcastKill(instigator, victimCharacter)
   local killerPlayer = instigator and instigator:IsValid() and instigator or nil
   local killerName = killerPlayer and killerPlayer:GetName() or "Unknown"
   -- concat killername with random string
-  killerName = killerName .. " " .. math.random(1000, 9999)
+  killerName = killerName .. " " .. AAA
+  AAA=AAA+1
   local victimPlayer = victimCharacter:GetPlayer()
   local victimName = victimPlayer and victimPlayer:IsValid() and victimPlayer:GetName() or "Bot"
   Events.BroadcastRemote("KillFeed", killerName, victimName, Config.KillFeedDuration)
@@ -90,7 +98,6 @@ function BroadcastKill(instigator, victimCharacter)
 
     if not PlayerScores[killerId] then
       PlayerScores[killerId] = { id = killerId, name = killerName, icon = killerPlayer:GetAccountIconURL(), kills = 0 }
-      print(killerPlayer:GetAccountIconURL())
     end
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
 
@@ -126,4 +133,13 @@ for _, player in pairs(Player.GetAll()) do
   SpawnPlayer(player)
 end
 
-Player.Subscribe("Spawn", SpawnPlayer)
+Player.Subscribe("Spawn", function(player)
+  SpawnPlayer(player)
+  -- Send current scoreboard state to the new player
+  local list = {}
+  for _, data in pairs(PlayerScores) do
+    table.insert(list, data)
+  end
+  table.sort(list, function(a, b) return a.kills > b.kills end)
+  Events.CallRemote("UpdateScoreboard", player, list, Config.LeaderboardMaxTop)
+end)

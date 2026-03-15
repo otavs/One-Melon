@@ -1,10 +1,58 @@
 Events.Subscribe('UpdateAmmo', (ammo) => {
-  document.querySelector('#ammoCount').innerText = ammo
+  const el = document.querySelector('#ammoCount')
+  el.innerText = ammo
+  el.classList.remove('pop')
+  void el.offsetWidth
+  el.classList.add('pop')
+})
+
+let prevHealth = null
+
+Events.Subscribe('UpdateHealth', (health, maxHealth) => {
+  const container = document.getElementById('health-pips')
+  const hp = Math.max(0, Math.round(health))
+  const max = Math.max(1, Math.round(maxHealth))
+
+  // Build pips if count changed
+  if (container.children.length !== max) {
+    container.innerHTML = ''
+    for (let i = 0; i < max; i++) {
+      const pip = document.createElement('div')
+      pip.className = 'hp-pip'
+      container.appendChild(pip)
+    }
+    prevHealth = null
+  }
+
+  const pips = Array.from(container.children)
+  pips.forEach((pip, i) => {
+    const filled = i < hp
+    const wasFilledBefore = prevHealth === null ? filled : i < prevHealth
+    pip.classList.remove('lost', 'gained', 'empty', 'low')
+    void pip.offsetWidth
+    if (filled) {
+      if (hp === 1) pip.classList.add('low')
+      if (!wasFilledBefore) pip.classList.add('gained')
+    } else {
+      if (wasFilledBefore) {
+        pip.classList.add('lost')
+        setTimeout(() => {
+          pip.classList.remove('lost')
+          pip.classList.add('empty')
+        }, 500)
+      } else {
+        pip.classList.add('empty')
+      }
+    }
+  })
+
+  prevHealth = hp
 })
 
 const powerUpIcons = {
-  Jump: '⚡',
-  Speed: '💨',
+  Jump: '🦘',
+  Speed: '⚡',
+  Health: '❤️',
 }
 
 const activePowerUps = {}
@@ -13,7 +61,9 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
   // Clear existing countdown for this powerup if re-picked
   if (activePowerUps[name]) {
     clearInterval(activePowerUps[name].interval)
-    activePowerUps[name].element.remove()
+    const old = activePowerUps[name].element
+    old.classList.add('dying')
+    setTimeout(() => old.remove(), 400)
     delete activePowerUps[name]
   }
 
@@ -25,6 +75,8 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
 
   const update = () => {
     el.textContent = `${icon} ${label} ${timeLeft}s`
+    if (timeLeft <= 3) el.classList.add('urgent')
+    else el.classList.remove('urgent')
   }
   update()
 
@@ -35,7 +87,8 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
     timeLeft--
     if (timeLeft <= 0) {
       clearInterval(interval)
-      el.remove()
+      el.classList.add('dying')
+      setTimeout(() => el.remove(), 400)
       delete activePowerUps[name]
     } else {
       update()
@@ -48,10 +101,16 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
 Events.Subscribe('KillFeed', (killer, victim, duration) => {
   const el = document.createElement('div')
   el.className = 'kill'
-  el.innerHTML = `<span class="killer">${killer}</span> eliminated <span class="victim">${victim}</span>`
+  el.innerHTML = `<span class="killer">${killer}</span> bonked <span class="victim">${victim}</span>`
   document.getElementById('killfeed').appendChild(el)
 
-  setTimeout(() => el.remove(), duration * 1000)
+  setTimeout(
+    () => {
+      el.classList.add('dying')
+      setTimeout(() => el.remove(), 500)
+    },
+    Math.max(0, duration * 1000 - 500),
+  )
 })
 
 let localPlayerId = null
@@ -65,8 +124,15 @@ Events.Subscribe('UpdateCombo', (combo) => {
   if (combo > 0) {
     el.textContent = `Combo x${combo}`
     el.style.display = ''
+    el.classList.remove('combo-pop')
+    void el.offsetWidth
+    el.classList.add('combo-pop')
   } else {
-    el.style.display = 'none'
+    el.classList.add('combo-hide')
+    setTimeout(() => {
+      el.style.display = 'none'
+      el.classList.remove('combo-hide')
+    }, 400)
   }
 })
 
@@ -76,6 +142,8 @@ function escHtml(s) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 }
+
+const prevKills = {}
 
 Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop) => {
   const entries = Array.isArray(rawEntries)
@@ -113,6 +181,7 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop) => {
   const lb = document.getElementById('leaderboard')
   lb.querySelectorAll('.leader-row, .leader-sep').forEach((el) => el.remove())
 
+  let rowIdx = 0
   for (const row of rows) {
     if (row.type === 'sep') {
       const sep = document.createElement('div')
@@ -122,8 +191,11 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop) => {
     } else {
       const entry = entries[row.idx]
       const isMe = entry.id === localPlayerId
+      const scoreChanged =
+        prevKills[entry.id] !== undefined && prevKills[entry.id] !== entry.kills
       const el = document.createElement('div')
       el.className = 'leader-row' + (isMe ? ' me' : '')
+      el.style.animationDelay = `${rowIdx * 40}ms`
       const rank = document.createElement('span')
       rank.className = 'rank'
       rank.textContent = `#${row.idx + 1}`
@@ -132,10 +204,12 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop) => {
       const name = document.createElement('span')
       name.textContent = entry.name
       const pts = document.createElement('span')
-      pts.className = 'points'
+      pts.className = 'points' + (scoreChanged ? ' score-flash' : '')
       pts.textContent = entry.kills
       el.append(rank, img, name, pts)
       lb.appendChild(el)
+      prevKills[entry.id] = entry.kills
+      rowIdx++
     }
   }
 })

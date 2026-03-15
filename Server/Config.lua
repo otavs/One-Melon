@@ -17,10 +17,14 @@ Config = {
     PowerUpJumpForce = 1000,
     PowerUpJumpDuration = 10,
 
+    PlayerMaxHealth = 3,
+    PowerUpHealth = 6,
+    PowerUpHealthDuration = 10,
+
     KillFeedDuration = 5,
 
     ComboDuration = 5,
     LeaderboardMaxTop = 5,
 
-    RespawnDelay = 2
+    RespawnDelay = 2,
 }

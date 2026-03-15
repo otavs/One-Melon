@@ -11,3 +11,7 @@ end)
 Events.SubscribeRemote("UpdateAmmo", function(ammo)
     UI:CallEvent("UpdateAmmo", ammo)
 end)
+
+Events.SubscribeRemote("PowerUpActivated", function(name, label, duration)
+    UI:CallEvent("PowerUpActivated", name, label, duration)
+end)

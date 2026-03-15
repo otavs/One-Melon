@@ -11,10 +11,11 @@ PowerUps = {
     Jump = {
         image = "jump.png",
         handler = function(character)
+            local player = character:GetPlayer()
             character:SetJumpZVelocity(Config.PowerUpJumpForce)
             local timeLeft = Config.PowerUpJumpDuration
+            Events.CallRemote("PowerUpActivated", player, "Jump", "Double Jump", timeLeft)
             local timer = Timer.SetInterval(function()
-                print(timeLeft)
                 if timeLeft == nil or timeLeft <= 0 then
                     character:SetJumpZVelocity(Config.PlayerJumpForce)
                     Timer.ClearInterval(character:GetValue("JumpBoostTimer"))
@@ -32,10 +33,11 @@ PowerUps = {
     Speed = {
         image = "speed.png",
         handler = function(character)
+            local player = character:GetPlayer()
             character:SetSpeedMultiplier(Config.PowerUpSpeed)
             local timeLeft = Config.PowerUpSpeedDuration
+            Events.CallRemote("PowerUpActivated", player, "Speed", "Speed Boost", timeLeft)
             local timer = Timer.SetInterval(function()
-                print(timeLeft)
                 if timeLeft == nil or timeLeft <= 0 then
                     character:SetSpeedMultiplier(Config.PlayerSpeed)
                     Timer.ClearInterval(character:GetValue("SpeedBoostTimer"))

@@ -100,7 +100,10 @@ function PowerUp:Constructor(type, location)
 end
 
 function PowerUp:Tick(deltaTime)
-  self.spin = (self.spin + self.spinSpeed * deltaTime) % 360
-  local portalRot = Rotator(0, -self.spin, 0)
-  self:RotateTo(portalRot, 1)
+    if #Player.GetAll() == 0 then
+        return
+    end
+    self.spin = (self.spin + self.spinSpeed * deltaTime) % 360
+    local portalRot = Rotator(0, -self.spin, 0)
+    self:RotateTo(portalRot, 1)
 end

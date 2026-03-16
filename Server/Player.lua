@@ -85,12 +85,10 @@ function SwitchWeapon(player)
 end
 
 function HideWeapon(weapon)
-  weapon:SetGravityEnabled(false)
   weapon:SetVisibility(false)
 end
 
 function ShowWeapon(weapon)
-  weapon:SetGravityEnabled(true)
   weapon:SetVisibility(true)
 end
 

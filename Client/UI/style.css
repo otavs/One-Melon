@@ -59,19 +59,19 @@ body {
   align-items: center;
   margin-bottom: 6px;
   font-size: 14px;
-  transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
 
 .leader-row.updated {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   transition: background 0.4s ease;
 }
 
 .leader-row.enter {
   opacity: 0;
   transform: translateY(8px);
-  animation: fadeInRow .3s ease forwards;
+  animation: fadeInRow 0.3s ease forwards;
 }
 
 .leader-row img {
@@ -191,6 +191,21 @@ body {
 
 .kill.dying {
   animation: fadeOutRight 0.5s ease forwards;
+}
+
+.kill.me {
+  background: rgba(0, 0, 0, 0.40);
+  outline: 1px solid var(--melon-green);
+}
+
+.killer.me {
+  /* color: var(--melon-green); */
+  font-weight: 700;
+}
+
+.victim.me {
+  /* color: var(--melon-red); */
+  font-weight: 700;
 }
 
 .killer {

@@ -7,3 +7,10 @@ Package.Require("Input.lua")
 UI = WebUI("Main HUD", "file://UI/index.html")
 
 Viewport.SetBloodScreenEnabled(false)
+
+UI:Subscribe("Ready", function()
+    local localPlayer = Client.GetLocalPlayer()
+    if localPlayer and localPlayer:IsValid() then
+        UI:CallEvent("SetLocalPlayer", localPlayer:GetAccountID())
+    end
+end)

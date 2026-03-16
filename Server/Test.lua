@@ -1,5 +1,31 @@
-local namesAmount = 22
-local names = {}
+for i = 1, 30 do
+    local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
+
+    character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
+        AddAmmo(instigator, 1)
+        BroadcastKill(instigator, self)
+    end)
+
+    character:SetMaterialColorParameter("Tint", RandomColor())
+
+    local hat = Hats[math.random(#Hats)]
+
+    if hat then 
+        character:AddStaticMeshAttached(
+            "head",
+            "polygon-hats::" .. hat.key,
+            "head",
+            Vector(7, 3, 0),
+            Rotator(-90, 0, 0)
+        )
+    end
+end
+
+PowerUp("Melon", Vector(0, 0, 150))
+PowerUp("Jump", Vector(200, 0, 150))
+PowerUp("Jump", Vector(400, 0, 150))
+PowerUp("Speed", Vector(800, 0, 150))
+PowerUp("Health", Vector(1200, 0, 150))
 
 Timer.SetInterval(function()
     local killerName = GetRandomName()
@@ -22,6 +48,9 @@ Timer.SetInterval(function()
     local victimName = GetRandomName()
     Events.BroadcastRemote("KillFeed", killerName, victimName)
 end, 1000)
+
+local namesAmount = 22
+local names = {}
 
 function GetRandomName()
     return names[math.random(1, #names)]

@@ -101,8 +101,10 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
 
 Events.Subscribe('KillFeed', (killer, victim, duration) => {
   const el = document.createElement('div')
-  el.className = 'kill'
-  el.innerHTML = `<span class="killer">${killer}</span> bonked 🍉 🔨 <span class="victim">${victim}</span>`
+  const killerIsMe = localPlayerName && killer === localPlayerName
+  const victimIsMe = localPlayerName && victim === localPlayerName
+  el.className = 'kill' + (killerIsMe || victimIsMe ? ' me' : '')
+  el.innerHTML = `<span class="killer${killerIsMe ? ' me' : ''}">${killer}</span> bonked 🍉 🔨 <span class="victim${victimIsMe ? ' me' : ''}">${victim}</span>`
   document.getElementById('killfeed').appendChild(el)
 
   setTimeout(
@@ -115,6 +117,7 @@ Events.Subscribe('KillFeed', (killer, victim, duration) => {
 })
 
 let localPlayerId = null
+let localPlayerName = null
 
 Events.Subscribe('SetLocalPlayer', (id) => {
   localPlayerId = id
@@ -162,6 +165,8 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
   const myIdx = localPlayerId
     ? entries.findIndex((e) => e.id === localPlayerId)
     : -1
+
+  if (myIdx !== -1) localPlayerName = entries[myIdx].name
 
   const TOP = Math.min(maxTop, total)
 

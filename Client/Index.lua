@@ -24,8 +24,8 @@ Events.SubscribeRemote("UpdateCombo", function(combo)
     UI:CallEvent("UpdateCombo", combo)
 end)
 
-Events.SubscribeRemote("UpdateScoreboard", function(entries, maxTop)
-    UI:CallEvent("UpdateScoreboard", entries, maxTop)
+Events.SubscribeRemote("UpdateScoreboard", function(entries, maxTop, size)
+    UI:CallEvent("UpdateScoreboard", entries, maxTop, size)
 end)
 
 Events.SubscribeRemote("UpdateHealth", function(health, maxHealth)

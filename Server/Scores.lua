@@ -46,5 +46,5 @@ function BroadcastScoreboard()
     table.insert(list, data)
   end
   table.sort(list, function(a, b) return a.kills > b.kills end)
-  Events.BroadcastRemote("UpdateScoreboard", list, Config.LeaderboardMaxTop)
+  Events.BroadcastRemote("UpdateScoreboard", list, Config.LeaderboardMaxTop, Config.LeaderboardSize)
 end

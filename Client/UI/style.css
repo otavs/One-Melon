@@ -35,8 +35,6 @@ body {
   top: 10px;
   left: 10px;
   width: 260px;
-  max-height: 320px;
-  overflow: hidden;
   background: rgba(0, 0, 0, 0.25);
 }
 

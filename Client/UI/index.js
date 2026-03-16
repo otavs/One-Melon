@@ -146,71 +146,124 @@ function escHtml(s) {
 
 const prevKills = {}
 
-Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop) => {
+Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
   const entries = Array.isArray(rawEntries)
     ? rawEntries
     : Object.values(rawEntries)
+
+  // Stable sorting: kills desc, name asc
+  entries.sort((a, b) => {
+    if (b.kills !== a.kills) return b.kills - a.kills
+    return a.name.localeCompare(b.name)
+  })
+
   const total = entries.length
+
   const myIdx = localPlayerId
     ? entries.findIndex((e) => e.id === localPlayerId)
     : -1
 
-  const rows = []
-  if (total <= maxTop || (myIdx !== -1 && myIdx < maxTop)) {
-    const topEnd = Math.min(maxTop, total)
-    for (let i = 0; i < topEnd; i++) rows.push({ type: 'entry', idx: i })
-    if (myIdx >= topEnd) {
-      rows.push({ type: 'sep' })
-      const winStart = Math.max(topEnd, myIdx - 2)
-      const winEnd = Math.min(total - 1, myIdx + 2)
-      for (let i = winStart; i <= winEnd; i++)
-        rows.push({ type: 'entry', idx: i })
-      if (winEnd < total - 1) rows.push({ type: 'sep' })
-    } else if (total > topEnd) {
-      rows.push({ type: 'sep' })
+  const TOP = Math.min(maxTop, total)
+  const selected = new Set()
+
+  // Always include top players
+  for (let i = 0; i < TOP; i++) {
+    selected.add(i)
+  }
+
+  // If player not within visible top window
+  if (!(myIdx !== -1 && myIdx < maxSize)) {
+    const need = Math.max(0, maxSize - TOP)
+
+    let left = myIdx
+    let right = myIdx
+
+    if (myIdx !== -1) selected.add(myIdx)
+
+    while (selected.size < TOP + need) {
+      let expanded = false
+
+      if (left > TOP) {
+        left--
+        selected.add(left)
+        expanded = true
+      }
+
+      if (selected.size >= TOP + need) break
+
+      if (right < total - 1) {
+        right++
+        selected.add(right)
+        expanded = true
+      }
+
+      if (!expanded) break
     }
   } else {
-    for (let i = 0; i < maxTop; i++) rows.push({ type: 'entry', idx: i })
-    rows.push({ type: 'sep' })
-    const winStart = Math.max(maxTop, myIdx - 2)
-    const winEnd = Math.min(total - 1, myIdx + 2)
-    for (let i = winStart; i <= winEnd; i++)
-      rows.push({ type: 'entry', idx: i })
-    if (winEnd < total - 1) rows.push({ type: 'sep' })
+    // Player already within top window → show top maxSize
+    for (let i = TOP; i < Math.min(maxSize, total); i++) {
+      selected.add(i)
+    }
+  }
+
+  const sorted = [...selected].sort((a, b) => a - b)
+
+  const rows = []
+  let prev = -1
+
+  for (const idx of sorted) {
+    if (prev !== -1 && idx !== prev + 1) {
+      rows.push({ type: 'sep' })
+    }
+
+    rows.push({ type: 'entry', idx })
+    prev = idx
   }
 
   const lb = document.getElementById('leaderboard')
   lb.querySelectorAll('.leader-row, .leader-sep').forEach((el) => el.remove())
 
   let rowIdx = 0
+
   for (const row of rows) {
     if (row.type === 'sep') {
       const sep = document.createElement('div')
       sep.className = 'leader-sep'
       sep.textContent = '···'
       lb.appendChild(sep)
-    } else {
-      const entry = entries[row.idx]
-      const isMe = entry.id === localPlayerId
-      const scoreChanged =
-        prevKills[entry.id] !== undefined && prevKills[entry.id] !== entry.kills
-      const el = document.createElement('div')
-      el.className = 'leader-row' + (isMe ? ' me' : '')
-      el.style.animationDelay = `${rowIdx * 40}ms`
-      const rank = document.createElement('span')
-      rank.className = 'rank'
-      rank.textContent = `#${row.idx + 1}`
-      const img = document.createElement('img')
-      img.src = entry.icon
-      const name = document.createElement('span')
-      name.textContent = entry.name
-      const pts = document.createElement('span')
-      pts.className = 'points' + (scoreChanged ? ' score-flash' : '')
-      pts.textContent = entry.kills
-      el.append(rank, img, name, pts)
-      lb.appendChild(el)
-      prevKills[entry.id] = entry.kills
-      rowIdx++
+      continue
     }
+
+    const entry = entries[row.idx]
+    if (!entry) continue
+
+    const isMe = entry.id === localPlayerId
+
+    const scoreChanged =
+      prevKills[entry.id] !== undefined && prevKills[entry.id] !== entry.kills
+
+    const el = document.createElement('div')
+    el.className = 'leader-row' + (isMe ? ' me' : '')
+    el.style.animationDelay = `${rowIdx * 40}ms`
+
+    const rank = document.createElement('span')
+    rank.className = 'rank'
+    rank.textContent = `#${row.idx + 1}`
+
+    const img = document.createElement('img')
+    img.src = entry.icon
+
+    const name = document.createElement('span')
+    name.textContent = entry.name
+
+    const pts = document.createElement('span')
+    pts.className = 'points' + (scoreChanged ? ' score-flash' : '')
+    pts.textContent = entry.kills
+
+    el.append(rank, img, name, pts)
+    lb.appendChild(el)
+
+    prevKills[entry.id] = entry.kills
+    rowIdx++
   }
 })

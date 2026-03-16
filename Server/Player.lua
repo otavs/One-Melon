@@ -66,15 +66,12 @@ function EquipWeapon(player, weaponName)
   end
 
   local currentWeapon = player:GetValue("EquippedWeapon")
-  if currentWeapon == weaponToEquip then
-    return
-  end
 
   character:PickUp(weaponToEquip)
   player:SetValue("EquippedWeapon", weaponToEquip)
   ShowWeapon(weaponToEquip)
 
-  if currentWeapon and currentWeapon:IsValid() then
+  if currentWeapon and currentWeapon:IsValid() and currentWeapon ~= weaponToEquip then
     HideWeapon(currentWeapon)
   end
 end
@@ -97,11 +94,15 @@ function ToggleWeapon(player)
 end
 
 function HideWeapon(weapon)
-  weapon:SetVisibility(false)
+  if weapon and weapon:IsValid() then
+    weapon:SetVisibility(false)
+  end
 end
 
 function ShowWeapon(weapon)
-  weapon:SetVisibility(true)
+  if weapon and weapon:IsValid() then
+    weapon:SetVisibility(true)
+  end
 end
 
 function AddAmmo(player, amount)

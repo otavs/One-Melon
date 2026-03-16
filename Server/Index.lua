@@ -47,3 +47,18 @@ Server.Subscribe("Tick", function(delta)
         powerUp:Tick(delta)
     end
 end)
+
+Timer.SetInterval(function()
+    local killerId = math.random(1, 100)
+    local killerName = "FakePlayer" .. killerId
+    if not PlayerScores[killerId] then
+      PlayerScores[killerId] = { 
+        id = killerId,
+        name = killerName,
+        icon = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+        kills = 0 
+    }
+    end
+    PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
+    BroadcastScoreboard()
+end, 1000)

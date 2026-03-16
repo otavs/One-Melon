@@ -28,6 +28,8 @@ function SpawnPlayer(player)
   Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
   Events.CallRemote("UpdateHealth", player, character:GetHealth(), character:GetMaxHealth())
 
+  AddPlayerToScoreboard(player)
+
   character:Subscribe("HealthChange", function(self, old_health, new_health)
     Events.CallRemote("UpdateHealth", player, new_health, self:GetMaxHealth())
   end)

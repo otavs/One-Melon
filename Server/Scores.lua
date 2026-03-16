@@ -37,6 +37,14 @@ function BroadcastKill(instigator, victimCharacter)
   end
 end
 
+function AddPlayerToScoreboard(player)
+  local playerId = player:GetAccountID()
+  if not PlayerScores[playerId] then
+    PlayerScores[playerId] = { id = playerId, name = player:GetName(), icon = player:GetAccountIconURL(), kills = 0 }
+    BroadcastScoreboard()
+  end
+end
+
 function BroadcastScoreboard()
   local list = {}
   for _, data in pairs(PlayerScores) do

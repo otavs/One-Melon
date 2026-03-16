@@ -9,6 +9,7 @@ Package.Require("Bonker.lua")
 Package.Require("Player.lua")
 Package.Require("Controls.lua")
 Package.Require("PowerUp.lua")
+Package.Require("Test.lua")
 
 Hats = Assets.GetStaticMeshes("polygon-hats")
 table.insert(Hats, false)
@@ -47,35 +48,3 @@ Server.Subscribe("Tick", function(delta)
         powerUp:Tick(delta)
     end
 end)
-
-Timer.SetInterval(function()
-    local killerName = RandomName()
-    local killerId = killerName
-    if not PlayerScores[killerId] then
-      PlayerScores[killerId] = { 
-        id = killerId,
-        name = killerName,
-        icon = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-        kills = 0 
-    }
-    end
-    PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
-    BroadcastScoreboard()
-end, 1000)
-
-Timer.SetInterval(function()
-    -- now for the kill event
-    local killerName = RandomName()
-    local victimName = RandomName()
-    Events.BroadcastRemote("KillFeed", killerName, victimName)
-end, 1000)
-
-function RandomName(maxLength)
-    local length = math.random(3, maxLength or 10)
-    local name = ""
-    for i = 1, length do
-        name = name .. string.char(math.random(65, 90))
-    end
-    return name
-    
-end

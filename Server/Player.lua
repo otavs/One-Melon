@@ -134,3 +134,20 @@ Player.Subscribe("Spawn", function(player)
   table.sort(list, function(a, b) return a.kills > b.kills end)
   Events.CallRemote("UpdateScoreboard", player, list)
 end)
+
+Player.Subscribe("Destroy", function(player)
+	local character = player:GetControlledCharacter()
+	if character then
+		character:Destroy()
+	end
+
+  local melonGun = player:GetValue("MelonGun")
+  if melonGun and melonGun:IsValid() then
+    melonGun:Destroy()
+  end
+
+  local bonker = player:GetValue("Bonker")
+  if bonker and bonker:IsValid() then
+    bonker:Destroy()
+  end
+end)

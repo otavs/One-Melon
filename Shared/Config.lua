@@ -5,7 +5,7 @@ LogLevel = {
 }
 
 Config = {
-    LogLevel = LogLevel.GameChat,
+    LogLevel = LogLevel.Console,
     ShowTriggers = true,
     EnableCommands = true,
 
@@ -24,8 +24,9 @@ Config = {
     PowerUpHealthDuration = 10,
 
     KillFeedDuration = 5,
+
     LeaderboardMaxTop = 3,
-    LeaderboardSize = 10,
+    LeaderboardSize = 16,
 
     RespawnDelay = 2,
 }

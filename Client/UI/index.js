@@ -102,7 +102,7 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
 Events.Subscribe('KillFeed', (killer, victim, duration) => {
   const el = document.createElement('div')
   el.className = 'kill'
-  el.innerHTML = `<span class="killer">${killer}</span> bonked <span class="victim">${victim}</span>`
+  el.innerHTML = `<span class="killer">${killer}</span> bonked 🍉 🔨 <span class="victim">${victim}</span>`
   document.getElementById('killfeed').appendChild(el)
 
   setTimeout(

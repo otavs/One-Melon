@@ -8,7 +8,7 @@ function BroadcastKill(instigator, victimCharacter)
   local killerName = killerPlayer and killerPlayer:GetName() or "Unknown"
   local victimPlayer = victimCharacter:GetPlayer()
   local victimName = victimPlayer and victimPlayer:IsValid() and victimPlayer:GetName() or "Bot"
-  Events.BroadcastRemote("KillFeed", killerName, victimName, Config.KillFeedDuration)
+  Events.BroadcastRemote("KillFeed", killerName, victimName)
 
   if killerPlayer then
     local killerId = killerPlayer:GetAccountID()

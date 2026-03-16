@@ -17,8 +17,8 @@ Events.SubscribeRemote("PowerUpActivated", function(name, label, duration)
     UI:CallEvent("PowerUpActivated", name, label, duration)
 end)
 
-Events.SubscribeRemote("KillFeed", function(killer, victim, duration)
-    UI:CallEvent("KillFeed", killer, victim, duration)
+Events.SubscribeRemote("KillFeed", function(killer, victim)
+    UI:CallEvent("KillFeed", killer, victim, Config.KillFeedDuration)
 end)
 
 Events.SubscribeRemote("UpdateCombo", function(combo)

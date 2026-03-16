@@ -3,6 +3,7 @@
   --melon-green: #3cb371;
   --melon-dark: #1f4037;
   --melon-light: #eaffea;
+  --melon-blue: #66b3ff;
   --glass-bg: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.3);
 }
@@ -125,7 +126,7 @@ body {
 /* POWER UPS */
 #powerups {
   position: fixed;
-  top: 20px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
   min-width: 360px;
@@ -169,9 +170,9 @@ body {
 /* KILL FEED */
 #killfeed {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 300px;
+  top: 2px;
+  right: 2px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -193,7 +194,7 @@ body {
 }
 
 .killer {
-  color: var(--melon-green);
+  color: var(--melon-blue);
 }
 
 .victim {
@@ -203,11 +204,11 @@ body {
 @keyframes fadeInRight {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    /* transform: translateX(30px); */
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    /* transform: translateX(0); */
   }
 }
 
@@ -316,7 +317,7 @@ body {
 /* WEAPON PANEL */
 #weapon {
   position: fixed;
-  bottom: 20px;
+  bottom: 5px;
   right: 20px;
   display: flex;
   align-items: center;
@@ -326,8 +327,8 @@ body {
 /* HEALTH BAR */
 #healthMenu {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: 5px;
+  left: 10px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -345,6 +346,7 @@ body {
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
+  margin-right: 6px;
 }
 
 #health-pips {

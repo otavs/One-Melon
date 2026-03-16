@@ -49,7 +49,7 @@ Server.Subscribe("Tick", function(delta)
 end)
 
 Timer.SetInterval(function()
-    local killerName = string.char(math.random(65, 90))
+    local killerName = RandomName()
     local killerId = killerName
     if not PlayerScores[killerId] then
       PlayerScores[killerId] = { 
@@ -62,3 +62,20 @@ Timer.SetInterval(function()
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
     BroadcastScoreboard()
 end, 1000)
+
+Timer.SetInterval(function()
+    -- now for the kill event
+    local killerName = RandomName()
+    local victimName = RandomName()
+    Events.BroadcastRemote("KillFeed", killerName, victimName)
+end, 1000)
+
+function RandomName(maxLength)
+    local length = math.random(3, maxLength or 10)
+    local name = ""
+    for i = 1, length do
+        name = name .. string.char(math.random(65, 90))
+    end
+    return name
+    
+end

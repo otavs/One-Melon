@@ -58,14 +58,25 @@ function EquipWeapon(player, weaponName)
   if not character or not character:IsValid() then
     return
   end
-  local weapon = player:GetValue(weaponName)
-  if not weapon or not weapon:IsValid() then
-    weapon = CreateWeapon(weaponName)
-    player:SetValue(weaponName, weapon)
+
+  local weaponToEquip = player:GetValue(weaponName)
+  if not weaponToEquip or not weaponToEquip:IsValid() then
+    weaponToEquip = CreateWeapon(weaponName)
+    player:SetValue(weaponName, weaponToEquip)
   end
-  character:PickUp(weapon)
-  player:SetValue("EquippedWeapon", weapon)
-  ShowWeapon(weapon)
+
+  local currentWeapon = player:GetValue("EquippedWeapon")
+  if currentWeapon == weaponToEquip then
+    return
+  end
+
+  character:PickUp(weaponToEquip)
+  player:SetValue("EquippedWeapon", weaponToEquip)
+  ShowWeapon(weaponToEquip)
+
+  if currentWeapon and currentWeapon:IsValid() then
+    HideWeapon(currentWeapon)
+  end
 end
 
 function CreateWeapon(weaponName)
@@ -76,14 +87,13 @@ function CreateWeapon(weaponName)
   end
 end
 
-function SwitchWeapon(player)
+function ToggleWeapon(player)
   local equippedWeapon = player:GetValue("EquippedWeapon")
   if equippedWeapon:IsA(MelonGun) then
     EquipWeapon(player, "Bonker")
   else
     EquipWeapon(player, "MelonGun")
   end
-  HideWeapon(equippedWeapon)
 end
 
 function HideWeapon(weapon)

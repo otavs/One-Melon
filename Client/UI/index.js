@@ -19,6 +19,7 @@ Events.Subscribe('UpdateHealth', (health, maxHealth) => {
     for (let i = 0; i < max; i++) {
       const pip = document.createElement('div')
       pip.className = 'hp-pip'
+      pip.textContent = '♥'
       container.appendChild(pip)
     }
     prevHealth = null

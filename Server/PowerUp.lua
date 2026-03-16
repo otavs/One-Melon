@@ -63,6 +63,9 @@ PowerUps = {
             local timer = Timer.SetInterval(function()
                 if timeLeft == nil or timeLeft <= 0 then
                     character:SetMaxHealth(Config.PlayerMaxHealth)
+                    if character:GetHealth() > Config.PlayerMaxHealth then
+                        character:SetHealth(Config.PlayerMaxHealth)
+                    end
                     Timer.ClearInterval(character:GetValue("HealthBoostTimer"))
                     return
                 end

@@ -8,5 +8,6 @@ function Bonker:Constructor(location, rotation)
     self:SetDamageSettings(0.3, 0.5)
     self:SetCooldown(1.0)
     self:SetBaseDamage(40)
-    self:SetGravityEnabled(false)
+    self:SetGravityEnabled(true)
+    self:SetPickable(false)
 end

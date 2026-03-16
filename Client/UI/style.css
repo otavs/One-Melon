@@ -318,15 +318,19 @@ body {
 }
 
 /* HEALTH BAR */
-#healthbar {
+#healthMenu {
   position: fixed;
   bottom: 20px;
   left: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 6px;
   min-width: 120px;
+}
+
+#healthbar {
+  display: flex;
+  align-items: center;
 }
 
 #health-label {
@@ -347,15 +351,19 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--melon-green);
-  box-shadow:
-    0 0 10px var(--melon-green),
-    0 0 20px rgba(60, 179, 113, 0.4);
+  background: transparent;
+  font-size: 26px;
+  line-height: 28px;
+  text-align: center;
+  color: var(--melon-green);
+  filter: drop-shadow(0 0 6px var(--melon-green))
+    drop-shadow(0 0 14px rgba(60, 179, 113, 0.5));
   transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
+    color 0.3s ease,
+    filter 0.3s ease,
     transform 0.3s ease;
   animation: pipPulse 2s ease-in-out infinite;
+  user-select: none;
 }
 
 .hp-pip:nth-child(2) {
@@ -366,8 +374,8 @@ body {
 }
 
 .hp-pip.empty {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.15);
+  filter: none;
   animation: none;
   transform: scale(0.75);
 }
@@ -381,10 +389,9 @@ body {
 }
 
 .hp-pip.low {
-  background: var(--melon-red);
-  box-shadow:
-    0 0 10px var(--melon-red),
-    0 0 20px rgba(255, 77, 109, 0.5);
+  color: var(--melon-red);
+  filter: drop-shadow(0 0 8px var(--melon-red))
+    drop-shadow(0 0 18px rgba(255, 77, 109, 0.6));
   animation: pipLowPulse 0.7s ease-in-out infinite;
 }
 
@@ -413,7 +420,7 @@ body {
 @keyframes pipLost {
   0% {
     transform: scale(1);
-    background: var(--melon-red);
+    color: var(--melon-red);
     opacity: 1;
   }
   40% {
@@ -421,9 +428,9 @@ body {
   }
   100% {
     transform: scale(0.75);
-    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.15);
     opacity: 1;
-    box-shadow: none;
+    filter: none;
   }
 }
 

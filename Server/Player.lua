@@ -13,12 +13,14 @@ function SpawnPlayer(player)
 
   player:Possess(character)
 
-  local melonGun = MelonGun(Vector(), Rotator())
-  local bonker = Bonker(Vector(0, 0, -10000), Rotator())
+  local melonGun = CreateWeapon("MelonGun")
+  local bonker = CreateWeapon("Bonker")
 
   player:SetValue("MelonGun", melonGun)
   player:SetValue("Bonker", bonker)
 
+  HideWeapon(player:GetValue("MelonGun"))
+  HideWeapon(player:GetValue("Bonker"))
   EquipWeapon(player, "MelonGun")
 
   Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
@@ -33,11 +35,20 @@ function SpawnPlayer(player)
     BroadcastKill(instigator, self)
     Events.CallRemote("UpdateHealth", player, 0, character:GetMaxHealth())
     Timer.SetTimeout(function()
-      if player:IsValid() then
-        SpawnPlayer(player)
-      end
+      Respawn(player)
     end, Config.RespawnDelay * 1000)
   end)
+end
+
+function Respawn(player)
+  if player:IsValid() then
+    local character = player:GetControlledCharacter()
+    character:Respawn(Vector(1000, 0, 500), Rotator(0, 0, 0))
+    HideWeapon(player:GetValue("MelonGun"))
+    HideWeapon(player:GetValue("Bonker"))
+    EquipWeapon(player, "MelonGun")
+    SetAmmo(player, 1)
+  end
 end
 
 function EquipWeapon(player, weaponName)
@@ -46,9 +57,21 @@ function EquipWeapon(player, weaponName)
     return
   end
   local weapon = player:GetValue(weaponName)
+  if not weapon or not weapon:IsValid() then
+    weapon = CreateWeapon(weaponName)
+    player:SetValue(weaponName, weapon)
+  end
   character:PickUp(weapon)
   player:SetValue("EquippedWeapon", weapon)
   ShowWeapon(weapon)
+end
+
+function CreateWeapon(weaponName)
+  if weaponName == "MelonGun" then
+    return MelonGun(Vector(), Rotator())
+  elseif weaponName == "Bonker" then
+    return Bonker(Vector(), Rotator())
+  end
 end
 
 function SwitchWeapon(player)
@@ -62,11 +85,12 @@ function SwitchWeapon(player)
 end
 
 function HideWeapon(weapon)
-  weapon:SetLocation(Vector(0, 0, -10000))
+  weapon:SetGravityEnabled(false)
   weapon:SetVisibility(false)
 end
 
 function ShowWeapon(weapon)
+  weapon:SetGravityEnabled(true)
   weapon:SetVisibility(true)
 end
 
@@ -74,6 +98,14 @@ function AddAmmo(player, amount)
   local melonGun = player:GetValue("MelonGun")
   if melonGun and melonGun:IsValid() then
     melonGun:AddAmmo(amount)
+    Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
+  end
+end
+
+function SetAmmo(player, amount)
+  local melonGun = player:GetValue("MelonGun")
+  if melonGun and melonGun:IsValid() then
+    melonGun:SetAmmoSettings(amount, 0)
     Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
   end
 end

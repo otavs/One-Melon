@@ -6,9 +6,6 @@ AAA = 0
 function BroadcastKill(instigator, victimCharacter)
   local killerPlayer = instigator and instigator:IsValid() and instigator or nil
   local killerName = killerPlayer and killerPlayer:GetName() or "Unknown"
-  -- concat killername with random string
-  killerName = killerName .. " " .. AAA
-  AAA=AAA+1
   local victimPlayer = victimCharacter:GetPlayer()
   local victimName = victimPlayer and victimPlayer:IsValid() and victimPlayer:GetName() or "Bot"
   Events.BroadcastRemote("KillFeed", killerName, victimName, Config.KillFeedDuration)
@@ -46,5 +43,5 @@ function BroadcastScoreboard()
     table.insert(list, data)
   end
   table.sort(list, function(a, b) return a.kills > b.kills end)
-  Events.BroadcastRemote("UpdateScoreboard", list, Config.LeaderboardMaxTop, Config.LeaderboardSize)
+  Events.BroadcastRemote("UpdateScoreboard", list)
 end

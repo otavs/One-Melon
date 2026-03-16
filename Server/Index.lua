@@ -49,7 +49,7 @@ Server.Subscribe("Tick", function(delta)
 end)
 
 Timer.SetInterval(function()
-    local killerName = string.char(math.random(65, 70))
+    local killerName = string.char(math.random(65, 90))
     local killerId = killerName
     if not PlayerScores[killerId] then
       PlayerScores[killerId] = { 
@@ -60,10 +60,5 @@ Timer.SetInterval(function()
     }
     end
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
-    local count = 0
-    for _ in pairs(PlayerScores) do
-        count = count + 1
-    end
-    print(count)
     BroadcastScoreboard()
 end, 1000)

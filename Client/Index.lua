@@ -1,3 +1,4 @@
+Package.Require("Config.lua")
 Package.Require("Breakable.lua")
 Package.Require("Sounds.lua")
 
@@ -24,8 +25,8 @@ Events.SubscribeRemote("UpdateCombo", function(combo)
     UI:CallEvent("UpdateCombo", combo)
 end)
 
-Events.SubscribeRemote("UpdateScoreboard", function(entries, maxTop, size)
-    UI:CallEvent("UpdateScoreboard", entries, maxTop, size)
+Events.SubscribeRemote("UpdateScoreboard", function(entries)
+    UI:CallEvent("UpdateScoreboard", entries, Config.LeaderboardMaxTop, Config.LeaderboardSize)
 end)
 
 Events.SubscribeRemote("UpdateHealth", function(health, maxHealth)
@@ -39,4 +40,4 @@ UI:Subscribe("Ready", function()
     end
 end)
 
-Client.SetBloodScreenEnabled(false)
+Viewport.SetBloodScreenEnabled(false)

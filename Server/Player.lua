@@ -122,5 +122,5 @@ Player.Subscribe("Spawn", function(player)
     table.insert(list, data)
   end
   table.sort(list, function(a, b) return a.kills > b.kills end)
-  Events.CallRemote("UpdateScoreboard", player, list, Config.LeaderboardMaxTop, Config.LeaderboardSize)
+  Events.CallRemote("UpdateScoreboard", player, list)
 end)

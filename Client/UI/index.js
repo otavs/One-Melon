@@ -151,7 +151,7 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
     ? rawEntries
     : Object.values(rawEntries)
 
-  // Stable sorting: kills desc, name asc
+  // Stable ranking
   entries.sort((a, b) => {
     if (b.kills !== a.kills) return b.kills - a.kills
     return a.name.localeCompare(b.name)
@@ -164,14 +164,13 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
     : -1
 
   const TOP = Math.min(maxTop, total)
+
   const selected = new Set()
 
   // Always include top players
-  for (let i = 0; i < TOP; i++) {
-    selected.add(i)
-  }
+  for (let i = 0; i < TOP; i++) selected.add(i)
 
-  // If player not within visible top window
+  // If player not already inside visible window
   if (!(myIdx !== -1 && myIdx < maxSize)) {
     const need = Math.max(0, maxSize - TOP)
 
@@ -200,7 +199,6 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
       if (!expanded) break
     }
   } else {
-    // Player already within top window → show top maxSize
     for (let i = TOP; i < Math.min(maxSize, total); i++) {
       selected.add(i)
     }
@@ -220,7 +218,20 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
     prev = idx
   }
 
+  // add separator if more players exist after the last visible one
+  if (sorted.length && sorted[sorted.length - 1] < total - 1) {
+    rows.push({ type: 'sep' })
+  }
+
   const lb = document.getElementById('leaderboard')
+
+  // Capture previous row positions for animation
+  const first = new Map()
+  lb.querySelectorAll('.leader-row').forEach((el) => {
+    first.set(el.dataset.id, el.getBoundingClientRect())
+  })
+
+  // Clear leaderboard
   lb.querySelectorAll('.leader-row, .leader-sep').forEach((el) => el.remove())
 
   let rowIdx = 0
@@ -244,7 +255,7 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
 
     const el = document.createElement('div')
     el.className = 'leader-row' + (isMe ? ' me' : '')
-    el.style.animationDelay = `${rowIdx * 40}ms`
+    el.dataset.id = entry.id
 
     const rank = document.createElement('span')
     rank.className = 'rank'
@@ -266,4 +277,29 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
     prevKills[entry.id] = entry.kills
     rowIdx++
   }
+
+  // Animate movement
+  animateLeaderboard(lb, first)
 })
+
+function animateLeaderboard(lb, first) {
+  const rows = lb.querySelectorAll('.leader-row')
+
+  rows.forEach((el) => {
+    const prev = first.get(el.dataset.id)
+    if (!prev) return
+
+    const last = el.getBoundingClientRect()
+    const dy = prev.top - last.top
+
+    if (dy !== 0) {
+      el.style.transform = `translateY(${dy}px)`
+      el.style.transition = 'transform 0s'
+
+      requestAnimationFrame(() => {
+        el.style.transform = ''
+        el.style.transition = 'transform 0.35s cubic-bezier(.2,.8,.2,1)'
+      })
+    }
+  })
+}

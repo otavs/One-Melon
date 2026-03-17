@@ -27,7 +27,7 @@ function MelonGun:OnFire(character)
 	local control_rotation = character:GetControlRotation()
 	local forward_vector = control_rotation:GetForwardVector()
 	local capsule_size = character:GetCapsuleSize()
-	local spawn_location = self:GetLocation() + Vector(0, 0, capsule_size.HalfHeight / 2) + forward_vector * 10
+	local spawn_location = self:GetLocation() + Vector(0, 0, capsule_size.HalfHeight / 2) + forward_vector * 30
 
 	local melon = Melon(spawn_location, Rotator.Random(), "nanos-world::SM_Fruit_Watermelon_01", CollisionType.Normal, true, GrabMode.Disabled, CCDMode.Disabled)
 	melon:SetLifeSpan(5)
@@ -51,7 +51,7 @@ function MelonGun:OnFire(character)
 		end
 	end)
 
-	melon:AddImpulse(forward_vector * 3000, true)
+	melon:AddImpulse(forward_vector * 5000, true)
 
 	Events.CallRemote("UpdateAmmo", character:GetPlayer(), self:GetAmmoClip())
 end

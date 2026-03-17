@@ -5,6 +5,7 @@ LogLevel = {
 }
 
 Config = {
+    TEST = true,
     LogLevel = LogLevel.Console,
     ShowTriggers = true,
     EnableCommands = true,

@@ -14,7 +14,7 @@ PowerUps = {
             local player = character:GetPlayer()
             character:SetJumpZVelocity(Config.PowerUpJumpForce)
             local timeLeft = Config.PowerUpJumpDuration
-            Events.CallRemote("PowerUpActivated", player, "Jump", "Double Jump", timeLeft)
+            Events.CallRemote("PowerUpActivated", player, "Jump", "Jump Boost", timeLeft)
             local timer = Timer.SetInterval(function()
                 if timeLeft == nil or timeLeft <= 0 then
                     character:SetJumpZVelocity(Config.PlayerJumpForce)

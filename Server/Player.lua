@@ -36,7 +36,7 @@ function SpawnPlayer(player)
 
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     AddAmmo(instigator, 1)
-    BroadcastKill(instigator, self)
+    BroadcastKill(instigator, self, GetWeaponType(causer))
     Events.CallRemote("UpdateHealth", player, 0, character:GetMaxHealth())
     Timer.SetTimeout(function()
       Respawn(player)
@@ -120,6 +120,16 @@ function SetAmmo(player, amount)
   if melonGun and melonGun:IsValid() then
     melonGun:SetAmmoSettings(amount, 0)
     Events.CallRemote("UpdateAmmo", player, melonGun:GetAmmoClip())
+  end
+end
+
+function GetWeaponType(causer)
+  if causer then
+    if causer:IsA(Melon) then
+      return "Melon"
+    elseif causer:IsA(Bonker) then
+      return "Bonker"
+    end
   end
 end
 

@@ -99,12 +99,18 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
   activePowerUps[name] = { interval, element: el }
 })
 
-Events.Subscribe('KillFeed', (killer, victim, duration) => {
+const weaponIcons = {
+  Melon: '🍉',
+  Bonker: '🔨',
+}
+
+Events.Subscribe('KillFeed', (killer, victim, duration, weaponType) => {
   const el = document.createElement('div')
   const killerIsMe = localPlayerName && killer === localPlayerName
   const victimIsMe = localPlayerName && victim === localPlayerName
+  const weaponIcon = weaponIcons[weaponType] || ''
   el.className = 'kill' + (killerIsMe || victimIsMe ? ' me' : '')
-  el.innerHTML = `<span class="killer${killerIsMe ? ' me' : ''}">${killer}</span> bonked 🍉 🔨 <span class="victim${victimIsMe ? ' me' : ''}">${victim}</span>`
+  el.innerHTML = `<span class="killer${killerIsMe ? ' me' : ''}">${killer}</span> bonked ${weaponIcon} <span class="victim${victimIsMe ? ' me' : ''}">${victim}</span>`
   document.getElementById('killfeed').appendChild(el)
 
   setTimeout(

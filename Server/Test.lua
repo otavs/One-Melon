@@ -3,7 +3,7 @@ for i = 1, 30 do
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
         AddAmmo(instigator, 1)
-        BroadcastKill(instigator, self)
+        BroadcastKill(instigator, self, GetWeaponType(causer))
     end)
 
     character:SetMaterialColorParameter("Tint", RandomColor())

@@ -3,12 +3,12 @@ PlayerCombos = {}
 PlayerComboTimers = {}
 AAA = 0
 
-function BroadcastKill(instigator, victimCharacter)
+function BroadcastKill(instigator, victimCharacter, weaponType)
   local killerPlayer = instigator and instigator:IsValid() and instigator or nil
   local killerName = killerPlayer and killerPlayer:GetName() or "Unknown"
   local victimPlayer = victimCharacter:GetPlayer()
   local victimName = victimPlayer and victimPlayer:IsValid() and victimPlayer:GetName() or "Bot"
-  Events.BroadcastRemote("KillFeed", killerName, victimName)
+  Events.BroadcastRemote("KillFeed", killerName, victimName, weaponType)
 
   if killerPlayer then
     local killerId = killerPlayer:GetAccountID()

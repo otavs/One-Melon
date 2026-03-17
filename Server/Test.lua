@@ -8,7 +8,10 @@ for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-        AddAmmo(instigator, 1)
+        if causer and causer:IsValid() and causer:IsA(Melon) then
+            instigator = causer:GetValue("player")
+            AddAmmo(instigator, 1)
+        end
         BroadcastKill(instigator, self, GetWeaponType(causer))
     end)
 

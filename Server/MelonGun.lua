@@ -33,6 +33,7 @@ function MelonGun:OnFire(character)
 	melon:SetLifeSpan(5)
 	melon:SetScale(2)
 	melon:SetValue("DebrisLifeSpan", 2)
+	melon:SetValue("player", character:GetPlayer())
 	-- melon:SetMassOverride(100000000)
 
 	SetupBreakableProp(melon)

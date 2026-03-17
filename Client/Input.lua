@@ -13,6 +13,16 @@ Input.Bind("EquipWeapon2", InputEvent.Pressed, function()
 	Events.CallRemote("EquipWeapon", "Bonker")
 end)
 
+Input.Register("ChangeSkin", "J")
+Input.Bind("ChangeSkin", InputEvent.Pressed, function()
+	Events.CallRemote("ChangeSkin")
+end)
+
+Input.Register("ChangeHat", "K")
+Input.Bind("ChangeHat", InputEvent.Pressed, function()
+	Events.CallRemote("ChangeHat")
+end)
+
 Input.Subscribe("MouseScroll", function(mouse_x, mouse_y, delta)
 	Events.CallRemote("ToggleWeapon")
 end)

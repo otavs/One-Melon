@@ -3,6 +3,29 @@ PlayerCombos = {}
 PlayerComboTimers = {}
 AAA = 0
 
+function AddCombo(player)
+  local playerId = player:GetAccountID()
+  PlayerCombos[playerId] = (PlayerCombos[playerId] or 0) + 1
+  local combo = PlayerCombos[playerId]
+  Events.CallRemote("UpdateCombo", player, combo)
+
+  if PlayerComboTimers[playerId] then
+    Timer.ClearTimeout(PlayerComboTimers[playerId])
+  end
+  PlayerComboTimers[playerId] = Timer.SetTimeout(function()
+    ClearCombo(player)
+  end, Config.ComboDuration * 1000)
+end
+
+function ClearCombo(player)
+  local playerId = player:GetAccountID()
+  PlayerCombos[playerId] = 0
+  PlayerComboTimers[playerId] = nil
+  if player:IsValid() then
+    Events.CallRemote("UpdateCombo", player, 0)
+  end
+end
+
 function BroadcastKill(instigator, victimCharacter, weaponType)
   local killerPlayer = instigator and instigator:IsValid() and instigator or nil
   local killerName = killerPlayer and killerPlayer:GetName() or "Unknown"
@@ -17,21 +40,6 @@ function BroadcastKill(instigator, victimCharacter, weaponType)
       PlayerScores[killerId] = { id = killerId, name = killerName, icon = killerPlayer:GetAccountIconURL(), kills = 0 }
     end
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
-
-    PlayerCombos[killerId] = (PlayerCombos[killerId] or 0) + 1
-    local combo = PlayerCombos[killerId]
-    Events.CallRemote("UpdateCombo", killerPlayer, combo)
-
-    if PlayerComboTimers[killerId] then
-      Timer.ClearTimeout(PlayerComboTimers[killerId])
-    end
-    PlayerComboTimers[killerId] = Timer.SetTimeout(function()
-      PlayerCombos[killerId] = 0
-      if killerPlayer:IsValid() then
-        Events.CallRemote("UpdateCombo", killerPlayer, 0)
-      end
-      PlayerComboTimers[killerId] = nil
-    end, Config.ComboDuration * 1000)
 
     BroadcastScoreboard()
   end

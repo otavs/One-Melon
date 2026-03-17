@@ -11,6 +11,7 @@ for i = 1, botAmount do
         if causer and causer:IsValid() and causer:IsA(Melon) then
             instigator = causer:GetValue("player")
             AddAmmo(instigator, 1)
+            AddCombo(instigator)
         end
         BroadcastKill(instigator, self, GetWeaponType(causer))
     end)

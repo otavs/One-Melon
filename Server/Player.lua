@@ -40,6 +40,7 @@ function SpawnPlayer(player)
       AddAmmo(instigator, 1)
     end
     AddAmmo(instigator, 1)
+    AddCombo(instigator)
     BroadcastKill(instigator, self, GetWeaponType(causer))
     Events.CallRemote("UpdateHealth", player, 0, character:GetMaxHealth())
     Timer.SetTimeout(function()
@@ -56,6 +57,7 @@ function Respawn(player)
     HideWeapon(player:GetValue("Bonker"))
     EquipWeapon(player, "MelonGun")
     SetAmmo(player, 1)
+    ClearCombo(player)
   end
 end
 

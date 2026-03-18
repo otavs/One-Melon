@@ -1,7 +1,8 @@
-if (!window.Events) window.Events = {
-  Subscribe: () => {},
-  Call: () => {},
-}
+if (!window.Events)
+  window.Events = {
+    Subscribe: () => {},
+    Call: () => {},
+  }
 
 Events.Subscribe('UpdateAmmo', (ammo) => {
   const el = document.querySelector('#ammoCount')
@@ -379,14 +380,23 @@ function enterPostGameStateUI() {
 }
 
 function showHelpUI() {
-  document.getElementById('helpMenu').style.display = ''
-  console.log("aaaaaaaaaaaa")
+  const el = document.getElementById('helpMenu')
+  el.classList.remove('help-closing')
+  el.style.display = ''
+  void el.offsetWidth
+  el.classList.add('help-opening')
   Events.Call('EnableMouse')
 }
 
 function hideHelpUI() {
-  document.getElementById('helpMenu').style.display = 'none'
+  const el = document.getElementById('helpMenu')
+  el.classList.remove('help-opening')
+  el.classList.add('help-closing')
   Events.Call('DisableMouse')
+  setTimeout(() => {
+    el.style.display = 'none'
+    el.classList.remove('help-closing')
+  }, 250)
 }
 
 function toggleHelpUI() {

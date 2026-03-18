@@ -8,7 +8,7 @@ Adjustments = {
     SK_Mannequin_Female = Vector(-5, -2, 0),
     SK_PostApocalyptic = Vector(3, -1, 0),
     SK_ClassicMale = Vector(0, 0, 0),
-    SK_Adventure_01_Full_01 = Vector(0, -2, 1),
+    SK_Adventure_01_Full_01 = Vector(0, -2, 0),
     SK_Adventure_01_Full_02 = Vector(0, -2, 0),
     SK_Adventure_02_Full_01 = Vector(3, -3, 0),
     SK_Adventure_02_Full_02 = Vector(2, -3, 0),
@@ -52,11 +52,10 @@ function ChangeHat(player, justUpdate)
 end
 
 function GetAdjustment(player)
-    local character = player:GetControlledCharacter()
-    if character and character:IsValid() then
-        local skinId = player:GetValue("SkinId") or 0
-        local skin = Skins[skinId] or "SK_Mannequin"
-        return Adjustments[skin] or Vector(0, 0, 0)
+    local skinId = player:GetValue("SkinId") or 0
+    local skin = Skins[skinId] or "SK_Mannequin"
+    if string.sub(skin, 1, 6) == "Color_" then
+        skin = string.match(skin, "Color_[^_]+_(.*)")
     end
-    return Vector(0, 0, 0)
+    return Adjustments[skin] or Vector(0, 0, 0)
 end

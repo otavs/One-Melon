@@ -15,6 +15,9 @@ function SpawnPlayer(player)
 
   player:Possess(character)
 
+  player:SetValue("HatId", 0)
+  player:SetValue("SkinId", 0)
+
   local melonGun = CreateWeapon("MelonGun")
   local bonker = CreateWeapon("Bonker")
 

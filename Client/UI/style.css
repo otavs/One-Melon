@@ -546,8 +546,7 @@ body {
 }
 
 .overlay-card--sm {
-  width: 1000px;
-  height: 1000px;
+  width: min(900px, 92vw);
   z-index: 999;
 }
 
@@ -565,9 +564,10 @@ body {
   background-position: center;
   color: #1a3a1a;
   border-color: transparent;
-  padding: 24px 32px 20px;
+  padding: 16px 28px 14px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .help-close {
@@ -591,17 +591,17 @@ body {
 
 .help-title-img {
   display: block;
-  margin: 0 auto 14px;
-  height: 280px;
+  margin: 0 auto 8px;
+  height: 200px;
   object-fit: contain;
 }
 
 .help-scoring-line {
-  font-size: 40px;
+  font-size: 28px;
   /* font-weight: 700; */
   /* color: #1a3a1a; */
-  margin: 8px 0;
-  margin-left: 40px;
+  margin: 4px 0;
+  margin-left: 30px;
 }
 
 .help-scoring-line span {
@@ -613,8 +613,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 60px;
-  margin: 8px 0;
+  gap: 40px;
+  margin: 4px 0;
 }
 
 .help-scenario-1 {
@@ -634,15 +634,15 @@ body {
 }
 
 .help-scenario-img {
-  height: 250px;
+  height: 190px;
   object-fit: contain;
 }
 
 .help-or {
-  font-size: 40px;
+  font-size: 28px;
   /* font-weight: 700; */
   /* color: #1a3a1a; */
-  padding-bottom: 24px;
+  padding-bottom: 16px;
 }
 
 .help-bonk-right-row {
@@ -661,11 +661,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 10px;
-  font-size: 40px;
+  margin-top: 6px;
+  font-size: 26px;
   font-weight: 600;
   color: #1a3a1a;
-  margin-left: 40px;
+  margin-left: 30px;
 }
 
 .help-controls span {

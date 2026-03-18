@@ -22,7 +22,7 @@ body {
 /* GENERAL PANEL STYLE */
 .panel {
   /* background: var(--glass-bg); */
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
   border: none;
   border-radius: 16px;
   padding: 14px;

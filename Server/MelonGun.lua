@@ -46,6 +46,7 @@ function MelonGun:OnFire(character)
 			BreakProp(other, intensity)
 		elseif other and other:IsValid() and other:IsA(Character) and other:GetHealth() > 0 then
 			print("Melon hit char")
+			if other == character then return end
 			other:ApplyDamage(1000, nil, nil, nil, character:GetPlayer(), melon)
 			BreakProp(melon, intensity)
 			Events.BroadcastRemote("PlaySound", "bonk.mp3", impact_location)

@@ -1,11 +1,32 @@
 Hats = Assets.GetStaticMeshes("polygon-hats")
 table.insert(Hats, false)
 
-function ChangeHat(player) 
+Adjustments = {
+    SK_Female = Vector(4, -3, 0),
+    SK_Male = Vector(10, 0, 0),
+    SK_Mannequin = Vector(0, 0, 0),
+    SK_Mannequin_Female = Vector(-5, -2, 0),
+    SK_PostApocalyptic = Vector(3, -1, 0),
+    SK_ClassicMale = Vector(0, 0, 0),
+    SK_Adventure_01_Full_01 = Vector(0, -2, 1),
+    SK_Adventure_01_Full_02 = Vector(0, -2, 0),
+    SK_Adventure_02_Full_01 = Vector(3, -3, 0),
+    SK_Adventure_02_Full_02 = Vector(2, -3, 0),
+    SK_Adventure_03_Full_01 = Vector(11, -5, 0),
+    SK_Adventure_03_Full_02 = Vector(9, -4, 0),
+    SK_Adventure_04_Full_01 = Vector(5, -4, 0),
+    SK_Adventure_04_Full_02 = Vector(1, -3, 0),
+    SK_Adventure_05_Full_01 = Vector(5, 0, 0),
+    SK_Adventure_05_Full_02 = Vector(5, 0, 0),
+}
+
+function ChangeHat(player, justUpdate) 
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
         local hatId = player:GetValue("HatId") or 0
-        hatId = (hatId % #Hats) + 1
+        if not justUpdate then
+            hatId = (hatId % #Hats) + 1
+        end
         local hat = Hats[hatId]
         if hat then
             local position = Vector(7, 3, 0)
@@ -20,12 +41,22 @@ function ChangeHat(player)
                 "hat",
                 "polygon-hats::" .. hat.key,
                 "head",
-                position,
+                position + GetAdjustment(player),
                 rotation
             )
-        else
+        elseif not player:GetValue("HatId") then
             character:RemoveStaticMeshAttached("hat")
         end
         player:SetValue("HatId", hatId)
     end
+end
+
+function GetAdjustment(player)
+    local character = player:GetControlledCharacter()
+    if character and character:IsValid() then
+        local skinId = player:GetValue("SkinId") or 0
+        local skin = Skins[skinId] or "SK_Mannequin"
+        return Adjustments[skin] or Vector(0, 0, 0)
+    end
+    return Vector(0, 0, 0)
 end

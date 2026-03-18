@@ -25,5 +25,6 @@ function ChangeSkin(player)
         local skin = Skins[skinId]
         character:SetMesh("nanos-world::" .. skin)
         player:SetValue("SkinId", skinId)
+        ChangeHat(player, true)
     end
 end

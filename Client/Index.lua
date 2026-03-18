@@ -8,6 +8,16 @@ UI = WebUI("Main HUD", "file://UI/index.html")
 
 Viewport.SetBloodScreenEnabled(false)
 
+Chat.SetConfiguration(
+    Vector2D(-25, 200), --screen_location
+    Vector2D(500, 250), --size
+    Vector2D(1, 0.5), --anchors_min
+    Vector2D(1, 0.5), --anchors_max
+    Vector2D(1, 0.5), --alignment
+    true, --justify
+    true --show_scrollbar
+)
+
 UI:Subscribe("Ready", function()
     local localPlayer = Client.GetLocalPlayer()
     if localPlayer and localPlayer:IsValid() then

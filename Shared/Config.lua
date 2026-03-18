@@ -6,7 +6,7 @@ LogLevel = {
 
 Config = {
     TEST = true,
-    LogLevel = LogLevel.Console,
+    LogLevel = LogLevel.GameChat,
     ShowTriggers = true,
     EnableCommands = true,
 

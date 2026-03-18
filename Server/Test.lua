@@ -42,7 +42,7 @@ Timer.SetInterval(function()
     end
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
     BroadcastScoreboard()
-end, 1000)
+end, 500)
 
 Timer.SetInterval(function()
     -- now for the kill event
@@ -70,3 +70,7 @@ end
 for i = 1, namesAmount do
     table.insert(names, GenerateRandomName(5, 10))
 end
+
+-- Timer.SetInterval(function()
+--     print("Random message " .. math.random(1, 100))
+-- end, 500)

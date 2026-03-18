@@ -18,7 +18,7 @@ Config = {
     PowerUpJumpForce = 1000,
     PowerUpJumpDuration = 10,
 
-    ComboDuration = 5,
+    ComboDuration = 60,
 
     PlayerMaxHealth = 3,
     PowerUpHealth = 6,

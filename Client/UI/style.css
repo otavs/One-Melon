@@ -546,9 +546,8 @@ body {
 }
 
 .overlay-card--sm {
-  width: min(520px, 80vw);
-  min-height: 340px;
-  max-height: 70vh;
+  width: 1000px;
+  height: 1000px;
   z-index: 999;
 }
 
@@ -557,4 +556,127 @@ body {
   text-align: center;
   color: var(--melon-red);
   font-size: 22px;
+}
+
+/* HELP MENU */
+#helpMenu {
+  background-image: url('img/bg.png');
+  background-size: cover;
+  background-position: center;
+  color: #1a3a1a;
+  border-color: transparent;
+  padding: 24px 32px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.help-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'Baloo 2', cursive;
+  color: #1a3a1a;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.help-close:hover {
+  color: var(--melon-red);
+}
+
+.help-title-img {
+  display: block;
+  margin: 0 auto 14px;
+  height: 280px;
+  object-fit: contain;
+}
+
+.help-scoring-line {
+  font-size: 40px;
+  /* font-weight: 700; */
+  /* color: #1a3a1a; */
+  margin: 8px 0;
+  margin-left: 40px;
+}
+
+.help-scoring-line span {
+  font-weight: 700;
+  color: #1a3a1a;
+}
+
+.help-scenarios {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin: 8px 0;
+}
+
+.help-scenario-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-scenario-2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.help-scenario-img {
+  height: 250px;
+  object-fit: contain;
+}
+
+.help-or {
+  font-size: 40px;
+  /* font-weight: 700; */
+  /* color: #1a3a1a; */
+  padding-bottom: 24px;
+}
+
+.help-bonk-right-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.help-3x {
+  font-size: 8px;
+  color: #1a3a1a;
+  display: none;
+}
+
+.help-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  font-size: 40px;
+  font-weight: 600;
+  color: #1a3a1a;
+  margin-left: 40px;
+}
+
+.help-controls span {
+  font-weight: normal;
+}
+
+.help-controls p {
+  margin: 3px 0;
+}
+
+.help-controls-right-col {
+  text-align: right;
+  margin-right: 50px;
 }

@@ -16,12 +16,12 @@
 
   <body>
     <!-- LEADERBOARD -->
-    <div id="leaderboard" class="panel">
+    <div id="leaderboard" class="panel" style="display: none">
       <h2>🍉 Top Melons 🍉</h2>
     </div>
 
     <!-- POWER UPS -->
-    <div id="powerups" class="panel">
+    <div id="powerups" class="panel" style="display: none">
       <div class="combo" style="display: none"></div>
     </div>
 
@@ -32,15 +32,15 @@
     </div>
 
     <!-- KILL FEED -->
-    <div id="killfeed" class="panel"></div>
+    <div id="killfeed" class="panel" style="display: none"></div>
 
     <!-- WEAPON -->
-    <div id="weapon" class="panel">
+    <div id="weapon" class="panel" style="display: none">
       <div class="ammo">🍉 <span id="ammoCount"> 0 </span></div>
     </div>
 
     <!-- HEALTH BAR -->
-    <div id="healthMenu" class="panel">
+    <div id="healthMenu" class="panel" style="display: none">
       <div id="healthbar">
         <div id="health-label">HP</div>
         <div id="health-pips"></div>
@@ -58,10 +58,59 @@
     <div
       id="helpMenu"
       class="panel overlay-card overlay-card--sm"
-      style="display: none"
+
     >
-      <h2>Help</h2>
-      <!-- TODO: controls and tips -->
+      <button class="help-close" onclick="hideHelpUI()">X</button>
+
+      <img src="img/title.png" class="help-title-img" alt="One Melon" />
+
+      <div class="help-scoring-line">1 bonk = 1 point</div>
+
+      <div class="help-scenarios">
+        <div class="help-scenario-1">
+          <img src="img/bonk melon.png" class="help-scenario-img" alt="Melon Gun" />
+        </div>
+        <div class="help-or">or</div>
+        <div class="help-scenario-2">
+          <div class="help-bonk-right-row">
+            <span class="help-3x">3x</span>
+          </div>
+          <img
+            src="img/bonk.png"
+            class="help-scenario-img"
+            alt="Bonker"
+          />
+        </div>
+      </div>
+
+      <div class="help-scoring-line">
+        30 points = 
+        <span> Win </span>
+      </div>
+
+      <div class="help-controls">
+        <div>
+          <p>
+            <span>Change weapon: </span>
+            Q 
+            <span> or </span>
+            1,2
+            <span> or </span>
+            Scroll
+          </p>
+          <p><span>Change skin: </span> J</p>
+          <p>
+            <span>Recharge melon gun: </span>
+            bonk
+            <span>or</span>
+            die
+          </p>
+        </div>
+        <div class="help-controls-right-col">
+          <div>&nbsp</div>
+          <p><span>Change hat: </span> K</p>
+        </div>
+      </div>
     </div>
 
     <!-- External JavaScript -->

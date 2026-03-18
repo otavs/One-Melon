@@ -1,3 +1,7 @@
+if (!window.Events) window.Events = {
+  Subscribe: () => {},
+}
+
 Events.Subscribe('UpdateAmmo', (ammo) => {
   const el = document.querySelector('#ammoCount')
   el.innerText = ammo

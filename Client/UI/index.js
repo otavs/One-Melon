@@ -1,5 +1,6 @@
 if (!window.Events) window.Events = {
   Subscribe: () => {},
+  Call: () => {},
 }
 
 Events.Subscribe('UpdateAmmo', (ammo) => {
@@ -366,6 +367,7 @@ function _setPanels(visible) {
 
 function enterLobbyStateUI() {
   _setPanels(['healthMenu', 'countdown'])
+  Events.Call('DisableMouse')
 }
 
 function enterPlayingStateUI() {
@@ -378,10 +380,13 @@ function enterPostGameStateUI() {
 
 function showHelpUI() {
   document.getElementById('helpMenu').style.display = ''
+  console.log("aaaaaaaaaaaa")
+  Events.Call('EnableMouse')
 }
 
 function hideHelpUI() {
   document.getElementById('helpMenu').style.display = 'none'
+  Events.Call('DisableMouse')
 }
 
 function toggleHelpUI() {

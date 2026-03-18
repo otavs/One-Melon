@@ -18,6 +18,14 @@ Chat.SetConfiguration(
     true --show_scrollbar
 )
 
+UI:Subscribe("EnableMouse", function()
+    Input.SetMouseEnabled(true)
+end)
+
+UI:Subscribe("DisableMouse", function()
+    Input.SetMouseEnabled(false)
+end)
+
 UI:Subscribe("Ready", function()
     local localPlayer = Client.GetLocalPlayer()
     if localPlayer and localPlayer:IsValid() then

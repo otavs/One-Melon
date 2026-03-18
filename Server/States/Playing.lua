@@ -53,7 +53,6 @@ function SetGameSettings(player)
         character:SetHealth(Config.PlayerMaxHealth)
         character:SetSpeedMultiplier(Config.PlayerSpeed)
         character:SetJumpZVelocity(Config.PlayerJumpForce)
-        ChangeSkin(player)
     end
 end
 

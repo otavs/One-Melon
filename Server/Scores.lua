@@ -13,7 +13,9 @@ function AddCombo(player)
     Timer.ClearTimeout(PlayerComboTimers[playerId])
   end
   PlayerComboTimers[playerId] = Timer.SetTimeout(function()
-    ClearCombo(player)
+    if player and player:IsValid() then
+      ClearCombo(player)
+    end
   end, Config.ComboDuration * 1000)
 end
 
@@ -42,10 +44,14 @@ function BroadcastKill(instigator, victimCharacter, weaponType)
     PlayerScores[killerId].kills = PlayerScores[killerId].kills + 1
 
     BroadcastScoreboard()
+
+    if PlayerScores[killerId].kills >= Config.DefaultKillsToWin then
+      PostGame.InitState()
+    end
   end
 end
 
-function AddPlayerToScoreboard(player)
+function AddToScoreboard(player)
   local playerId = player:GetAccountID()
   if not PlayerScores[playerId] then
     PlayerScores[playerId] = { id = playerId, name = player:GetName(), icon = player:GetAccountIconURL(), kills = 0 }
@@ -60,4 +66,9 @@ function BroadcastScoreboard()
   end
   table.sort(list, function(a, b) return a.kills > b.kills end)
   Events.BroadcastRemote("UpdateScoreboard", list)
+end
+
+function ClearScoreBoard()
+  PlayerScores = {}
+  BroadcastScoreboard()
 end

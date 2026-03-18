@@ -5,10 +5,18 @@ LogLevel = {
 }
 
 Config = {
-    TEST = true,
+    TEST = false,
     LogLevel = LogLevel.GameChat,
     ShowTriggers = true,
     EnableCommands = true,
+
+    LobbyLocation = Vector(1000, 0, 500),
+    GameLocation = Vector(1000, 0, 500),
+
+    DefaultKillsToWin = 1,
+
+    LobbyDuration = 3,
+    PostGameDuration = 40,
 
     PlayerSpeed = 2,
     PowerUpSpeed = 4,

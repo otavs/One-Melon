@@ -14,7 +14,6 @@ Package.Require("PowerUp.lua")
 Package.Require("Test.lua")
 
 Server.Subscribe("Tick", function(delta)
-    for _, powerUp in pairs(PowerUp.GetAll()) do
-        powerUp:Tick(delta)
-    end
+    TickAllPowerUps(delta)
 end)
+

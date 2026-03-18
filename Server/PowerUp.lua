@@ -107,3 +107,9 @@ function PowerUp:Tick(deltaTime)
     local portalRot = Rotator(0, -self.spin, 0)
     self:RotateTo(portalRot, 1)
 end
+
+function TickAllPowerUps(deltaTime)
+    for _, powerUp in pairs(PowerUp.GetAll()) do
+        powerUp:Tick(deltaTime)
+    end
+end

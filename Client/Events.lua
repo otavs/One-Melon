@@ -21,3 +21,27 @@ end)
 Events.SubscribeRemote("UpdateHealth", function(health, maxHealth)
     UI:CallEvent("UpdateHealth", health, maxHealth)
 end)
+
+Events.SubscribeRemote("ClearScoreboard", function()
+    UI:CallEvent("ClearScoreboard")
+end)
+
+Events.SubscribeRemote("EnterLobbyStateUI", function()
+    UI:CallEvent("EnterLobbyStateUI")
+end)
+
+Events.SubscribeRemote("EnterPlayingStateUI", function()
+    UI:CallEvent("EnterPlayingStateUI")
+end)
+
+Events.SubscribeRemote("EnterPostGameStateUI", function()
+    UI:CallEvent("EnterPostGameStateUI")
+end)
+
+Events.SubscribeRemote("ShowHelpUI", function()
+    UI:CallEvent("ShowHelpUI")
+end)
+
+Events.SubscribeRemote("UpdateTimer", function(time)
+    UI:CallEvent("UpdateTimer", time)
+end)

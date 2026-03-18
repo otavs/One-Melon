@@ -6,14 +6,14 @@ function PostGame.InitState()
     Events.BroadcastRemote("AnnounceWinner", killerName)
     for _, player in pairs(Player.GetAll()) do
         FreezePlayer(player)
-        OpenPostGameUI(player)
+        EnterPostGameUI(player)
     end
 end
 
 function PostGame.OnPlayerJoin(player)
     CreateCharacter(player, Config.GameLocation)
     FreezePlayer(player)
-    OpenPostGameUI(player)
+    EnterPostGameUI(player)
 end
 
 function PostGame.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
@@ -27,6 +27,6 @@ function FreezePlayer(player)
     end
 end
 
-function OpenPostGameUI(player)
-    print("TODO OpenPostGameUI")
+function EnterPostGameUI(player)
+    Events.CallRemote("EnterPostGameStateUI", player)
 end

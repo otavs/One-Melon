@@ -7,6 +7,7 @@ function Playing.InitState()
         SetGameSettings(player)
         CreateWeapons(player)
         EquipWeapon(player, "MelonGun")
+        EnterPlayingStateUI(player)
     end
 end
 
@@ -14,6 +15,7 @@ function Playing.OnPlayerJoin(player)
     CreateCharacter(player, Config.LobbyLocation)
     SetGameSettings(player)
     ShowHelpUI(player)
+    EnterPlayingStateUI(player)
     AddToScoreboard(player)
 end
 
@@ -53,4 +55,8 @@ function SetGameSettings(player)
         character:SetJumpZVelocity(Config.PlayerJumpForce)
         ChangeSkin(player)
     end
-end 
+end
+
+function EnterPlayingStateUI(player)
+    Events.CallRemote("EnterPlayingStateUI", player)
+end

@@ -314,3 +314,77 @@ function animateLeaderboard(lb, first) {
     }
   })
 }
+
+Events.Subscribe('UpdateTimer', (seconds) => {
+  document.querySelector('.countdown-number').textContent =
+    seconds > 0 ? seconds : '-'
+})
+
+Events.Subscribe('EnterLobbyStateUI', () => {
+  enterLobbyStateUI()
+})
+
+Events.Subscribe('EnterPlayingStateUI', () => {
+  enterPlayingStateUI()
+})
+
+Events.Subscribe('EnterPostGameStateUI', () => {
+  enterPostGameStateUI()
+})
+
+Events.Subscribe('ShowHelpUI', () => {
+  showHelpUI()
+})
+
+Events.Subscribe('ToggleHelpUI', () => {
+  toggleHelpUI()
+})
+
+const ALL_PANELS = [
+  'leaderboard',
+  'powerups',
+  'killfeed',
+  'weapon',
+  'healthMenu',
+  'countdown',
+  'finalScores',
+  'helpMenu',
+]
+
+function _setPanels(visible) {
+  const visSet = new Set(visible)
+  ALL_PANELS.forEach((id) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.style.display = visSet.has(id) ? '' : 'none'
+  })
+}
+
+function enterLobbyStateUI() {
+  _setPanels(['healthMenu', 'countdown'])
+}
+
+function enterPlayingStateUI() {
+  _setPanels(['leaderboard', 'powerups', 'killfeed', 'weapon', 'healthMenu'])
+}
+
+function enterPostGameStateUI() {
+  _setPanels(['finalScores'])
+}
+
+function showHelpUI() {
+  document.getElementById('helpMenu').style.display = ''
+}
+
+function hideHelpUI() {
+  document.getElementById('helpMenu').style.display = 'none'
+}
+
+function toggleHelpUI() {
+  const el = document.getElementById('helpMenu')
+  if (el.style.display === 'none' || getComputedStyle(el).display === 'none') {
+    showHelpUI()
+  } else {
+    hideHelpUI()
+  }
+}

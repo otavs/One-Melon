@@ -34,6 +34,7 @@ Timer.SetInterval(function()
     end
     Game.Timer = Game.Timer - 1
     print(Game.State .. ": " .. Game.Timer)
+    Events.BroadcastRemote("UpdateTimer", Game.Timer)
     if Game.Timer <= 0 then
         if Game.State == State.Lobby then
             Playing.InitState()

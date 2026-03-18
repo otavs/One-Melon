@@ -3,9 +3,9 @@ Lobby = {}
 function Lobby.InitState()
     Game.State = State.Lobby
     Game.Timer = Config.LobbyDuration
+    ClearScoreBoard()
     for _, player in pairs(Player.GetAll()) do
-        ClearScoreBoard()
-        ClosePostGameUI(player)
+        EnterLobbyStateUI(player)
         DestroyWeapons(player)
         SetLobbySettings(player)
         TeleportToLobby(player)
@@ -15,6 +15,7 @@ end
 
 function Lobby.OnPlayerJoin(player)
     CreateCharacter(player, Config.LobbyLocation)
+    EnterLobbyStateUI(player)
     SetLobbySettings(player)
     ShowHelpUI(player)
 end
@@ -49,9 +50,9 @@ function SetLobbySettings(player)
 end
 
 function ShowHelpUI(player)
-    print("TODO ShowHelpUI")
+    Events.CallRemote("ShowHelpUI", player)
 end
 
-function ClosePostGameUI(player)
-    print("TODO ClosePostGameUI")
+function EnterLobbyStateUI(player)
+    Events.CallRemote("EnterLobbyStateUI", player)
 end

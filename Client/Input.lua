@@ -23,6 +23,11 @@ Input.Bind("ChangeHat", InputEvent.Pressed, function()
 	Events.CallRemote("ChangeHat")
 end)
 
+Input.Register("ToggleHelpUI", "H")
+Input.Bind("ToggleHelpUI", InputEvent.Pressed, function()
+	UI:CallEvent("ToggleHelpUI")
+end)
+
 Input.Subscribe("MouseScroll", function(mouse_x, mouse_y, delta)
 	Events.CallRemote("ToggleWeapon")
 end)

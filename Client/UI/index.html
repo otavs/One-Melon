@@ -25,6 +25,12 @@
       <div class="combo" style="display: none"></div>
     </div>
 
+    <!-- COUNTDOWN (Lobby state — same position as powerups) -->
+    <div id="countdown" class="panel" style="display: none">
+      <div class="countdown-label">Starting in</div>
+      <div class="countdown-number">-</div>
+    </div>
+
     <!-- KILL FEED -->
     <div id="killfeed" class="panel"></div>
 
@@ -39,7 +45,23 @@
         <div id="health-label">HP</div>
         <div id="health-pips"></div>
       </div>
-      <div id="health-label">Press H for menu</div>
+      <div id="health-label">Press H for help</div>
+    </div>
+
+    <!-- FINAL SCORES (Post-game state — full overlay) -->
+    <div id="finalScores" class="panel overlay-card" style="display: none">
+      <h2>🍉 Final Scores 🍉</h2>
+      <!-- TODO: tables and stats -->
+    </div>
+
+    <!-- HELP MENU (shown on H key) -->
+    <div
+      id="helpMenu"
+      class="panel overlay-card overlay-card--sm"
+      style="display: none"
+    >
+      <h2>Help</h2>
+      <!-- TODO: controls and tips -->
     </div>
 
     <!-- External JavaScript -->

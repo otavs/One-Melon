@@ -8,27 +8,19 @@ for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-        if causer and causer:IsValid() and causer:IsA(Melon) then
+        if not instigator and causer and causer:IsA(Melon) then
             instigator = causer:GetValue("player")
-            AddAmmo(instigator, 1)
-            AddCombo(instigator)
         end
+        AddAmmo(instigator, 1)
+        AddCombo(instigator)
         BroadcastKill(instigator, self, GetWeaponType(causer))
     end)
 
     character:SetMaterialColorParameter("Tint", RandomColor())
+    character:SetMaxHealth(3)
+    character:SetHealth(3)
 
-    local hat = Hats[math.random(#Hats)]
-
-    if hat then 
-        character:AddStaticMeshAttached(
-            "head",
-            "polygon-hats::" .. hat.key,
-            "head",
-            Vector(7, 3, 0),
-            Rotator(-90, 0, 0)
-        )
-    end
+    print(character:GetHealth())
 end
 
 PowerUp("Melon", Vector(0, 0, 150))

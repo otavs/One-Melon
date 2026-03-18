@@ -1,5 +1,6 @@
 Hats = Assets.GetStaticMeshes("polygon-hats")
-table.insert(Hats, false)
+table.insert(Hats, "None")
+NoneId = #Hats
 
 Adjustments = {
     SK_Female = Vector(4, -3, 0),
@@ -28,7 +29,11 @@ function ChangeHat(player, justUpdate)
             hatId = (hatId % #Hats) + 1
         end
         local hat = Hats[hatId]
-        if hat then
+        if hat == "None"  then
+            if not (justUpdate and hatId == NoneId) then
+                character:RemoveStaticMeshAttached("hat")
+            end
+        elseif hat then
             local position = Vector(7, 3, 0)
             local rotation = Rotator(-90, 0, 0)
             if hat.key == "SM_TopHat" or hat.key == "SM_WorkerHat" or hat.key == "SM_queencrown_hat" or hat.key == "SM_PirateHat" or hat.key == "SM_QueenCrown" then
@@ -44,8 +49,6 @@ function ChangeHat(player, justUpdate)
                 position + GetAdjustment(player),
                 rotation
             )
-        elseif not player:GetValue("HatId") then
-            character:RemoveStaticMeshAttached("hat")
         end
         player:SetValue("HatId", hatId)
     end

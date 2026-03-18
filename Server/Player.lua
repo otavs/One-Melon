@@ -38,9 +38,8 @@ function SpawnPlayer(player)
   end)
 
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-    if causer and causer:IsValid() and causer:IsA(Melon) then
+    if causer and causer:IsA(Melon) then
       instigator = causer:GetValue("player")
-      AddAmmo(instigator, 1)
     end
     AddAmmo(instigator, 1)
     AddCombo(instigator)

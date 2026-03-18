@@ -7,7 +7,7 @@ function Bonker:Constructor(location, rotation)
     self:AddAnimationCharacterUse("nanos-world::AM_Mannequin_Melee_Slash_Attack")
     self:SetDamageSettings(0.3, 0.5)
     self:SetCooldown(1.0)
-    self:SetBaseDamage(40)
+    self:SetBaseDamage(1)
     self:SetGravityEnabled(true)
     self:SetPickable(false)
 end

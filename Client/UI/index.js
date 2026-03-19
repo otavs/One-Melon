@@ -169,12 +169,36 @@ function escHtml(s) {
     .replace(/>/g, '&gt;')
 }
 
+// ---------- Scoreboard state ----------
+const scoreEntries = {} // client-side cache: id -> entry data
+let lastMaxTop = 3
+let lastMaxSize = 16
 const prevKills = {}
 
 Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
+  lastMaxTop = maxTop
+  lastMaxSize = maxSize
   const entries = Array.isArray(rawEntries)
     ? rawEntries
     : Object.values(rawEntries)
+  for (const e of entries) {
+    scoreEntries[e.id] = e
+  }
+  renderLeaderboard()
+})
+
+Events.Subscribe('ScoreUpdate', (data) => {
+  scoreEntries[data.id] = data
+  renderLeaderboard()
+})
+
+Events.Subscribe('ClearScoreboard', () => {
+  for (const key in scoreEntries) delete scoreEntries[key]
+  renderLeaderboard()
+})
+
+function renderLeaderboard() {
+  const entries = Object.values(scoreEntries)
 
   // Stable ranking
   entries.sort((a, b) => {
@@ -183,6 +207,8 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
   })
 
   const total = entries.length
+  const maxTop = lastMaxTop
+  const maxSize = lastMaxSize
 
   const myIdx = localPlayerId
     ? entries.findIndex((e) => e.id === localPlayerId)
@@ -261,8 +287,6 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
   // Clear leaderboard
   lb.querySelectorAll('.leader-row, .leader-sep').forEach((el) => el.remove())
 
-  let rowIdx = 0
-
   for (const row of rows) {
     if (row.type === 'sep') {
       const sep = document.createElement('div')
@@ -302,12 +326,11 @@ Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
     lb.appendChild(el)
 
     prevKills[entry.id] = entry.kills
-    rowIdx++
   }
 
   // Animate movement
   animateLeaderboard(lb, first)
-})
+}
 
 function animateLeaderboard(lb, first) {
   const rows = lb.querySelectorAll('.leader-row')
@@ -329,6 +352,67 @@ function animateLeaderboard(lb, first) {
       })
     }
   })
+}
+
+// ---------- Final scores ----------
+Events.Subscribe('FinalScores', (scores, awards) => {
+  renderFinalScores(scores, awards)
+})
+
+function renderFinalScores(scores, awards) {
+  const tbody = document.querySelector('#finalScores .fs-table tbody')
+  tbody.innerHTML = ''
+  for (const entry of scores) {
+    const tr = document.createElement('tr')
+    const isMe = entry.id === localPlayerId
+    tr.className = 'fs-row' + (isMe ? ' fs-row--me' : '')
+
+    const tdPlayer = document.createElement('td')
+    tdPlayer.className = 'fs-player'
+    const img = document.createElement('img')
+    img.src = entry.icon
+    img.alt = ''
+    const nameSpan = document.createElement('span')
+    nameSpan.textContent = entry.name
+    tdPlayer.append(img, nameSpan)
+    tr.appendChild(tdPlayer)
+
+    for (const val of [
+      entry.kills,
+      entry.deaths,
+      entry.jumps,
+      entry.powerups,
+      entry.maxCombo,
+    ]) {
+      const td = document.createElement('td')
+      td.textContent = val ?? 0
+      tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+  }
+
+  const awardsList = document.querySelector('#finalScores .fs-mentions-list')
+  awardsList.innerHTML = ''
+  for (const a of awards || []) {
+    const div = document.createElement('div')
+    div.className = 'fs-mention'
+
+    const titleDiv = document.createElement('div')
+    titleDiv.className = 'fs-mention-title'
+    titleDiv.textContent = '🏆 ' + a.award
+
+    const playerDiv = document.createElement('div')
+    playerDiv.className = 'fs-mention-player'
+    const aImg = document.createElement('img')
+    aImg.src = a.icon
+    aImg.alt = ''
+    const aName = document.createElement('span')
+    aName.textContent = a.name
+    playerDiv.append(aImg, aName)
+
+    div.append(titleDiv, playerDiv)
+    awardsList.appendChild(div)
+  }
 }
 
 Events.Subscribe('UpdateTimer', (seconds) => {

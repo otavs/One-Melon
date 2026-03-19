@@ -41,5 +41,7 @@ Config = {
     LeaderboardMaxTop = 3,
     LeaderboardSize = 16,
 
+    AwardsAmount = 4,
+
     RespawnDelay = 3,
 }

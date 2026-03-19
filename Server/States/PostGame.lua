@@ -4,16 +4,19 @@ function PostGame.InitState()
     Game.State = State.PostGame
     Game.Timer = Config.PostGameDuration
     Events.BroadcastRemote("AnnounceWinner", killerName)
+    GenerateFinalAwards()
     for _, player in pairs(Player.GetAll()) do
         FreezePlayer(player)
         EnterPostGameUI(player)
     end
+    BroadcastFinalScores(nil)
 end
 
 function PostGame.OnPlayerJoin(player)
     CreateCharacter(player, Config.GameLocation)
     FreezePlayer(player)
     EnterPostGameUI(player)
+    BroadcastFinalScores(player)
 end
 
 function PostGame.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)

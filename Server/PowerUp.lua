@@ -167,6 +167,7 @@ function PowerUp:Constructor(type, location)
         end
         self:Destroy()
         PowerUps[type].handler(character)
+        AddPowerUp(player)
 
         local firework = Particle(
             location,

@@ -22,6 +22,14 @@ Events.SubscribeRemote("UpdateScoreboard", function(entries)
     UI:CallEvent("UpdateScoreboard", entries, Config.LeaderboardMaxTop, Config.LeaderboardSize)
 end)
 
+Events.SubscribeRemote("ScoreUpdate", function(data)
+    UI:CallEvent("ScoreUpdate", data, Config.LeaderboardMaxTop, Config.LeaderboardSize)
+end)
+
+Events.SubscribeRemote("FinalScores", function(scores, awards)
+    UI:CallEvent("FinalScores", scores, awards)
+end)
+
 Events.SubscribeRemote("UpdateHealth", function(health, maxHealth)
     UI:CallEvent("UpdateHealth", health, maxHealth)
 end)

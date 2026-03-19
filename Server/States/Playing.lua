@@ -22,6 +22,7 @@ function Playing.OnPlayerJoin(player)
 end
 
 function Playing.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
+    AddDeath(character:GetPlayer())
     if damage_type_reason == DamageType.Explosion then
         Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")
     else 

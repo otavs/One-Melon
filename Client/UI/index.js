@@ -360,7 +360,7 @@ const ALL_PANELS = [
   'healthMenu',
   'countdown',
   'finalScores',
-  'helpMenu',
+  // 'helpMenu',
 ]
 
 function _setPanels(visible) {
@@ -374,6 +374,10 @@ function _setPanels(visible) {
 
 function enterLobbyStateUI() {
   _setPanels(['healthMenu', 'countdown'])
+  const helpMenu = document.getElementById('helpMenu')
+  if (helpMenu && getComputedStyle(helpMenu).display !== 'none') {
+    return
+  }
   Events.Call('DisableMouse')
 }
 
@@ -403,7 +407,6 @@ function hideHelpUI() {
   const el = document.getElementById('helpMenu')
   el.classList.remove('help-opening')
   el.classList.add('help-closing')
-  Events.Call('DisableMouse')
   // Instantly reset button to step 0 position without transition so it's
   // already in the right place the next time the menu opens
   okStep = 0
@@ -421,6 +424,12 @@ function hideHelpUI() {
     el.style.display = 'none'
     el.classList.remove('help-closing')
   }, 250)
+
+  const finalScores = document.getElementById('finalScores')
+  if (finalScores && getComputedStyle(finalScores).display !== 'none') {
+    return
+  }
+  Events.Call('DisableMouse')
 }
 
 function toggleHelpUI() {

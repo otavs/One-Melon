@@ -9,7 +9,7 @@ for i = 1, botAmount do
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
         if damage_type_reason == DamageType.Explosion then
-            -- Events.BroadcastRemote("KillFeed", killerName, victimName, weaponType)    
+            Events.BroadcastRemote("KillFeed", "", "Bot", "Explosion")    
         else 
             if not instigator and causer and causer:IsA(Melon) then
                 instigator = causer:GetValue("player")

@@ -14,6 +14,8 @@ end
 function Playing.OnPlayerJoin(player)
     CreateCharacter(player, Config.LobbyLocation)
     SetGameSettings(player)
+    CreateWeapons(player)
+    EquipWeapon(player, "MelonGun")
     ShowHelpUI(player)
     EnterPlayingStateUI(player)
     AddToScoreboard(player)

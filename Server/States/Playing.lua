@@ -20,12 +20,17 @@ function Playing.OnPlayerJoin(player)
 end
 
 function Playing.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-    if causer and causer:IsA(Melon) then
-      instigator = causer:GetValue("player")
+    if damage_type_reason == DamageType.Explosion then
+        Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")    
+    else 
+        if causer and causer:IsA(Melon) then
+            instigator = causer:GetValue("player")
+        end
+        AddAmmo(instigator, 1)
+        AddCombo(instigator)
+        BroadcastKill(instigator, character, GetWeaponType(causer))
     end
-    AddAmmo(instigator, 1)
-    AddCombo(instigator)
-    BroadcastKill(instigator, character, GetWeaponType(causer))
+    
     Events.CallRemote("UpdateHealth", character:GetPlayer(), 0, character:GetMaxHealth())
     Timer.SetTimeout(function()
         if character and character:IsValid() then

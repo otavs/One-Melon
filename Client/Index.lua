@@ -32,3 +32,7 @@ UI:Subscribe("Ready", function()
         UI:CallEvent("SetLocalPlayer", localPlayer:GetAccountID())
     end
 end)
+
+Events.SubscribeRemote("SpawnSound", function(location, sound_asset, is_2D, volume, pitch)
+	Sound(location, sound_asset, is_2D, true, SoundType.SFX, volume or 1, pitch or 1)
+end)

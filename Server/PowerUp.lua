@@ -61,6 +61,29 @@ PowerUps = {
                 end
             end)
         end
+    },
+    Mysterious = {
+        image = "mysterious.png",
+        handler = function(character)
+            local location = character:GetLocation()
+
+            local particle = Particle(
+                location,
+                Rotator(0, 0, 0),
+                "nanos-world::P_Explosion",
+                true,
+                true
+            )
+            particle:SetScale(50)
+
+            --loop 10 times
+            for i = 1, 10 do
+                local grenade = Grenade(location, Rotator(), "nanos-world::SM_None", "nanos-world::P_Grenade_Special", "nanos-world::A_Explosion_Large", CollisionType.StaticOnly, false)
+                grenade:SetScale(100)
+                grenade:SetDamage(1000, 1000, 2000, 2000, 1)
+                grenade:Explode()
+            end
+        end
     }
 }
 
@@ -91,7 +114,7 @@ function PowerUp:Constructor(type, location)
     self.spin = 0
     self.spinSpeed = 70
 
-    local trigger = Trigger(location, Rotator(), Vector(100), TriggerType.Sphere, false, Color(1, 0, 0),  {"Character"})
+    local trigger = Trigger(location, Rotator(), Vector(100), TriggerType.Sphere, false, Color(1, 0, 0), {"Character"})
     trigger:Subscribe("BeginOverlap", function(trigger, character)
         local player = character:GetPlayer()
         if not player or not player:IsValid() then

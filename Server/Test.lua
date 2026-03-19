@@ -8,12 +8,16 @@ for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-        if not instigator and causer and causer:IsA(Melon) then
-            instigator = causer:GetValue("player")
+        if damage_type_reason == DamageType.Explosion then
+            -- Events.BroadcastRemote("KillFeed", killerName, victimName, weaponType)    
+        else 
+            if not instigator and causer and causer:IsA(Melon) then
+                instigator = causer:GetValue("player")
+            end
+            AddAmmo(instigator, 1)
+            AddCombo(instigator)
+            BroadcastKill(instigator, self, GetWeaponType(causer))
         end
-        AddAmmo(instigator, 1)
-        AddCombo(instigator)
-        BroadcastKill(instigator, self, GetWeaponType(causer))
     end)
 
     character:SetMaterialColorParameter("Tint", RandomColor())
@@ -30,6 +34,7 @@ PowerUp("Jump", Vector(400, 0, 150))
 PowerUp("Speed", Vector(800, 0, 150))
 PowerUp("Health", Vector(1200, 0, 150))
 PowerUp("Bonker", Vector(1600, 0, 150))
+PowerUp("Mysterious", Vector(2000, 0, 150))
 
 Timer.SetInterval(function()
     if Game.State ~= State.Playing then

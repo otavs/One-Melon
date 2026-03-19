@@ -1,7 +1,6 @@
 PlayerScores = {}
 PlayerCombos = {}
 PlayerComboTimers = {}
-AAA = 0
 
 function AddCombo(player)
   local playerId = player:GetAccountID()

@@ -13,7 +13,7 @@ Config = {
     LobbyLocation = Vector(1000, 0, 500),
     GameLocation = Vector(1000, 0, 500),
 
-    DefaultKillsToWin = 1,
+    DefaultKillsToWin = 100,
 
     LobbyDuration = 3,
     PostGameDuration = 3,
@@ -25,6 +25,10 @@ Config = {
     PlayerJumpForce = 600,
     PowerUpJumpForce = 1000,
     PowerUpJumpDuration = 10,
+
+    PowerUpBonkerDamage = 2,
+    PowerUpBonkerScale = 6,
+    PowerUpBonkerDuration = 10,
 
     ComboDuration = 60,
 

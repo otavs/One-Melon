@@ -78,6 +78,39 @@ PowerUps = {
             character:SetValue("HealthBoostTimer", timer)
         end
     },
+    Bonker = {
+        image = "bonker.png",
+        handler = function(character)
+            local player = character:GetPlayer()
+            local bonker = player:GetValue("Bonker")
+            if not bonker or not bonker:IsValid() then
+                bonker = CreateWeapon("Bonker")
+                player:SetValue("Bonker", bonker)
+            end
+            bonker:SetScale(Config.PowerUpBonkerScale)
+            bonker:SetBaseDamage(Config.PowerUpBonkerDamage)
+
+            local timeLeft = Config.PowerUpBonkerDuration
+            Events.CallRemote("PowerUpActivated", player, "Bonker", "Giant Bonker", timeLeft)
+            local timer = Timer.SetInterval(function()
+                if timeLeft == nil or timeLeft <= 0 then
+                    bonker = player:GetValue("Bonker")
+                    if bonker and bonker:IsValid() then
+                        bonker:SetScale(1.6)
+                        bonker:SetBaseDamage(1)
+                    end
+                    Timer.ClearInterval(character:GetValue("GiantBonkerTimer"))
+                    return
+                end
+                timeLeft = timeLeft - 1
+            end, 1000)
+            local oldTimer = character:GetValue("GiantBonkerTimer")
+            if oldTimer then
+                Timer.ClearInterval(oldTimer)
+            end
+            character:SetValue("GiantBonkerTimer", timer)
+        end
+    }
 }
 
 function PowerUp:Constructor(type, location)

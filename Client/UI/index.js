@@ -60,6 +60,7 @@ const powerUpIcons = {
   Jump: '🦘',
   Speed: '⚡',
   Health: '❤️',
+  Bonker: '🔨',
 }
 
 const activePowerUps = {}

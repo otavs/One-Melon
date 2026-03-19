@@ -65,10 +65,20 @@ const powerUpIcons = {
 
 const activePowerUps = {}
 
+function updatePowerUpElement(name, timeLeft) {
+  const state = activePowerUps[name]
+  if (!state) return
+
+  const { element, icon, label } = state
+  element.textContent = `${icon} ${label} ${timeLeft}s`
+
+  if (timeLeft <= 3) element.classList.add('urgent')
+  else element.classList.remove('urgent')
+}
+
 Events.Subscribe('PowerUpActivated', (name, label, duration) => {
-  // Clear existing countdown for this powerup if re-picked
+  // Clear existing UI entry if re-picked.
   if (activePowerUps[name]) {
-    clearInterval(activePowerUps[name].interval)
     const old = activePowerUps[name].element
     old.classList.add('dying')
     setTimeout(() => old.remove(), 400)
@@ -76,34 +86,29 @@ Events.Subscribe('PowerUpActivated', (name, label, duration) => {
   }
 
   const icon = powerUpIcons[name] || '✨'
-  let timeLeft = duration
 
   const el = document.createElement('div')
   el.className = 'powerup'
 
-  const update = () => {
-    el.textContent = `${icon} ${label} ${timeLeft}s`
-    if (timeLeft <= 3) el.classList.add('urgent')
-    else el.classList.remove('urgent')
-  }
-  update()
-
   const combo = document.querySelector('#powerups .combo')
   document.getElementById('powerups').insertBefore(el, combo || null)
 
-  const interval = setInterval(() => {
-    timeLeft--
-    if (timeLeft <= 0) {
-      clearInterval(interval)
-      el.classList.add('dying')
-      setTimeout(() => el.remove(), 400)
-      delete activePowerUps[name]
-    } else {
-      update()
-    }
-  }, 1000)
+  activePowerUps[name] = { element: el, icon, label }
+  updatePowerUpElement(name, duration)
+})
 
-  activePowerUps[name] = { interval, element: el }
+Events.Subscribe('PowerUpUpdate', (name, timeLeft) => {
+  const state = activePowerUps[name]
+  if (!state) return
+
+  if (timeLeft <= 0) {
+    state.element.classList.add('dying')
+    setTimeout(() => state.element.remove(), 400)
+    delete activePowerUps[name]
+    return
+  }
+
+  updatePowerUpElement(name, timeLeft)
 })
 
 const weaponIcons = {

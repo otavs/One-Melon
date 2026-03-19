@@ -6,6 +6,10 @@ Events.SubscribeRemote("PowerUpActivated", function(name, label, duration)
     UI:CallEvent("PowerUpActivated", name, label, duration)
 end)
 
+Events.SubscribeRemote("PowerUpUpdate", function(name, timeLeft)
+    UI:CallEvent("PowerUpUpdate", name, timeLeft)
+end)
+
 Events.SubscribeRemote("KillFeed", function(killer, victim, weaponType)
     UI:CallEvent("KillFeed", killer, victim, Config.KillFeedDuration, weaponType)
 end)

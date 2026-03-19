@@ -118,19 +118,36 @@ function ActivatePowerUp(player, type, name, duration, callback)
 
     local oldTimer = player:GetValue(timerKey)
     if oldTimer and Timer.IsValid(oldTimer) then
-        Timer.ResetElapsedTime(oldTimer)
-        return
+        Timer.ClearInterval(oldTimer)
     end
 
     AddPowerUpParticles(player, type)
 
-    local timer = Timer.SetTimeout(function()
-        if timeLeft == nil or timeLeft <= 0 then
-            callback()
-            RemovePowerUpParticles(player, type)
+    local timeLeft = duration
+    Events.CallRemote("PowerUpUpdate", player, type, timeLeft)
+
+    local timer = nil
+    timer = Timer.SetInterval(function()
+        if not player or not player:IsValid() then
+            if timer and Timer.IsValid(timer) then
+                Timer.ClearInterval(timer)
+            end
             return
         end
-    end, duration * 1000)
+
+        timeLeft = timeLeft - 1
+        Events.CallRemote("PowerUpUpdate", player, type, math.max(timeLeft, 0))
+
+        if timeLeft <= 0 then
+            callback()
+            RemovePowerUpParticles(player, type)
+            if timer and Timer.IsValid(timer) then
+                Timer.ClearInterval(timer)
+            end
+            player:SetValue(timerKey, nil)
+            return
+        end
+    end, 1000)
 
     player:SetValue(timerKey, timer)
 end

@@ -13,21 +13,9 @@ PowerUps = {
         handler = function(character)
             local player = character:GetPlayer()
             character:SetJumpZVelocity(Config.PowerUpJumpForce)
-            local timeLeft = Config.PowerUpJumpDuration
-            Events.CallRemote("PowerUpActivated", player, "Jump", "Jump Boost", timeLeft)
-            local timer = Timer.SetInterval(function()
-                if timeLeft == nil or timeLeft <= 0 then
-                    character:SetJumpZVelocity(Config.PlayerJumpForce)
-                    Timer.ClearInterval(character:GetValue("JumpBoostTimer"))
-                    return
-                end
-                timeLeft = timeLeft - 1
-            end, 1000)
-            local oldTimer = character:GetValue("JumpBoostTimer")
-            if oldTimer then
-                Timer.ClearInterval(oldTimer)
-            end
-            character:SetValue("JumpBoostTimer", timer)
+            ActivatePowerUp(player, "Jump", "Jump Boost", Config.PowerUpJumpDuration, function()
+                character:SetJumpZVelocity(Config.PlayerJumpForce)
+            end)
         end
     },
     Speed = {
@@ -35,21 +23,9 @@ PowerUps = {
         handler = function(character)
             local player = character:GetPlayer()
             character:SetSpeedMultiplier(Config.PowerUpSpeed)
-            local timeLeft = Config.PowerUpSpeedDuration
-            Events.CallRemote("PowerUpActivated", player, "Speed", "Speed Boost", timeLeft)
-            local timer = Timer.SetInterval(function()
-                if timeLeft == nil or timeLeft <= 0 then
-                    character:SetSpeedMultiplier(Config.PlayerSpeed)
-                    Timer.ClearInterval(character:GetValue("SpeedBoostTimer"))
-                    return
-                end
-                timeLeft = timeLeft - 1
-            end, 1000)
-            local oldTimer = character:GetValue("SpeedBoostTimer")
-            if oldTimer then
-                Timer.ClearInterval(oldTimer)
-            end
-            character:SetValue("SpeedBoostTimer", timer)
+            ActivatePowerUp(player, "Speed", "Speed Boost", Config.PowerUpSpeedDuration, function()
+                character:SetSpeedMultiplier(Config.PlayerSpeed)
+            end)
         end
     },
     Health = {
@@ -58,24 +34,12 @@ PowerUps = {
            local player = character:GetPlayer()
             character:SetMaxHealth(Config.PowerUpHealth)
             character:SetHealth(Config.PowerUpHealth)
-            local timeLeft = Config.PowerUpHealthDuration
-            Events.CallRemote("PowerUpActivated", player, "Health", "Health Boost", timeLeft)
-            local timer = Timer.SetInterval(function()
-                if timeLeft == nil or timeLeft <= 0 then
-                    character:SetMaxHealth(Config.PlayerMaxHealth)
-                    if character:GetHealth() > Config.PlayerMaxHealth then
-                        character:SetHealth(Config.PlayerMaxHealth)
-                    end
-                    Timer.ClearInterval(character:GetValue("HealthBoostTimer"))
-                    return
+            ActivatePowerUp(player, "Health", "Health Boost", Config.PowerUpHealthDuration, function()
+                character:SetMaxHealth(Config.PlayerMaxHealth)
+                if character:GetHealth() > Config.PlayerMaxHealth then
+                    character:SetHealth(Config.PlayerMaxHealth)
                 end
-                timeLeft = timeLeft - 1
-            end, 1000)
-            local oldTimer = character:GetValue("HealthBoostTimer")
-            if oldTimer then
-                Timer.ClearInterval(oldTimer)
-            end
-            character:SetValue("HealthBoostTimer", timer)
+            end)
         end
     },
     Bonker = {
@@ -89,29 +53,36 @@ PowerUps = {
             end
             bonker:SetScale(Config.PowerUpBonkerScale)
             bonker:SetBaseDamage(Config.PowerUpBonkerDamage)
-
-            local timeLeft = Config.PowerUpBonkerDuration
-            Events.CallRemote("PowerUpActivated", player, "Bonker", "Giant Bonker", timeLeft)
-            local timer = Timer.SetInterval(function()
-                if timeLeft == nil or timeLeft <= 0 then
-                    bonker = player:GetValue("Bonker")
-                    if bonker and bonker:IsValid() then
-                        bonker:SetScale(1.6)
-                        bonker:SetBaseDamage(1)
-                    end
-                    Timer.ClearInterval(character:GetValue("GiantBonkerTimer"))
-                    return
+            ActivatePowerUp(player, "Bonker", "Giant Bonker", Config.PowerUpBonkerDuration, function()
+                bonker = player:GetValue("Bonker")
+                if bonker and bonker:IsValid() then
+                    bonker:SetScale(1.6)
+                    bonker:SetBaseDamage(1)
                 end
-                timeLeft = timeLeft - 1
-            end, 1000)
-            local oldTimer = character:GetValue("GiantBonkerTimer")
-            if oldTimer then
-                Timer.ClearInterval(oldTimer)
-            end
-            character:SetValue("GiantBonkerTimer", timer)
+            end)
         end
     }
 }
+
+function ActivatePowerUp(player, type, name, duration, callback)
+    local timeLeft = duration
+    Events.CallRemote("PowerUpActivated", player, type, name, timeLeft)
+    local key = type .. "PU_Timer"
+
+    local timer = Timer.SetInterval(function()
+        if timeLeft == nil or timeLeft <= 0 then
+            callback()
+            Timer.ClearInterval(player:GetValue(key))
+            return
+        end
+        timeLeft = timeLeft - 1
+    end, 1000)
+    local oldTimer = player:GetValue(key)
+    if oldTimer then
+        Timer.ClearInterval(oldTimer)
+    end
+    player:SetValue(key, timer)
+end
 
 function PowerUp:Constructor(type, location)
 	self.Super:Constructor(location, Rotator(0, 0, 0), "nanos-world::SM_Cube", CollisionType.NoCollision)

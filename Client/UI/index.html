@@ -27,7 +27,7 @@
 
     <!-- COUNTDOWN (Lobby state — same position as powerups) -->
     <div id="countdown" class="panel" style="display: none">
-      <div class="countdown-label">Starting in</div>
+      <div class="countdown-label">Game starting in</div>
       <div class="countdown-number">-</div>
     </div>
 
@@ -266,7 +266,11 @@
     </div>
 
     <!-- HELP MENU (shown on H key) -->
-    <div id="helpMenu" class="panel overlay-card overlay-card--sm">
+    <div
+      id="helpMenu"
+      class="panel overlay-card overlay-card--sm"
+      style="display: none"
+    >
       <img src="img/title.png" class="help-title-img" alt="One Melon" />
 
       <div class="help-scoring-line">1 bonk = 1 point</div>

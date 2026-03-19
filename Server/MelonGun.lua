@@ -29,7 +29,7 @@ function MelonGun:OnFire(character)
 	local capsule_size = character:GetCapsuleSize()
 	local spawn_location = self:GetLocation() + Vector(0, 0, capsule_size.HalfHeight / 2) + forward_vector * 32
 
-	local melon = Melon(spawn_location, Rotator.Random(), "nanos-world::SM_Fruit_Watermelon_01", CollisionType.Normal, true, GrabMode.Disabled, CCDMode.Disabled)
+	local melon = Melon(spawn_location, Rotator.Random(), "nanos-world::SM_Fruit_Watermelon_01", CollisionType.StaticOnly, true, GrabMode.Disabled, CCDMode.Disabled)
 	melon:SetLifeSpan(5)
 	melon:SetScale(2)
 	melon:SetValue("DebrisLifeSpan", 2)

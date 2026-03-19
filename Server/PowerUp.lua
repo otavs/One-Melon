@@ -3,6 +3,8 @@ PowerUp = StaticMesh.Inherit("PowerUp")
 PowerUps = {
     Melon = {
         image = "watermelon.png",
+        fireworkColor = Color.GREEN,
+        playerParticle = nil,
         handler = function(character)
             local player = character:GetPlayer()
             AddAmmo(player, 1)
@@ -10,6 +12,12 @@ PowerUps = {
     },
     Jump = {
         image = "jump.png",
+        fireworkColor = Color.BLUE,
+        playerParticle = {
+            asset = "nanos-world::P_RocketExhaust_Blue",
+            rotation = Rotator(0, 180, 0),
+            scale = 0.3,
+        },
         handler = function(character)
             local player = character:GetPlayer()
             character:SetJumpZVelocity(Config.PowerUpJumpForce)
@@ -20,6 +28,12 @@ PowerUps = {
     },
     Speed = {
         image = "speed.png",
+        fireworkColor = Color.YELLOW,
+        playerParticle = {
+            asset = "nanos-world::P_RocketExhaust_Yellow",
+            rotation = Rotator(0, -90, 0),
+            scale = 0.2,
+        },
         handler = function(character)
             local player = character:GetPlayer()
             character:SetSpeedMultiplier(Config.PowerUpSpeed)
@@ -30,6 +44,12 @@ PowerUps = {
     },
     Health = {
         image = "health.png",
+        fireworkColor = Color.RED,
+        playerParticle = {
+            asset = "nanos-world::P_RocketExhaust_Red",
+            rotation = Rotator(0, -135, 0),
+            scale = 0.2,
+        },
         handler = function(character)
            local player = character:GetPlayer()
             character:SetMaxHealth(Config.PowerUpHealth)
@@ -44,6 +64,8 @@ PowerUps = {
     },
     Bonker = {
         image = "bonker.png",
+        fireworkColor = Color.WHITE,
+        playerParticle = nil,
         handler = function(character)
             local player = character:GetPlayer()
             local bonker = player:GetValue("Bonker")
@@ -53,6 +75,7 @@ PowerUps = {
             end
             bonker:SetScale(Config.PowerUpBonkerScale)
             bonker:SetBaseDamage(Config.PowerUpBonkerDamage)
+            EquipWeapon(player, "Bonker")
             ActivatePowerUp(player, "Bonker", "Giant Bonker", Config.PowerUpBonkerDuration, function()
                 bonker = player:GetValue("Bonker")
                 if bonker and bonker:IsValid() then
@@ -64,6 +87,8 @@ PowerUps = {
     },
     Mysterious = {
         image = "mysterious.png",
+        fireworkColor = Color.BLACK,
+        playerParticle = nil,
         handler = function(character)
             local location = character:GetLocation()
 
@@ -76,8 +101,7 @@ PowerUps = {
             )
             particle:SetScale(50)
 
-            --loop 10 times
-            for i = 1, 10 do
+            for _ = 1, 10 do
                 local grenade = Grenade(location, Rotator(), "nanos-world::SM_None", "nanos-world::P_Grenade_Special", "nanos-world::A_Explosion_Large", CollisionType.StaticOnly, false)
                 grenade:SetScale(100)
                 grenade:SetDamage(1000, 1000, 2000, 2000, 1)
@@ -88,23 +112,25 @@ PowerUps = {
 }
 
 function ActivatePowerUp(player, type, name, duration, callback)
-    local timeLeft = duration
     Events.CallRemote("PowerUpActivated", player, type, name, timeLeft)
-    local key = type .. "PU_Timer"
+    local timeLeft = duration
+    local timerKey = "PU_Timer_" .. type
+    AddPowerUpParticles(player, type)
 
     local timer = Timer.SetInterval(function()
         if timeLeft == nil or timeLeft <= 0 then
             callback()
-            Timer.ClearInterval(player:GetValue(key))
+            Timer.ClearInterval(player:GetValue(timerKey))
+            RemovePowerUpParticles(player, type)
             return
         end
         timeLeft = timeLeft - 1
     end, 1000)
-    local oldTimer = player:GetValue(key)
+    local oldTimer = player:GetValue(timerKey)
     if oldTimer then
         Timer.ClearInterval(oldTimer)
     end
-    player:SetValue(key, timer)
+    player:SetValue(timerKey, timer)
 end
 
 function PowerUp:Constructor(type, location)
@@ -122,6 +148,29 @@ function PowerUp:Constructor(type, location)
         end
         self:Destroy()
         PowerUps[type].handler(character)
+
+        local firework = Particle(
+            location,
+            Rotator(),
+            "ts-fireworks::PS_TS_Fireworks_Burst_Palm",
+            false,
+            true
+        )
+
+        local color = PowerUps[type].fireworkColor
+        firework:SetParameterColor("BlastColor", color)
+        firework:SetParameterColor("BurstColor", color)
+        firework:SetParameterColor("SparkleColor", color)
+        firework:SetParameterColor("FlareColor", color)
+        firework:SetParameterColor("TailColor", color)
+
+        firework:SetParameterBool("BlastSmoke", false)
+        firework:SetParameterBool("TrailSmoke", false)
+
+        firework:SetParameterFloat("BurstMulti", 1.0)
+        firework:SetParameterFloat("SparkleMulti", 1.0)
+
+        firework:SetScale(0.3)
     end)
     trigger:AttachTo(self, AttachmentRule.SnapToTarget, nil, 0, false)
 end
@@ -138,5 +187,28 @@ end
 function TickAllPowerUps(deltaTime)
     for _, powerUp in pairs(PowerUp.GetAll()) do
         powerUp:Tick(deltaTime)
+    end
+end
+
+function AddPowerUpParticles(player, type)
+    if PowerUps[type].playerParticle == nil then
+        return
+    end
+    local character = player:GetControlledCharacter()
+    if not character or not character:IsValid() then
+        return
+    end
+    local particle = Particle(Vector(), Rotator(), PowerUps[type].playerParticle.asset, false, true)
+    particle:AttachTo(character, AttachmentRule.SnapToTarget, "pelvis", 0)
+    particle:SetRelativeRotation(PowerUps[type].playerParticle.rotation)
+    particle:SetScale(PowerUps[type].playerParticle.scale)
+    particle:SetRelativeLocation(Vector(0, 0, 0))
+    player:SetValue("PU_Particle_" .. type, particle)
+end
+
+function RemovePowerUpParticles(player, type)
+    local particle = player:GetValue("PU_Particle_" .. type)
+    if particle and particle:IsValid() then
+        particle:Destroy()
     end
 end

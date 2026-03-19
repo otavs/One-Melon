@@ -2,7 +2,7 @@ if not Config.TEST and not Game.State == State.Playing then
     return
 end
 
-local botAmount = 30
+local botAmount = 0
 
 for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
@@ -24,8 +24,6 @@ for i = 1, botAmount do
     character:SetMaxHealth(3)
     character:SetHealth(3)
     character:SetDeathSound("nanos-world::A_EmptySound")
-
-    print(character:GetHealth())
 end
 
 PowerUp("Melon", Vector(0, 0, 150))

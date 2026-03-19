@@ -112,24 +112,26 @@ PowerUps = {
 }
 
 function ActivatePowerUp(player, type, name, duration, callback)
-    Events.CallRemote("PowerUpActivated", player, type, name, timeLeft)
-    local timeLeft = duration
     local timerKey = "PU_Timer_" .. type
+
+    Events.CallRemote("PowerUpActivated", player, type, name, duration)
+
+    local oldTimer = player:GetValue(timerKey)
+    if oldTimer and Timer.IsValid(oldTimer) then
+        Timer.ResetElapsedTime(oldTimer)
+        return
+    end
+
     AddPowerUpParticles(player, type)
 
-    local timer = Timer.SetInterval(function()
+    local timer = Timer.SetTimeout(function()
         if timeLeft == nil or timeLeft <= 0 then
             callback()
-            Timer.ClearInterval(player:GetValue(timerKey))
             RemovePowerUpParticles(player, type)
             return
         end
-        timeLeft = timeLeft - 1
-    end, 1000)
-    local oldTimer = player:GetValue(timerKey)
-    if oldTimer then
-        Timer.ClearInterval(oldTimer)
-    end
+    end, duration * 1000)
+
     player:SetValue(timerKey, timer)
 end
 
@@ -194,20 +196,37 @@ function AddPowerUpParticles(player, type)
     if PowerUps[type].playerParticle == nil then
         return
     end
+
+    local existingParticle = player:GetValue("PU_Particle_" .. type)
+    if existingParticle and existingParticle:IsValid() then
+        return
+    end
+
     local character = player:GetControlledCharacter()
     if not character or not character:IsValid() then
         return
     end
-    local particle = Particle(Vector(), Rotator(), PowerUps[type].playerParticle.asset, false, true)
+
+    local particle = Particle(
+        Vector(),
+        Rotator(),
+        PowerUps[type].playerParticle.asset,
+        false,
+        true
+    )
+
     particle:AttachTo(character, AttachmentRule.SnapToTarget, "pelvis", 0)
     particle:SetRelativeRotation(PowerUps[type].playerParticle.rotation)
     particle:SetScale(PowerUps[type].playerParticle.scale)
     particle:SetRelativeLocation(Vector(0, 0, 0))
+
     player:SetValue("PU_Particle_" .. type, particle)
 end
 
 function RemovePowerUpParticles(player, type)
-    local particle = player:GetValue("PU_Particle_" .. type)
+    local key = "PU_Particle_" .. type
+    local particle = player:GetValue(key)
+
     if particle and particle:IsValid() then
         particle:Destroy()
     end

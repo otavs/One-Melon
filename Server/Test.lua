@@ -19,6 +19,7 @@ for i = 1, botAmount do
     character:SetMaterialColorParameter("Tint", RandomColor())
     character:SetMaxHealth(3)
     character:SetHealth(3)
+    character:SetDeathSound("nanos-world::A_EmptySound")
 
     print(character:GetHealth())
 end
@@ -28,6 +29,7 @@ PowerUp("Jump", Vector(200, 0, 150))
 PowerUp("Jump", Vector(400, 0, 150))
 PowerUp("Speed", Vector(800, 0, 150))
 PowerUp("Health", Vector(1200, 0, 150))
+PowerUp("Bonker", Vector(1600, 0, 150))
 
 Timer.SetInterval(function()
     if Game.State ~= State.Playing then

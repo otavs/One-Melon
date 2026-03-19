@@ -12,6 +12,7 @@ function CreateCharacter(player, location)
   character:SetSpeedMultiplier(Config.PlayerSpeed)
   character:SetJumpZVelocity(Config.PlayerJumpForce)
   character:SetRagdollOnHitEnabled(false)
+  character:SetDeathSound("nanos-world::A_EmptySound")
 
   player:Possess(character)
 

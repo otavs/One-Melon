@@ -336,6 +336,7 @@ Events.Subscribe('EnterPlayingStateUI', () => {
 
 Events.Subscribe('EnterPostGameStateUI', () => {
   enterPostGameStateUI()
+  Events.Call('EnableMouse')
 })
 
 Events.Subscribe('ShowHelpUI', () => {
@@ -376,7 +377,7 @@ function enterPlayingStateUI() {
 }
 
 function enterPostGameStateUI() {
-  _setPanels(['finalScores'])
+  _setPanels(['finalScores', 'killfeed'])
 }
 
 function showHelpUI() {
@@ -386,6 +387,11 @@ function showHelpUI() {
   void el.offsetWidth
   el.classList.add('help-opening')
   Events.Call('EnableMouse')
+  // Reset OK button
+  okStep = 0
+  const okBtn = document.getElementById('ok-understand-btn')
+  okBtn.classList.remove('ok-spin')
+  requestAnimationFrame(() => setOkBtnPosition())
 }
 
 function hideHelpUI() {
@@ -393,6 +399,19 @@ function hideHelpUI() {
   el.classList.remove('help-opening')
   el.classList.add('help-closing')
   Events.Call('DisableMouse')
+  // Instantly reset button to step 0 position without transition so it's
+  // already in the right place the next time the menu opens
+  okStep = 0
+  const okBtn = document.getElementById('ok-understand-btn')
+  okBtn.style.transition = 'none'
+  okBtn.classList.remove('ok-spin')
+  setOkBtnPosition()
+  // Re-enable transition after the instant jump
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      okBtn.style.transition = ''
+    })
+  })
   setTimeout(() => {
     el.style.display = 'none'
     el.classList.remove('help-closing')
@@ -406,4 +425,124 @@ function toggleHelpUI() {
   } else {
     hideHelpUI()
   }
+}
+
+// OK UNDERSTAND BUTTON
+let okStep = 0
+
+function setOkBtnPosition() {
+  const btn = document.getElementById('ok-understand-btn')
+  const hmEl = document.getElementById('helpMenu')
+  const w = btn.offsetWidth || 140
+  const h = btn.offsetHeight || 42
+  const margin = 16
+  // The button has position:fixed inside a CSS-transformed ancestor (#helpMenu),
+  // so its left/top are in #helpMenu's local coordinate space.
+  let lx, ly
+  switch (okStep) {
+    case 0: // bottom-right of help menu
+      lx = hmEl.offsetWidth - w - margin
+      ly = hmEl.offsetHeight - h - margin
+      break
+    case 1: // top-right
+      lx = hmEl.offsetWidth - w - margin
+      ly = margin
+      break
+    case 2: // top-left
+      lx = margin
+      ly = margin
+      break
+    case 3: // bottom-left
+      lx = margin
+      ly = hmEl.offsetHeight - h - margin
+      break
+    case 4: {
+      // center of screen — convert from viewport to local space
+      const r = hmEl.getBoundingClientRect()
+      lx = (window.innerWidth - w) / 2 - r.left
+      ly = (window.innerHeight - h) / 2 - r.top + 10
+      break
+    }
+    default:
+      return
+  }
+  btn.style.left = lx + 'px'
+  btn.style.top = ly + 'px'
+}
+
+function handleOkUnderstand() {
+  const btn = document.getElementById('ok-understand-btn')
+  if (okStep < 4) {
+    okStep++
+    btn.classList.remove('ok-spin')
+    void btn.offsetWidth
+    btn.classList.add('ok-spin')
+    setOkBtnPosition()
+  } else {
+    launchConfetti()
+    hideHelpUI()
+  }
+}
+
+function launchConfetti() {
+  const canvas = document.createElement('canvas')
+  canvas.style.cssText =
+    'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999'
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  document.body.appendChild(canvas)
+  const ctx = canvas.getContext('2d')
+  const colors = [
+    '#ff4d6d',
+    '#3cb371',
+    '#ffe066',
+    '#66b3ff',
+    '#ff9f43',
+    '#a29bfe',
+    '#fd79a8',
+    '#ffffff',
+  ]
+  const pieces = []
+  for (let i = 0; i < 160; i++) {
+    const angle = Math.random() * Math.PI * 2
+    const speed = 5 + Math.random() * 14
+    pieces.push({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      w: 8 + Math.random() * 8,
+      h: 5 + Math.random() * 5,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 14,
+      opacity: 1,
+    })
+  }
+  let frame = 0
+  function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    frame++
+    let alive = false
+    for (const p of pieces) {
+      p.x += p.vx
+      p.y += p.vy
+      p.vy += 0.35
+      p.vx *= 0.99
+      p.rot += p.rotV
+      if (frame > 50) p.opacity -= 0.018
+      if (p.opacity <= 0) continue
+      alive = true
+      ctx.save()
+      ctx.globalAlpha = Math.max(0, p.opacity)
+      ctx.translate(p.x, p.y)
+      ctx.rotate((p.rot * Math.PI) / 180)
+      ctx.fillStyle = p.color
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
+      ctx.restore()
+    }
+    if (alive) requestAnimationFrame(tick)
+    else canvas.remove()
+  }
+  requestAnimationFrame(tick)
 }

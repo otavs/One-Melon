@@ -30,6 +30,9 @@ PowerUp("Speed", Vector(800, 0, 150))
 PowerUp("Health", Vector(1200, 0, 150))
 
 Timer.SetInterval(function()
+    if Game.State ~= State.Playing then
+        return
+    end
     local killerName = GetRandomName()
     local killerId = killerName
     if not PlayerScores[killerId] then
@@ -45,6 +48,9 @@ Timer.SetInterval(function()
 end, 500)
 
 Timer.SetInterval(function()
+    if Game.State ~= State.Playing then
+        return
+    end
     -- now for the kill event
     local killerName = GetRandomName()
     local victimName = GetRandomName()

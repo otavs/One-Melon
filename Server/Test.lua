@@ -2,7 +2,7 @@ if not Config.TEST and not Game.State == State.Playing then
     return
 end
 
-local botAmount = 0
+local botAmount = 30
 
 for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
@@ -32,14 +32,14 @@ PowerUp("Jump", Vector(400, 0, 150))
 PowerUp("Speed", Vector(800, 0, 150))
 PowerUp("Health", Vector(1200, 0, 150))
 PowerUp("Bonker", Vector(1600, 0, 150))
--- PowerUp("Mysterious", Vector(2000, 0, 150))
+PowerUp("Mysterious", Vector(2000, 0, 150))
 
 -- spawn 100 random powerups
-for i = 1, 200 do
-    local powerUpTypes = {"Melon", "Jump", "Speed", "Health", "Bonker"}
-    local randomType = powerUpTypes[math.random(1, #powerUpTypes)]
-    PowerUp(randomType, Vector(math.random(-2000, 2000), math.random(-2000, 2000), 150))
-end
+-- for i = 1, 200 do
+--     local powerUpTypes = {"Melon", "Jump", "Speed", "Health", "Bonker"}
+--     local randomType = powerUpTypes[math.random(1, #powerUpTypes)]
+--     PowerUp(randomType, Vector(math.random(-2000, 2000), math.random(-2000, 2000), 150))
+-- end
 
 Timer.SetInterval(function()
     if Game.State ~= State.Playing then

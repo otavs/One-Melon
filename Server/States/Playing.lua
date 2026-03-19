@@ -23,7 +23,7 @@ end
 
 function Playing.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     if damage_type_reason == DamageType.Explosion then
-        Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")    
+        Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")
     else 
         if causer and causer:IsA(Melon) then
             instigator = causer:GetValue("player")

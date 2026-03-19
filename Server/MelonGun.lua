@@ -44,6 +44,14 @@ function MelonGun:OnFire(character)
 			print("Melon hit melon")
 			BreakProp(melon, intensity)
 			BreakProp(other, intensity)
+			Events.BroadcastRemote("PlaySound", "bonk.mp3", impact_location)
+			local player1 = melon:GetValue("player")
+			local player2 = other:GetValue("player")
+			if player1 == player2 then
+				return
+			end
+			AddAmmo(player1, 1)
+			AddAmmo(player2, 1)
 		elseif other and other:IsValid() and other:IsA(Character) and other:GetHealth() > 0 then
 			print("Melon hit char")
 			if other == character then return end

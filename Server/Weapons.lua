@@ -47,7 +47,7 @@ function CreateWeapon(weaponName)
 end
 
 function ToggleWeapon(player)
-  if Game.State ~= State.Playing then
+  if Game.State ~= State.Playing or not player or not player:IsValid() then
     return
   end
   
@@ -72,6 +72,9 @@ function ShowWeapon(weapon)
 end
 
 function AddAmmo(player, amount)
+  if not player or not player:IsValid() then
+    return
+  end
   local melonGun = player:GetValue("MelonGun")
   if melonGun and melonGun:IsValid() then
     melonGun:AddAmmo(amount)
@@ -80,6 +83,9 @@ function AddAmmo(player, amount)
 end
 
 function SetAmmo(player, amount)
+  if not player or not player:IsValid() then
+    return
+  end
   local melonGun = player:GetValue("MelonGun")
   if melonGun and melonGun:IsValid() then
     melonGun:SetAmmoSettings(amount, 0)

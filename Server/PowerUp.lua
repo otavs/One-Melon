@@ -190,6 +190,12 @@ function PowerUp:Constructor(type, location)
         firework:SetParameterFloat("SparkleMulti", 1.0)
 
         firework:SetScale(0.3)
+
+        Timer.SetTimeout(function()
+            if firework and firework:IsValid() then
+                firework:Destroy()
+            end
+        end, 15000)
     end)
     trigger:AttachTo(self, AttachmentRule.SnapToTarget, nil, 0, false)
 end

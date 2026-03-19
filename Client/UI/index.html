@@ -326,6 +326,43 @@
       </button>
     </div>
 
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      function _burstConfetti() {
+        const el = document.getElementById('finalScores')
+        if (!el || el.style.display === 'none') return
+        const rect = el.getBoundingClientRect()
+        const xLeft = (rect.left + rect.width * 0.25) / window.innerWidth
+        const xRight = (rect.left + rect.width * 0.75) / window.innerWidth
+        const y = (rect.top + rect.height * 0.4) / window.innerHeight
+        const opts = {
+          particleCount: 500,
+          spread: 360,
+          startVelocity: 60,
+          ticks: 200,
+          zIndex: 9999,
+        }
+        confetti({ ...opts, origin: { x: xLeft, y } })
+        confetti({ ...opts, origin: { x: xRight, y } })
+      }
+
+      // Watch for finalScores becoming visible and fire once
+      const _fsObserver = new MutationObserver(() => {
+        const el = document.getElementById('finalScores')
+        if (el && el.style.display !== 'none') _burstConfetti()
+      })
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const el = document.getElementById('finalScores')
+        if (el)
+          _fsObserver.observe(el, {
+            attributes: true,
+            attributeFilter: ['style'],
+          })
+      })
+    </script>
+
     <!-- External JavaScript -->
     <script src="index.js"></script>
   </body>

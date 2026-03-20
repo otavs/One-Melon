@@ -44,4 +44,8 @@ Config = {
     AwardsAmount = 5,
 
     RespawnDelay = 3,
+
+    PowerUpLifetime = 10 * 60,
+    MysteriousPowerUpLifetime = 100,
+
 }

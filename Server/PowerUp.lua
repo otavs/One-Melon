@@ -159,6 +159,17 @@ function PowerUp:Constructor(type, location)
     self.spin = 0
     self.spinSpeed = 70
 
+    local lifetime = Config.PowerUpLifetime
+    if type == "Mysterious" then
+        lifetime = Config.MysteriousPowerUpLifetime
+    end
+    local lifetimeTimer = Timer.SetTimeout(function()
+        if self:IsValid() then
+            self:Destroy()
+        end
+    end, lifetime * 1000)
+    Timer.Bind(lifetimeTimer, self)
+
     local trigger = Trigger(location, Rotator(), Vector(100), TriggerType.Sphere, false, Color(1, 0, 0), {"Character"})
     trigger:Subscribe("BeginOverlap", function(trigger, character)
         local player = character:GetPlayer()

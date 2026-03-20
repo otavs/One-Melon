@@ -20,21 +20,21 @@ Config = {
 
     PlayerSpeed = 2,
     PowerUpSpeed = 4,
-    PowerUpSpeedDuration = 10,
+    PowerUpSpeedDuration = 15,
     
     PlayerJumpForce = 600,
     PowerUpJumpForce = 1000,
-    PowerUpJumpDuration = 10,
+    PowerUpJumpDuration = 15,
 
     PowerUpBonkerDamage = 2,
     PowerUpBonkerScale = 6,
-    PowerUpBonkerDuration = 10,
-
-    ComboDuration = 60,
+    PowerUpBonkerDuration = 20,
 
     PlayerMaxHealth = 3,
     PowerUpHealth = 6,
-    PowerUpHealthDuration = 10,
+    PowerUpHealthDuration = 15,
+
+    ComboDuration = 60,
 
     KillFeedDuration = 5,
 

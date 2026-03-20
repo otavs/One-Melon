@@ -16,7 +16,7 @@ Config = {
     DefaultKillsToWin = 1,
 
     LobbyDuration = 2,
-    PostGameDuration = 60,
+    PostGameDuration = 30,
 
     PlayerSpeed = 2,
     PowerUpSpeed = 4,
@@ -41,7 +41,7 @@ Config = {
     LeaderboardMaxTop = 3,
     LeaderboardSize = 16,
 
-    AwardsAmount = 4,
+    AwardsAmount = 5,
 
     RespawnDelay = 3,
 }

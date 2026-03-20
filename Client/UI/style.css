@@ -368,12 +368,12 @@ body {
 }
 
 #health-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.65);
   text-transform: uppercase;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 #health-pips {
@@ -383,12 +383,12 @@ body {
 }
 
 .hp-pip {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: transparent;
-  font-size: 26px;
-  line-height: 28px;
+  font-size: 34px;
+  line-height: 36px;
   text-align: center;
   color: var(--melon-green);
   filter: drop-shadow(0 0 6px var(--melon-green))
@@ -489,7 +489,7 @@ body {
 }
 
 .ammo {
-  font-size: 26px;
+  font-size: 34px;
   color: #ffe066;
 }
 
@@ -552,7 +552,7 @@ body {
 }
 
 .overlay-card--lg {
-  width: min(1000px, 95vw);
+  width: min(1120px, 97vw);
   min-height: 580px;
   z-index: 999;
 }
@@ -603,7 +603,7 @@ body {
 .fs-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .fs-table thead th {
@@ -611,7 +611,7 @@ body {
   top: 0;
   background: rgba(10, 30, 10, 0.97);
   color: var(--melon-green);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -638,7 +638,7 @@ body {
   padding: 9px 14px;
   color: rgba(255, 255, 255, 0.85);
   text-align: center;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .fs-row--me {
@@ -679,14 +679,14 @@ body {
   margin: 0 0 12px;
   text-align: center;
   color: #ffe066;
-  font-size: 17px;
+  font-size: 21px;
   letter-spacing: 1px;
 }
 
 .fs-mentions-list {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 
@@ -694,9 +694,9 @@ body {
   background: rgba(255, 224, 102, 0.07);
   border: 1px solid rgba(255, 224, 102, 0.2);
   border-radius: 12px;
-  padding: 12px 18px;
-  min-width: 160px;
-  max-width: 230px;
+  padding: 14px 12px;
+  flex: 1 1 0;
+  min-width: 0;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -706,10 +706,11 @@ body {
 }
 
 .fs-mention-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffe066;
   line-height: 1.3;
+  word-break: break-word;
 }
 
 .fs-mention-player {
@@ -730,7 +731,7 @@ body {
 }
 
 .fs-mention-player span {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
 }

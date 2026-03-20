@@ -1,4 +1,4 @@
-PlayerScores = {}       -- id -> { id, name, icon, kills, deaths, jumps, powerups, maxCombo }
+PlayerScores = {}       -- id -> { id, name, icon, kills, deaths, performance, powerups, maxCombo }
 PlayerCombos = {}       -- runtime: id -> current combo count
 PlayerComboTimers = {}  -- runtime: id -> timer handle
 FinalAwards = {}        -- generated once when PostGame starts
@@ -10,11 +10,11 @@ function GetOrCreateScore(player)
       id       = playerId,
       name     = player:GetName(),
       icon     = player:GetAccountIconURL(),
-      kills    = 0,
-      deaths   = 0,
-      jumps    = 0,
-      powerups = 0,
-      maxCombo = 0,
+      kills       = 0,
+      deaths      = 0,
+      performance = math.random(0, 10),
+      powerups    = 0,
+      maxCombo    = 0,
     }
   end
   return PlayerScores[playerId]
@@ -52,13 +52,6 @@ function AddDeath(player)
   if not player or not player:IsValid() then return end
   local score = GetOrCreateScore(player)
   score.deaths = score.deaths + 1
-  BroadcastScoreUpdate(player:GetAccountID())
-end
-
-function AddJump(player)
-  if not player or not player:IsValid() then return end
-  local score = GetOrCreateScore(player)
-  score.jumps = score.jumps + 1
   BroadcastScoreUpdate(player:GetAccountID())
 end
 

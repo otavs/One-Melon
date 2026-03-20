@@ -8,6 +8,7 @@ function Playing.InitState()
         CreateWeapons(player)
         EquipWeapon(player, "MelonGun")
         EnterPlayingStateUI(player)
+        AddToScoreboard(player)
     end
 end
 
@@ -45,7 +46,8 @@ end
 function RespawnInGame(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
-        character:Respawn(Config.GameLocation)
+        character:Respawn(Vector(math.random(-3000, 3000), math.random(-3000, 3000), 500))
+
         HideWeapon(player:GetValue("MelonGun"))
         HideWeapon(player:GetValue("Bonker"))
         EquipWeapon(player, "MelonGun")

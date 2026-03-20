@@ -178,6 +178,8 @@ const prevKills = {}
 Events.Subscribe('UpdateScoreboard', (rawEntries, maxTop, maxSize) => {
   lastMaxTop = maxTop
   lastMaxSize = maxSize
+  // Full replacement — clear stale entries first
+  for (const key in scoreEntries) delete scoreEntries[key]
   const entries = Array.isArray(rawEntries)
     ? rawEntries
     : Object.values(rawEntries)
@@ -360,9 +362,24 @@ Events.Subscribe('FinalScores', (scores, awards) => {
 })
 
 function renderFinalScores(scores, awards) {
+  // Sort: kills desc → deaths asc → maxCombo desc → powerups desc → performance desc
+  const sorted = [...scores].sort((a, b) => {
+    if (b.kills !== a.kills) return b.kills - a.kills
+    if (a.deaths !== b.deaths) return a.deaths - b.deaths
+    if (b.maxCombo !== a.maxCombo) return b.maxCombo - a.maxCombo
+    if (b.powerups !== a.powerups) return b.powerups - a.powerups
+    return b.performance - a.performance
+  })
+
+  const statCols = ['kills', 'deaths', 'maxCombo', 'powerups', 'performance']
+  const maxVals = {}
+  for (const col of statCols) {
+    maxVals[col] = Math.max(...sorted.map((e) => e[col] ?? 0))
+  }
+
   const tbody = document.querySelector('#finalScores .fs-table tbody')
   tbody.innerHTML = ''
-  for (const entry of scores) {
+  sorted.forEach((entry, idx) => {
     const tr = document.createElement('tr')
     const isMe = entry.id === localPlayerId
     tr.className = 'fs-row' + (isMe ? ' fs-row--me' : '')
@@ -373,23 +390,22 @@ function renderFinalScores(scores, awards) {
     img.src = entry.icon
     img.alt = ''
     const nameSpan = document.createElement('span')
-    nameSpan.textContent = entry.name
+    nameSpan.textContent = entry.name + (idx === 0 ? ' 🏆' : '')
     tdPlayer.append(img, nameSpan)
     tr.appendChild(tdPlayer)
 
-    for (const val of [
-      entry.kills,
-      entry.deaths,
-      entry.jumps,
-      entry.powerups,
-      entry.maxCombo,
-    ]) {
+    for (const col of statCols) {
+      const val = entry[col] ?? 0
       const td = document.createElement('td')
-      td.textContent = val ?? 0
+      td.textContent = col === 'performance' ? val + ' / 10' : val
+      if (maxVals[col] > 0 && val === maxVals[col]) {
+        td.style.fontWeight = '700'
+        td.style.color = '#fff'
+      }
       tr.appendChild(td)
     }
     tbody.appendChild(tr)
-  }
+  })
 
   const awardsList = document.querySelector('#finalScores .fs-mentions-list')
   awardsList.innerHTML = ''

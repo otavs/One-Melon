@@ -25,14 +25,6 @@ function CreateCharacter(player, location)
     Events.CallRemote("UpdateHealth", player, new_health, self:GetMaxHealth())
   end)
 
-  character:Subscribe("Jump", function(self)
-    if Game.State ~= State.Playing then return end
-    local p = self:GetPlayer()
-    if p and p:IsValid() then
-      AddJump(p)
-    end
-  end)
-
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     if Game.State == State.Lobby then
       Lobby.OnCharacterDeath(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)

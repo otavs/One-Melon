@@ -6,7 +6,7 @@ LogLevel = {
 
 Config = {
     TEST = true,
-    LogLevel = LogLevel.GameChat,
+    LogLevel = LogLevel.Console,
     ShowTriggers = true,
     EnableCommands = true,
 
@@ -16,7 +16,7 @@ Config = {
     DefaultKillsToWin = 1,
 
     LobbyDuration = 2,
-    PostGameDuration = 2,
+    PostGameDuration = 60,
 
     PlayerSpeed = 2,
     PowerUpSpeed = 4,

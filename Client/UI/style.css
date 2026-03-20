@@ -675,6 +675,20 @@ body {
   padding-top: 14px;
 }
 
+#fs-next-game {
+  flex-shrink: 0;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.3px;
+}
+
+#fs-next-game #fs-countdown {
+  color: var(--melon-green);
+  font-weight: 700;
+}
+
 .fs-mentions h3 {
   margin: 0 0 12px;
   text-align: center;

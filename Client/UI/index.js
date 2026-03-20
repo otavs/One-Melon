@@ -434,6 +434,8 @@ function renderFinalScores(scores, awards) {
 Events.Subscribe('UpdateTimer', (seconds) => {
   document.querySelector('.countdown-number').textContent =
     seconds > 0 ? seconds : '-'
+  const fsCountdown = document.getElementById('fs-countdown')
+  if (fsCountdown) fsCountdown.textContent = seconds > 0 ? seconds : '-'
 })
 
 Events.Subscribe('EnterLobbyStateUI', () => {

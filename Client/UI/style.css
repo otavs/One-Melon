@@ -816,7 +816,7 @@ body {
 .help-3x {
   font-size: 8px;
   color: #1a3a1a;
-  display: none;
+  /* display: none; */
 }
 
 .help-controls {

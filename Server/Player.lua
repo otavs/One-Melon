@@ -16,8 +16,10 @@ function CreateCharacter(player, location)
 
   player:Possess(character)
 
-  player:SetValue("HatId", 0)
-  player:SetValue("SkinId", 0)
+  player:SetValue("HatId", math.random(1, #Hats))
+  player:SetValue("SkinId", math.random(1, #Skins))
+  ChangeHat(player)
+  ChangeSkin(player)
 
   Events.CallRemote("UpdateHealth", player, character:GetHealth(), character:GetMaxHealth())
 

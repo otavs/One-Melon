@@ -216,6 +216,12 @@ function TickAllPowerUps(deltaTime)
     end
 end
 
+function DestroyAllPowerUps()
+    for _, powerUp in pairs(PowerUp.GetAll()) do
+        powerUp:Destroy()
+    end
+end
+
 function AddPowerUpParticles(player, type)
     if PowerUps[type].playerParticle == nil then
         return

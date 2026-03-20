@@ -7,8 +7,8 @@ function Lobby.InitState()
     for _, player in pairs(Player.GetAll()) do
         EnterLobbyStateUI(player)
         DestroyWeapons(player)
-        SetLobbySettings(player)
         TeleportToLobby(player)
+        SetLobbySettings(player)
         UnFreezePlayer(player)
     end
 end
@@ -34,7 +34,11 @@ end
 function TeleportToLobby(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
-        character:SetLocation(Config.LobbyLocation)
+        if character:IsDead() then
+            character:Respawn(Config.LobbyLocation)
+        else
+            character:SetLocation(Config.LobbyLocation)
+        end
     end
 end
 

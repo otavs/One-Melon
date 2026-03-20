@@ -2,9 +2,10 @@ Playing = {}
 
 function Playing.InitState()
     Game.State = State.Playing
+    DestroyAllPowerUps()
     for _, player in pairs(Player.GetAll()) do
-        RespawnInGame(player)
         SetGameSettings(player)
+        RespawnInGame(player)
         CreateWeapons(player)
         EquipWeapon(player, "MelonGun")
         EnterPlayingStateUI(player)

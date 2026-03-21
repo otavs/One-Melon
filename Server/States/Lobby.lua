@@ -24,13 +24,6 @@ function Lobby.OnCharacterDeath(character, last_damage_taken, last_bone_damaged,
     character:Respawn(Config.LobbyLocation)
 end
 
-function UnFreezePlayer(player)
-    local character = player:GetControlledCharacter()
-    if character then
-        character:SetInputEnabled(true)
-    end
-end
-
 function TeleportToLobby(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then

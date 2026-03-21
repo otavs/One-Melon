@@ -4,6 +4,7 @@ function Playing.InitState()
     Game.State = State.Playing
     DestroyAllPowerUps()
     for _, player in pairs(Player.GetAll()) do
+        FreezePlayer(player)
         SetGameSettings(player)
         RespawnInGame(player)
         CreateWeapons(player)
@@ -12,6 +13,9 @@ function Playing.InitState()
         AddToScoreboard(player)
     end
     Play2dSound("yay.mp3", 2, 1)
+    Timer.SetTimeout(function()
+        UnFreezeAllPlayers()
+    end, 1200)
 end
 
 function Playing.OnPlayerJoin(player)

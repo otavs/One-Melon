@@ -15,7 +15,7 @@ Config = {
 
     DefaultKillsToWin = 10,
 
-    LobbyDuration = 20,
+    LobbyDuration = 3,
     PostGameDuration = 2,
 
     PlayerSpeed = 2,

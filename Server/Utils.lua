@@ -32,6 +32,29 @@ function RandomColor()
     return Color(r, g, b)
 end
 
+function FreezePlayer(player)
+    local character = player:GetControlledCharacter()
+    if character then
+        character:SetInputEnabled(false)
+    end
+end
+function FreezeAllPlayers()
+    for _, player in pairs(Player.GetAll()) do
+        FreezePlayer(player)
+    end
+end
+function UnFreezePlayer(player)
+    local character = player:GetControlledCharacter()
+    if character then
+        character:SetInputEnabled(true)
+    end
+end
+function UnFreezeAllPlayers()
+    for _, player in pairs(Player.GetAll()) do
+        UnFreezePlayer(player)
+    end
+end
+
 function HasStaticMeshAttached(entity, asset)
     for _, sm in pairs(entity:GetAllStaticMeshAttached()) do
         if sm == asset then

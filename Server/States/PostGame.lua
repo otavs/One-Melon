@@ -24,13 +24,6 @@ function PostGame.OnCharacterDeath(character, last_damage_taken, last_bone_damag
     character:Respawn(Config.GameLocation)
 end
 
-function FreezePlayer(player)
-    local character = player:GetControlledCharacter()
-    if character then
-        character:SetInputEnabled(false)
-    end
-end
-
 function EnterPostGameUI(player)
     Events.CallRemote("EnterPostGameStateUI", player)
 end

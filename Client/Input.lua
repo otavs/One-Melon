@@ -29,8 +29,14 @@ Input.Register("ToggleHelpUI", "H")
 Input.Bind("ToggleHelpUI", InputEvent.Pressed, function()
 	UI:CallEvent("ToggleHelpUI")
 	Play2dSound("help.mp3", 1, 1)
+	CenterMouse()
 end)
 
 Input.Subscribe("MouseScroll", function(mouse_x, mouse_y, delta)
 	Events.CallRemote("ToggleWeapon")
 end)
+
+function CenterMouse()
+	local size = Viewport.GetViewportSize()
+	Viewport.SetMousePosition(Vector2D(size.X / 2, 7 * size.Y / 8))
+end

@@ -40,14 +40,17 @@ end)
 
 Events.SubscribeRemote("EnterLobbyStateUI", function()
     UI:CallEvent("EnterLobbyStateUI")
+    CenterMouse()
 end)
 
 Events.SubscribeRemote("EnterPlayingStateUI", function()
     UI:CallEvent("EnterPlayingStateUI")
+    CenterMouse()
 end)
 
 Events.SubscribeRemote("EnterPostGameStateUI", function()
     UI:CallEvent("EnterPostGameStateUI")
+    CenterMouse()
 end)
 
 Events.SubscribeRemote("ShowHelpUI", function()

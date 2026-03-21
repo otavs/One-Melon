@@ -13,7 +13,7 @@ function CreateCharacter(player, location)
   character:SetJumpZVelocity(Config.PlayerJumpForce)
   character:SetRagdollOnHitEnabled(false)
   character:SetDeathSound("nanos-world::A_EmptySound")
-  character:SetPunchDamage(0)
+  character:SetPunchDamage(1)
 
   player:Possess(character)
 
@@ -40,7 +40,14 @@ function CreateCharacter(player, location)
   end)
 
   character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
+    if type == DamageType.Punch then
+      local impulse = from_direction:GetSafeNormal() * 1500 + Vector(0, 0, 400)
+      self:AddImpulse(impulse, true)
+      return false
+    end
     if causer and causer:IsA(Bonker) then
+      local impulse = from_direction:GetSafeNormal() * 300 + Vector(0, 0, 200)
+      self:AddImpulse(impulse, true)
       if self:GetHealth() - damage > 0 then
         PlaySound("mini-bonk.mp3", self:GetLocation(), 1.5, 1)
       end 

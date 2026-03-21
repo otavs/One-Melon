@@ -13,9 +13,9 @@ Config = {
     LobbyLocation = Vector(1000, 0, 500),
     GameLocation = Vector(1000, 0, 500),
 
-    DefaultKillsToWin = 1,
+    DefaultKillsToWin = 10,
 
-    LobbyDuration = 60,
+    LobbyDuration = 20,
     PostGameDuration = 2,
 
     PlayerSpeed = 2,

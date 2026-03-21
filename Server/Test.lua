@@ -24,16 +24,23 @@ for i = 1, botAmount do
     end)
 
     character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
+        if type == DamageType.Punch then
+            local impulse = from_direction:GetSafeNormal() * 1500 + Vector(0, 0, 400)
+            self:AddImpulse(impulse, true)
+            return false
+        end
         if causer and causer:IsA(Bonker) then
+            local impulse = from_direction:GetSafeNormal() * 300 + Vector(0, 0, 200)
+            self:AddImpulse(impulse, true)
             if self:GetHealth() - damage > 0 then
                 PlaySound("mini-bonk.mp3", self:GetLocation(), 1.5, 1)
-            end 
+            end
         end
     end)
 
     character:SetMaterialColorParameter("Tint", RandomColor())
-    character:SetMaxHealth(3)
-    character:SetHealth(3)
+    character:SetMaxHealth(1)
+    character:SetHealth(2)
     character:SetDeathSound("nanos-world::A_EmptySound")
 end
 

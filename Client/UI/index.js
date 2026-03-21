@@ -594,12 +594,14 @@ function setOkBtnPosition() {
 function handleOkUnderstand() {
   const btn = document.getElementById('ok-understand-btn')
   if (okStep < 4) {
+    Events.Call('Play2dSound', 'mini-bonk.mp3', 2, 1)
     okStep++
     btn.classList.remove('ok-spin')
     void btn.offsetWidth
     btn.classList.add('ok-spin')
     setOkBtnPosition()
   } else {
+    Events.Call('Play2dSound', 'bonk.mp3', 6, 1)
     launchConfetti()
     hideHelpUI()
   }

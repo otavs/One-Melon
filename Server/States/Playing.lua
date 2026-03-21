@@ -11,6 +11,7 @@ function Playing.InitState()
         EnterPlayingStateUI(player)
         AddToScoreboard(player)
     end
+    Play2dSound("yay.mp3", 2, 1)
 end
 
 function Playing.OnPlayerJoin(player)

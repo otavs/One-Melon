@@ -4,27 +4,45 @@ end
 
 local botAmount = 30
 
--- for i = 1, botAmount do
---     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
+for i = 1, botAmount do
+    local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
 
---     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
---         if damage_type_reason == DamageType.Explosion then
---             Events.BroadcastRemote("KillFeed", "", "Bot", "Explosion")    
---         else 
---             if not instigator and causer and causer:IsA(Melon) then
---                 instigator = causer:GetValue("player")
---             end
---             AddAmmo(instigator, 1)
---             AddCombo(instigator)
---             BroadcastKill(instigator, self, GetWeaponType(causer))
---         end
---     end)
+    character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
+        if damage_type_reason == DamageType.Explosion then
+            Events.BroadcastRemote("KillFeed", "", "Bot", "Explosion")    
+        else 
+            if not instigator and causer and causer:IsA(Melon) then
+                instigator = causer:GetValue("player")
+            end
+            if causer and (causer:IsA(Melon) or causer:IsA(Bonker)) then
+                PlaySound("bonk.mp3", self:GetLocation())
+            end
+            AddAmmo(instigator, 1)
+            AddCombo(instigator)
+            BroadcastKill(instigator, self, GetWeaponType(causer))
+        end
+    end)
 
---     character:SetMaterialColorParameter("Tint", RandomColor())
---     character:SetMaxHealth(3)
---     character:SetHealth(3)
---     character:SetDeathSound("nanos-world::A_EmptySound")
--- end
+    character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
+        if causer and causer:IsA(Bonker) then
+            if self:GetHealth() - damage > 0 then
+                PlaySound("mini-bonk.mp3", self:GetLocation(), 1.5, 1)
+            end 
+        end
+    end)
+
+    character:SetMaterialColorParameter("Tint", RandomColor())
+    character:SetMaxHealth(3)
+    character:SetHealth(3)
+    character:SetDeathSound("nanos-world::A_EmptySound")
+end
+
+-- local my_prop = Prop(
+--   Vector(-900, 185, 215),
+--   Rotator(0, 90, 90),
+--   "nanos-world::SM_Crate_07"
+-- )
+-- my_prop:SetScale(30)
 
 -- PowerUp("Melon", Vector(0, 0, 150))
 -- PowerUp("Jump", Vector(200, 0, 150))

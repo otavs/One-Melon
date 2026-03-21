@@ -10,4 +10,7 @@ function Bonker:Constructor(location, rotation)
     self:SetBaseDamage(1)
     self:SetGravityEnabled(true)
     self:SetPickable(false)
+    -- local impactSound = SoundsDir .. "bonk.mp3"
+    local impactSound = "nanos-world::A_EmptySound"
+    self:SetImpactSound(SurfaceType.Flesh, impactSound, 10, 1)
 end

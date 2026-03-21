@@ -1,6 +1,7 @@
 Package.Require("Config.lua")
 Package.Require("Breakable.lua")
-Package.Require("Sounds.lua")
+Package.Require("Sound.lua")
+Package.Require("Music.lua")
 Package.Require("Events.lua")
 Package.Require("Input.lua")
 
@@ -24,6 +25,14 @@ end)
 
 UI:Subscribe("DisableMouse", function()
     Input.SetMouseEnabled(false)
+end)
+
+UI:Subscribe("PlaySound", function(file, location, volume, pitch)
+    PlaySound(file, location, volume, pitch)
+end)
+
+UI:Subscribe("Play2dSound", function(file, volume, pitch)
+    Play2dSound(file, volume, pitch)
 end)
 
 UI:Subscribe("Ready", function()

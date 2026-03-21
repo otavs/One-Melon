@@ -1,3 +1,5 @@
+SoundsDir = "package://" .. Package.GetName() .. "/Client/Sounds/"
+
 function RandomColor()
     local h = math.random()
     local s = 1

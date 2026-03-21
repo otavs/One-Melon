@@ -5,6 +5,10 @@ PowerUps = {
         image = "watermelon.png",
         fireworkColor = Color.GREEN,
         playerParticle = nil,
+        sound = {
+            file = "powerup-melon.mp3",
+            volume = 1,
+        },
         handler = function(character)
             local player = character:GetPlayer()
             AddAmmo(player, 1)
@@ -17,6 +21,10 @@ PowerUps = {
             asset = "nanos-world::P_RocketExhaust_Blue",
             rotation = Rotator(0, 180, 0),
             scale = 0.3,
+        },
+        sound = {
+            file = "powerup-jump.mp3",
+            volume = 1,
         },
         handler = function(character)
             local player = character:GetPlayer()
@@ -34,6 +42,10 @@ PowerUps = {
             rotation = Rotator(0, -90, 0),
             scale = 0.2,
         },
+        sound = {
+            file = "powerup-speed.mp3",
+            volume = 3,
+        },
         handler = function(character)
             local player = character:GetPlayer()
             character:SetSpeedMultiplier(Config.PowerUpSpeed)
@@ -49,6 +61,10 @@ PowerUps = {
             asset = "nanos-world::P_RocketExhaust_Red",
             rotation = Rotator(0, -135, 0),
             scale = 0.2,
+        },
+        sound = {
+            file = "powerup-health.mp3",
+            volume = 1,
         },
         handler = function(character)
            local player = character:GetPlayer()
@@ -66,6 +82,10 @@ PowerUps = {
         image = "bonker.png",
         fireworkColor = Color.WHITE,
         playerParticle = nil,
+        sound = {
+            file = "powerup-bonker.mp3",
+            volume = 1,
+        },
         handler = function(character)
             local player = character:GetPlayer()
             local bonker = player:GetValue("Bonker")
@@ -89,6 +109,7 @@ PowerUps = {
         image = "mysterious.png",
         fireworkColor = Color.BLACK,
         playerParticle = nil,
+        sound = nil,
         handler = function(character)
             local location = character:GetLocation()
 
@@ -171,7 +192,11 @@ function PowerUp:Constructor(type, location)
     Timer.Bind(lifetimeTimer, self)
 
     local trigger = Trigger(location, Rotator(), Vector(100), TriggerType.Sphere, false, Color(1, 0, 0), {"Character"})
+
     trigger:Subscribe("BeginOverlap", function(trigger, character)
+        if character and character:IsValid() and character:IsDead() then
+            return
+        end
         local player = character:GetPlayer()
         if not player or not player:IsValid() then
             return
@@ -179,6 +204,10 @@ function PowerUp:Constructor(type, location)
         self:Destroy()
         PowerUps[type].handler(character)
         AddPowerUp(player)
+
+        if PowerUps[type].sound then
+            PlaySoundP(player, PowerUps[type].sound.file, location, PowerUps[type].sound.volume, 1)
+        end
 
         local firework = Particle(
             location,

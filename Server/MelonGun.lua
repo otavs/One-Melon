@@ -39,12 +39,12 @@ function MelonGun:OnFire(character)
 	SetupBreakableProp(melon)
 
 	melon:Subscribe("Hit", function(melon, intensity, normal_impulse, impact_location, velocity, other)
-		print("Melon hit something")
+		-- print("Melon hit something")
 		if other and other:IsValid() and other:IsA(Melon) then
-			print("Melon hit melon")
+			-- print("Melon hit melon")
 			BreakProp(melon, intensity)
 			BreakProp(other, intensity)
-			Events.BroadcastRemote("PlaySound", "bonk.mp3", impact_location)
+			PlaySound("bonk.mp3", impact_location)
 			local player1 = melon:GetValue("player")
 			local player2 = other:GetValue("player")
 			if player1 == player2 then
@@ -53,11 +53,11 @@ function MelonGun:OnFire(character)
 			AddAmmo(player1, 1)
 			AddAmmo(player2, 1)
 		elseif other and other:IsValid() and other:IsA(Character) and other:GetHealth() > 0 then
-			print("Melon hit char")
+			-- print("Melon hit char")
 			if other == character then return end
 			other:ApplyDamage(1000, nil, nil, nil, character:GetPlayer(), melon)
 			BreakProp(melon, intensity)
-			Events.BroadcastRemote("PlaySound", "bonk.mp3", impact_location)
+			-- PlaySound("bonk.mp3", impact_location)
 		end
 	end)
 

@@ -10,6 +10,7 @@ function PostGame.InitState()
         EnterPostGameUI(player)
     end
     BroadcastFinalScores(nil)
+    Play2dSound("yay.mp3", 2, 1)
 end
 
 function PostGame.OnPlayerJoin(player)

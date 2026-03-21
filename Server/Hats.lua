@@ -21,37 +21,55 @@ Adjustments = {
     SK_Adventure_05_Full_02 = Vector(5, 0, 0),
 }
 
-function ChangeHat(player, justUpdate) 
-    local character = player:GetControlledCharacter()
-    if character and character:IsValid() then
-        local hatId = player:GetValue("HatId") or 0
-        if not justUpdate then
-            hatId = (hatId % #Hats) + 1
-        end
-        local hat = Hats[hatId]
-        if hat == "None"  then
-            if not (justUpdate and hatId == NoneId) then
-                character:RemoveStaticMeshAttached("hat")
-            end
-        elseif hat then
-            local position = Vector(7, 3, 0)
-            local rotation = Rotator(-90, 0, 0)
-            if hat.key == "SM_TopHat" or hat.key == "SM_WorkerHat" or hat.key == "SM_queencrown_hat" or hat.key == "SM_PirateHat" or hat.key == "SM_QueenCrown" then
-                rotation = Rotator(0, 90, -90)
-            end
-            if hat.key == "SM_PropellerHat" then
-                position = Vector(10, 2, 0)
-            end
-            character:AddStaticMeshAttached(
-                "hat",
-                "polygon-hats::" .. hat.key,
-                "head",
-                position + GetAdjustment(player),
-                rotation
-            )
-        end
-        player:SetValue("HatId", hatId)
+function SetHat(player, hatId)
+    if not hatId then
+        return
     end
+
+    local character = player:GetControlledCharacter()
+    if not character or not character:IsValid() then
+        return
+    end
+
+    local hat = Hats[hatId]
+    if not hat then
+        return
+    end
+
+    if hat == "None" then
+        if HasStaticMeshAttached(character, player:GetValue("HatAsset")) then
+            character:RemoveStaticMeshAttached("hat")
+        end
+        player:SetValue("HatAsset", nil)
+    else
+        local position = Vector(7, 3, 0)
+        local rotation = Rotator(-90, 0, 0)
+        if hat.key == "SM_TopHat" or hat.key == "SM_WorkerHat" or hat.key == "SM_queencrown_hat" or hat.key == "SM_PirateHat" or hat.key == "SM_QueenCrown" then
+            rotation = Rotator(0, 90, -90)
+        end
+        if hat.key == "SM_PropellerHat" then
+            position = Vector(10, 2, 0)
+        end
+        character:AddStaticMeshAttached(
+            "hat",
+            "polygon-hats::" .. hat.key,
+            "head",
+            position + GetAdjustment(player),
+            rotation
+        )
+        player:SetValue("HatAsset", "polygon-hats::" .. hat.key)
+    end
+
+    player:SetValue("HatId", hatId)
+end
+
+function ChangeHat(player) 
+    local hatId = player:GetValue("HatId")
+    if not hatId then
+        hatId = math.random(1, #Hats)
+    end
+    hatId = (hatId % #Hats) + 1
+    SetHat(player, hatId)
 end
 
 function GetAdjustment(player)

@@ -17,8 +17,6 @@ function CreateCharacter(player, location)
 
   player:Possess(character)
 
-  player:SetValue("HatId", math.random(1, #Hats))
-  player:SetValue("SkinId", math.random(1, #Skins))
   ChangeHat(player)
   ChangeSkin(player)
 

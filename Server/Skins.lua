@@ -69,30 +69,44 @@ Skins = {
     "Color_BLACK_SK_Mannequin_Female",
 }
 
-function ChangeSkin(player)
-    local character = player:GetControlledCharacter()
-    if character and character:IsValid() then
-        local skinId = player:GetValue("SkinId") or 0
-        skinId = (skinId % #Skins) + 1
-        local skin = Skins[skinId]
-
-        if string.sub(skin, 1, 6) == "Color_" then
-            local parts = {}
-            for part in string.gmatch(skin, "([^_]+)") do
-                table.insert(parts, part)
-            end
-            local colorName = parts[2] or "WHITE"
-            local meshName = table.concat({select(3, table.unpack(parts))}, "_") or "SK_Mannequin"
-
-            local color = Color[colorName] or Color.WHITE
-            character:SetMesh("nanos-world::" .. meshName)
-            character:SetMaterialColorParameter("Tint", color)
-        else
-            character:SetMesh("nanos-world::" .. skin)
-            character:SetMaterialColorParameter("Tint", Color.WHITE)
-        end
-
-        player:SetValue("SkinId", skinId)
-        ChangeHat(player, true)
+function SetSkin(player, skinId)
+    if not skinId then
+        return
     end
+    
+    local character = player:GetControlledCharacter()
+
+    if not character or not character:IsValid() then
+        return
+    end
+
+    local skin = Skins[skinId]
+    if string.sub(skin, 1, 6) == "Color_" then
+        local parts = {}
+        for part in string.gmatch(skin, "([^_]+)") do
+            table.insert(parts, part)
+        end
+        local colorName = parts[2] or "WHITE"
+        local meshName = table.concat({select(3, table.unpack(parts))}, "_") or "SK_Mannequin"
+
+        local color = Color[colorName] or Color.WHITE
+        character:SetMesh("nanos-world::" .. meshName)
+        character:SetMaterialColorParameter("Tint", color)
+    else
+        character:SetMesh("nanos-world::" .. skin)
+        character:SetMaterialColorParameter("Tint", Color.WHITE)
+    end
+
+    player:SetValue("SkinId", skinId)
+
+    SetHat(player, player:GetValue("HatId"))
+end
+
+function ChangeSkin(player)
+    local skinId = player:GetValue("SkinId") or 0
+    if not skinId then
+        skinId = math.random(1, #Skins)
+    end
+    skinId = (skinId % #Skins) + 1
+    SetSkin(player, skinId)
 end

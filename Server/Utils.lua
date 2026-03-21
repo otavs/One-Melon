@@ -31,3 +31,25 @@ function RandomColor()
 
     return Color(r, g, b)
 end
+
+function HasStaticMeshAttached(entity, asset)
+    for _, sm in pairs(entity:GetAllStaticMeshAttached()) do
+        if sm == asset then
+            return true
+        end
+    end
+    return false
+end
+
+function PrintTable(tbl, indent)
+    indent = indent or 0
+    local indentStr = string.rep("  ", indent)
+    for key, value in pairs(tbl) do
+        if type(value) == "table" then
+            print(indentStr .. tostring(key) .. ":")
+            PrintTable(value, indent + 1)
+        else
+            print(indentStr .. tostring(key) .. ": " .. tostring(value))
+        end
+    end
+end

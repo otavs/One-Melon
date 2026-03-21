@@ -10,3 +10,7 @@ Commands["/kill"] = function(player, args)
         character:ApplyDamage(3, nil, nil, nil, character:GetPlayer(), nil)
     end
 end
+
+Commands["/start"] = function(player, args)
+    Game.Timer = 0
+end

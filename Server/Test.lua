@@ -1,4 +1,4 @@
-if not Config.TEST and not Game.State == State.Playing then
+if not Config.TEST then
     return
 end
 

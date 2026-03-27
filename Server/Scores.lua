@@ -72,7 +72,7 @@ function BroadcastKill(instigator, victimCharacter, weaponType)
     local score = GetOrCreateScore(killerPlayer)
     score.kills = score.kills + 1
     BroadcastScoreUpdate(killerPlayer:GetAccountID())
-    if score.kills >= Config.DefaultKillsToWin then
+    if score.kills >= Config.DefaultKillsToWin and Game.State == State.Playing then
       PostGame.InitState()
     end
   end

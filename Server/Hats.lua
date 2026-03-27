@@ -60,13 +60,29 @@ function SetHat(player, hatId)
         player:SetValue("HatAsset", "polygon-hats::" .. hat.key)
     end
 
+    GetSelections(player).hatId = hatId
+
     player:SetValue("HatId", hatId)
+end
+
+function DefineHat(player)
+    local sel = GetSelections(player)
+    if sel.hatId then
+        SetHat(player, sel.hatId)
+    else
+        ChangeHat(player)
+    end
 end
 
 function ChangeHat(player) 
     local hatId = player:GetValue("HatId")
     if not hatId then
-        hatId = math.random(1, #Hats)
+        local sel = PlayerSelections[player:GetAccountID()]
+        if sel and sel.hatId then
+            hatId = sel.hatId
+        else
+            hatId = math.random(1, #Hats)
+        end
     end
     hatId = (hatId % #Hats) + 1
     SetHat(player, hatId)

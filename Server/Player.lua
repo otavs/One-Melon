@@ -17,8 +17,8 @@ function CreateCharacter(player, location)
 
   player:Possess(character)
 
-  ChangeHat(player)
-  ChangeSkin(player)
+  DefineHat(player)
+  DefineSkin(player)
 
   Events.CallRemote("UpdateHealth", player, character:GetHealth(), character:GetMaxHealth())
 

@@ -1,3 +1,5 @@
+PlayerSelections = {}
+
 Skins = {
     "SK_Female",
     "SK_Male",
@@ -99,14 +101,39 @@ function SetSkin(player, skinId)
 
     player:SetValue("SkinId", skinId)
 
+    GetSelections(player).skinId = skinId
+
     SetHat(player, player:GetValue("HatId"))
 end
 
+function DefineSkin(player)
+    local sel = GetSelections(player)
+    if sel.skinId then
+        SetSkin(player, sel.skinId)
+    else
+        ChangeSkin(player)
+    end
+end
+
 function ChangeSkin(player)
-    local skinId = player:GetValue("SkinId") or 0
+    local skinId = player:GetValue("SkinId")
     if not skinId then
-        skinId = math.random(1, #Skins)
+        local sel = PlayerSelections[player:GetAccountID()]
+        if sel and sel.skinId then
+            skinId = sel.skinId
+        else
+            skinId = math.random(1, #Skins)
+        end
     end
     skinId = (skinId % #Skins) + 1
     SetSkin(player, skinId)
+end
+
+function GetSelections(player)
+    local selections = PlayerSelections[player:GetAccountID()]
+    if not selections then
+        selections = { hatId = nil, skinId = nil }
+        PlayerSelections[player:GetAccountID()] = selections
+    end
+    return selections
 end

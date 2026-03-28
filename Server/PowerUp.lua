@@ -209,36 +209,40 @@ function PowerUp:Constructor(type, location)
             PlaySoundP(player, PowerUps[type].sound.file, location, PowerUps[type].sound.volume, 1)
         end
 
-        local firework = Particle(
-            location,
-            Rotator(),
-            "ts-fireworks::PS_TS_Fireworks_Burst_Palm",
-            false,
-            true
-        )
-
-        local color = PowerUps[type].fireworkColor
-        firework:SetParameterColor("BlastColor", color)
-        firework:SetParameterColor("BurstColor", color)
-        firework:SetParameterColor("SparkleColor", color)
-        firework:SetParameterColor("FlareColor", color)
-        firework:SetParameterColor("TailColor", color)
-
-        firework:SetParameterBool("BlastSmoke", false)
-        firework:SetParameterBool("TrailSmoke", false)
-
-        firework:SetParameterFloat("BurstMulti", 2.0)
-        firework:SetParameterFloat("SparkleMulti", 2.0)
-
-        firework:SetScale(0.3)
-
-        Timer.SetTimeout(function()
-            if firework and firework:IsValid() then
-                firework:Destroy()
-            end
-        end, 15000)
+        SpawnFirework(location, PowerUps[type].fireworkColor)
+        SpawnFirework(location, PowerUps[type].fireworkColor)
     end)
     trigger:AttachTo(self, AttachmentRule.SnapToTarget, nil, 0, false)
+end
+
+function SpawnFirework(location, color)
+    local firework = Particle(
+        location,
+        Rotator(),
+        "ts-fireworks::PS_TS_Fireworks_Burst_Palm",
+        false,
+        true
+    )
+
+    firework:SetParameterColor("BlastColor", color)
+    firework:SetParameterColor("BurstColor", color)
+    firework:SetParameterColor("SparkleColor", color)
+    firework:SetParameterColor("FlareColor", color)
+    firework:SetParameterColor("TailColor", color)
+
+    firework:SetParameterBool("BlastSmoke", false)
+    firework:SetParameterBool("TrailSmoke", false)
+
+    firework:SetParameterFloat("BurstMulti", 2.0)
+    firework:SetParameterFloat("SparkleMulti", 2.0)
+
+    firework:SetScale(0.3)
+
+    Timer.SetTimeout(function()
+        if firework and firework:IsValid() then
+            firework:Destroy()
+        end
+    end, 15000)
 end
 
 function PowerUp:Tick(deltaTime)

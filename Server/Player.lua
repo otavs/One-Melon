@@ -28,7 +28,9 @@ function CreateCharacter(player, location)
 
   character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
     if causer and (causer:IsA(Melon) or causer:IsA(Bonker)) then
-      PlaySound("bonk.mp3", self:GetLocation())
+      PlaySound("bonk.mp3", self:GetLocation(), 3, 1)
+      Play2dSoundP(player, "bonk.mp3", 6, 1)
+      Play2dSoundP(instigator, "bonk.mp3", 6, 1)
     end
     if Game.State == State.Lobby then
       Lobby.OnCharacterDeath(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)

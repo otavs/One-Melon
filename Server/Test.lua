@@ -15,7 +15,8 @@ for i = 1, botAmount do
                 instigator = causer:GetValue("player")
             end
             if causer and (causer:IsA(Melon) or causer:IsA(Bonker)) then
-                PlaySound("bonk.mp3", self:GetLocation())
+                PlaySound("bonk.mp3", self:GetLocation(), 3, 1)
+                Play2dSoundP(instigator, "bonk.mp3", 7, 1)
             end
             AddAmmo(instigator, 1)
             AddCombo(instigator)
@@ -67,7 +68,7 @@ Timer.SetInterval(function()
     local powerUpTypes = {"Melon", "Jump", "Speed", "Health", "Bonker", "Mysterious"}
     local randomType = powerUpTypes[math.random(1, #powerUpTypes)]
     PowerUp(randomType, Vector(math.random(-2000, 2000), math.random(-2000, 2000), 150))
-end, 6000)
+end, 3000)
 
 Timer.SetInterval(function()
     if Game.State ~= State.Playing then

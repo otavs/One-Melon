@@ -227,8 +227,8 @@ function PowerUp:Constructor(type, location)
         firework:SetParameterBool("BlastSmoke", false)
         firework:SetParameterBool("TrailSmoke", false)
 
-        firework:SetParameterFloat("BurstMulti", 1.0)
-        firework:SetParameterFloat("SparkleMulti", 1.0)
+        firework:SetParameterFloat("BurstMulti", 2.0)
+        firework:SetParameterFloat("SparkleMulti", 2.0)
 
         firework:SetScale(0.3)
 

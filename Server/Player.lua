@@ -74,3 +74,21 @@ Player.Subscribe("Destroy", function(player)
 		character:Destroy()
 	end
 end)
+
+function GetCurrentAmmo(character)
+  if not character or not character:IsValid() then
+    return 0
+  end
+  local melonGun = character:GetPlayer():GetValue("MelonGun")
+  if melonGun and melonGun:IsValid() then
+    return melonGun:GetAmmoClip()
+  end
+  return 0
+end
+
+function RemoveVoidedStatus(player)
+    local character = player:GetControlledCharacter()
+    if character and character:IsValid() then
+        character:SetValue("voided", nil)
+    end
+end

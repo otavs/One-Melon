@@ -24,6 +24,12 @@ function Lobby.OnCharacterDeath(character, last_damage_taken, last_bone_damaged,
     character:Respawn(Config.LobbyLocation)
 end
 
+function Lobby.HandleVoidPlayers(playersOnVoid)
+    for _, player in pairs(playersOnVoid) do
+        TeleportToLobby(player)
+    end
+end
+
 function TeleportToLobby(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then

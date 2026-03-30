@@ -24,6 +24,15 @@ function PostGame.OnCharacterDeath(character, last_damage_taken, last_bone_damag
     character:Respawn(Config.GameLocation)
 end
 
+function PostGame.HandleVoidPlayers(playersOnVoid)
+    for _, player in pairs(playersOnVoid) do
+        local character = player:GetControlledCharacter()
+        if character and character:IsValid() then
+            character:Respawn(Config.GameLocation)
+        end
+    end
+end
+
 function EnterPostGameUI(player)
     Events.CallRemote("EnterPostGameStateUI", player)
 end

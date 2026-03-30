@@ -30,19 +30,44 @@ for _, player in pairs(Player.GetAll()) do
   CreateCharacter(player, Config.LobbyLocation)
 end
 
+StateList = {
+    [State.Lobby] = Lobby,
+    [State.Playing] = Playing,
+    [State.PostGame] = PostGame
+}
+
 Timer.SetInterval(function()
     if #Player.GetAll() == 0 then
         return
     end
+
+    local currentState = StateList[Game.State]
+
     Game.Timer = Game.Timer - 1
     -- print(Game.State .. ": " .. Game.Timer)
     Events.BroadcastRemote("UpdateTimer", Game.Timer)
-    if Game.Timer <= 0 then
-        if Game.State == State.Lobby then
+
+    local playersOnVoid = GetPlayersOnVoid()
+    currentState.HandleVoidPlayers(playersOnVoid)
+    if Game.State == State.Lobby then
+        if Game.Timer <= 0 then
             Playing.InitState()
-        elseif Game.State == State.PostGame then
+        end
+    elseif Game.State == State.Playing then
+    elseif Game.State == State.PostGame then
+        if Game.Timer <= 0 then
             Lobby.InitState()
         end
     end
 end, 1000)
 
+function GetPlayersOnVoid()
+    local playersOnVoid = {}
+    for _, player in pairs(Player.GetAll()) do
+        local character = player:GetControlledCharacter()
+        if character and character:IsValid() and character:GetLocation().Z < -100 then
+            table.insert(playersOnVoid, player)
+        end
+    end
+    return playersOnVoid
+end

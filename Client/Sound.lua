@@ -1,7 +1,9 @@
 SoundsDir = "package://" .. Package.GetName() .. "/Client/Sounds/"
 
 function PlaySound(sound, location, volume, pitch)
-    sound = SoundsDir .. sound
+    if sound:sub(1, 13) ~= "nanos-world::" then
+        sound = SoundsDir .. sound
+    end
     Sound(
         location, -- Location (if a 3D sound)
         sound, -- Asset Path
@@ -14,7 +16,10 @@ function PlaySound(sound, location, volume, pitch)
 end
 
 function Play2dSound(sound, volume, pitch)
-    sound = SoundsDir .. sound
+    if sound:sub(1, 13) ~= "nanos-world::" then
+        print(sound:sub(1, 13))
+        sound = SoundsDir .. sound
+    end
     Sound(
         Vector(), -- Location (if a 3D sound)
         sound, -- Asset Path

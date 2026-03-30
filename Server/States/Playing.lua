@@ -11,6 +11,7 @@ function Playing.InitState()
         EquipWeapon(player, "MelonGun")
         EnterPlayingStateUI(player)
         AddToScoreboard(player)
+        RemoveVoidedStatus(player)
     end
     Play2dSound("yay.mp3", 2, 1)
     Timer.SetTimeout(function()
@@ -32,13 +33,15 @@ function Playing.OnCharacterDeath(character, last_damage_taken, last_bone_damage
     AddDeath(character:GetPlayer())
     if damage_type_reason == DamageType.Explosion then
         Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")
-    else 
+    elseif instigator then
         if causer and causer:IsA(Melon) then
             instigator = causer:GetValue("player")
         end
         AddAmmo(instigator, 1)
         AddCombo(instigator)
         BroadcastKill(instigator, character, GetWeaponType(causer))
+    else
+        Events.BroadcastRemote("KillFeed", "", character:GetPlayer():GetName(), "Explosion")
     end
     
     Events.CallRemote("UpdateHealth", character:GetPlayer(), 0, character:GetMaxHealth())
@@ -49,6 +52,33 @@ function Playing.OnCharacterDeath(character, last_damage_taken, last_bone_damage
     end, Config.RespawnDelay * 1000)
 end
 
+function Playing.HandleVoidPlayers(playersOnVoid)
+    for _, player in pairs(playersOnVoid) do
+        local character = player:GetControlledCharacter()
+        if character and character:IsValid() and not character:IsDead() then
+            character:ApplyDamage(1000, nil, nil, nil, nil, nil)
+
+            -- not works
+            -- character:AddImpulse(Vector(2000000, 2000000, 2000000), true)
+
+            local location = character:GetLocation()
+
+            local particle = Particle(
+                location,
+                Rotator(0, 0, 0),
+                "nanos-world::P_Explosion",
+                true,
+                true
+            )
+            particle:SetScale(50)
+
+            Play2dSoundP(player, "nanos-world::A_Explosion_Large", 2, 1)
+
+            character:SetValue("voided", true)
+        end
+    end
+end
+
 function RespawnInGame(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
@@ -57,7 +87,12 @@ function RespawnInGame(player)
         HideWeapon(player:GetValue("MelonGun"))
         HideWeapon(player:GetValue("Bonker"))
         EquipWeapon(player, "MelonGun")
-        SetAmmo(player, 1)
+        if not character:GetValue("voided") then
+            SetAmmo(player, 1)
+        else
+            SetAmmo(player, math.min(1, GetCurrentAmmo(character)))
+        end
+        character:SetValue("voided", nil)
         ClearCombo(player)
     end
 end

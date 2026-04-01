@@ -3,9 +3,15 @@ if not Config.TEST then
 end
 
 local botAmount = 30
+local powerupInterval = 3000
 
 for i = 1, botAmount do
     local character = Character(Vector(math.random(-2000, 2000), math.random(-2000, 2000), 500), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
+
+    character:SetMaterialColorParameter("Tint", RandomColor())
+    character:SetMaxHealth(3)
+    character:SetHealth(3)
+    character:SetDeathSound("nanos-world::A_EmptySound")
 
     character:Subscribe("Death", function(self, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
         if damage_type_reason == DamageType.Explosion then
@@ -38,11 +44,6 @@ for i = 1, botAmount do
             end
         end
     end)
-
-    character:SetMaterialColorParameter("Tint", RandomColor())
-    character:SetMaxHealth(1)
-    character:SetHealth(2)
-    character:SetDeathSound("nanos-world::A_EmptySound")
 end
 
 -- local my_prop = Prop(
@@ -68,7 +69,7 @@ Timer.SetInterval(function()
     local powerUpTypes = {"Melon", "Jump", "Speed", "Health", "Bonker", "Mysterious"}
     local randomType = powerUpTypes[math.random(1, #powerUpTypes)]
     PowerUp(randomType, Vector(math.random(-2000, 2000), math.random(-2000, 2000), 150))
-end, 3000)
+end, powerupInterval)
 
 Timer.SetInterval(function()
     if Game.State ~= State.Playing then

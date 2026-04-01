@@ -7,8 +7,8 @@ LogLevel = {
 Config = {
     TEST = false,
     LogLevel = LogLevel.Console,
-    ShowTriggers = true,
-    EnableCommands = true,
+    ShowTriggers = false,
+    EnableCommands = false,
 
     LobbyLocation = Vector(61224.771815, -22686.449711, 500),
 
@@ -25,7 +25,7 @@ Config = {
     PowerUpJumpForce = 1100,
     PowerUpJumpDuration = 18,
 
-    PowerUpBonkerDamage = 1,
+    PowerUpBonkerDamage = 2,
     PowerUpBonkerScale = 6,
     PowerUpBonkerDuration = 18,
 

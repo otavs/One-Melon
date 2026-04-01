@@ -88,5 +88,6 @@ function SpawnUgandan()
             local impulse = -from_direction:GetSafeNormal() * 13000 + Vector(0, 0, 200)
             character:AddImpulse(impulse, true)
         end
+        PlaySound("quack.mp3", self:GetLocation(), 5, 1)
     end)
 end

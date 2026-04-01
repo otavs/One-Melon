@@ -14,6 +14,8 @@ function CreateCharacter(player, location)
   character:SetRagdollOnHitEnabled(false)
   character:SetDeathSound("nanos-world::A_EmptySound")
   character:SetPunchDamage(1)
+  character:SetCanDrop(false)
+  -- character:SetAirControl(0.2, 512, 25)
 
   player:Possess(character)
 

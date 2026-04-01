@@ -42,11 +42,11 @@ function MelonGun:OnFire(character)
 		-- print("Melon hit something")
 		if other and other:IsValid() and other:IsA(Melon) then
 			-- print("Melon hit melon")
-			BreakProp(melon, intensity)
-			BreakProp(other, intensity)
 			PlaySound("bonk.mp3", impact_location)
 			local player1 = melon:GetValue("player")
 			local player2 = other:GetValue("player")
+			BreakProp(melon, intensity)
+			BreakProp(other, intensity)
 			if player1 == player2 then
 				return
 			end

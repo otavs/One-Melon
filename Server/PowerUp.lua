@@ -96,7 +96,7 @@ PowerUps = {
             bonker:SetScale(Config.PowerUpBonkerScale)
             bonker:SetBaseDamage(Config.PowerUpBonkerDamage)
             EquipWeapon(player, "Bonker")
-            ActivatePowerUp(player, "Bonker", "Giant Bonker", Config.PowerUpBonkerDuration, function()
+            ActivatePowerUp(player, "Bonker", "Mega Bonker", Config.PowerUpBonkerDuration, function()
                 bonker = player:GetValue("Bonker")
                 if bonker and bonker:IsValid() then
                     bonker:SetScale(1.6)

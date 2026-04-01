@@ -54,6 +54,7 @@ Timer.SetInterval(function()
             Playing.InitState()
         end
     elseif Game.State == State.Playing then
+        Playing.SpawnPowerUps()
     elseif Game.State == State.PostGame then
         if Game.Timer <= 0 then
             Lobby.InitState()

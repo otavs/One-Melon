@@ -5,34 +5,34 @@ LogLevel = {
 }
 
 Config = {
-    TEST = true,
+    TEST = false,
     LogLevel = LogLevel.Console,
     ShowTriggers = true,
     EnableCommands = true,
 
-    LobbyLocation = Vector(1000, 0, 500),
+    LobbyLocation = Vector(61224.771815, -22686.449711, 500),
     GameLocation = Vector(1000, 0, 500),
 
-    DefaultKillsToWin = 100,
+    DefaultKillsToWin = 30,
 
-    LobbyDuration = 1,
+    LobbyDuration = 60,
     PostGameDuration = 40,
 
     PlayerSpeed = 2,
-    PowerUpSpeed = 4,
-    PowerUpSpeedDuration = 15,
+    PowerUpSpeed = 5,
+    PowerUpSpeedDuration = 18,
     
     PlayerJumpForce = 600,
-    PowerUpJumpForce = 1000,
-    PowerUpJumpDuration = 15,
+    PowerUpJumpForce = 1100,
+    PowerUpJumpDuration = 18,
 
-    PowerUpBonkerDamage = 2,
+    PowerUpBonkerDamage = 1,
     PowerUpBonkerScale = 6,
-    PowerUpBonkerDuration = 20,
+    PowerUpBonkerDuration = 18,
 
     PlayerMaxHealth = 3,
     PowerUpHealth = 6,
-    PowerUpHealthDuration = 15,
+    PowerUpHealthDuration = 18,
 
     ComboDuration = 60,
 
@@ -46,6 +46,6 @@ Config = {
     RespawnDelay = 3,
 
     PowerUpLifetime = 10 * 60,
-    MysteriousPowerUpLifetime = 100,
+    MysteriousPowerUpLifetime = 120,
 
 }

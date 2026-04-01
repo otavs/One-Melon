@@ -27,7 +27,7 @@ end)
 Lobby.InitState()
 
 for _, player in pairs(Player.GetAll()) do
-  CreateCharacter(player, Config.LobbyLocation)
+  CreateCharacter(player, GetLobbySpawnLocation())
 end
 
 Timer.SetTimeout(function() SpawnUgandan() end, 200)

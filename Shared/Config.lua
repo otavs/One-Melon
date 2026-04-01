@@ -11,7 +11,6 @@ Config = {
     EnableCommands = true,
 
     LobbyLocation = Vector(61224.771815, -22686.449711, 500),
-    GameLocation = Vector(1000, 0, 500),
 
     DefaultKillsToWin = 30,
 

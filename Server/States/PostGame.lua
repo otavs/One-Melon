@@ -14,21 +14,21 @@ function PostGame.InitState()
 end
 
 function PostGame.OnPlayerJoin(player)
-    CreateCharacter(player, Config.GameLocation)
+    CreateCharacter(player, GetGameSpawnLocation())
     FreezePlayer(player)
     EnterPostGameUI(player)
     BroadcastFinalScores(player)
 end
 
 function PostGame.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-    character:Respawn(Config.GameLocation)
+    character:Respawn(GetGameSpawnLocation())
 end
 
 function PostGame.HandleVoidPlayers(playersOnVoid)
     for _, player in pairs(playersOnVoid) do
         local character = player:GetControlledCharacter()
         if character and character:IsValid() then
-            character:Respawn(Config.GameLocation)
+            character:Respawn(GetGameSpawnLocation())
         end
     end
 end

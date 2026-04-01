@@ -20,7 +20,7 @@ function Playing.InitState()
 end
 
 function Playing.OnPlayerJoin(player)
-    CreateCharacter(player, Config.GameLocation)
+    CreateCharacter(player, GetGameSpawnLocation())
     SetGameSettings(player)
     CreateWeapons(player)
     EquipWeapon(player, "MelonGun")
@@ -82,7 +82,7 @@ end
 function RespawnInGame(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
-        character:Respawn(Vector(math.random(-5000, 5000), math.random(-5000, 5000), 500))
+        character:Respawn(GetGameSpawnLocation())
 
         HideWeapon(player:GetValue("MelonGun"))
         HideWeapon(player:GetValue("Bonker"))
@@ -124,7 +124,9 @@ function Playing.SpawnPowerUps()
     local amount = 1
     for _ = 1, amount do
         local randomType = PossiblePowerUps[math.random(1, #PossiblePowerUps)]
-        PowerUp(randomType, Vector(math.random(-2000, 2000), math.random(-2000, 2000), 155))
+        local location = GetGameSpawnLocation()
+        location.Z = 150
+        PowerUp(randomType, location)
     end
 end
 
@@ -134,4 +136,13 @@ function GetPowerUpSpawnInterval()
     local t_max = 8
     local k = 0.1
     return math.ceil(t_min + (t_max - t_min) * math.exp(-k * n))
+end
+
+function GetGameSpawnLocation()
+    local n = #Player.GetAll()
+    local r_min = 5000
+    local r_max = 19000
+    local k = 0.02
+    local r = math.ceil(r_min + (r_max - r_min) * (1 - math.exp(-k * n)))
+    return Vector(math.random(-r, r), math.random(-r, r), 500)
 end

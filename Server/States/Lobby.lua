@@ -14,14 +14,14 @@ function Lobby.InitState()
 end
 
 function Lobby.OnPlayerJoin(player)
-    CreateCharacter(player, Config.LobbyLocation)
+    CreateCharacter(player, GetLobbySpawnLocation())
     EnterLobbyStateUI(player)
     SetLobbySettings(player)
     ShowHelpUI(player)
 end
 
 function Lobby.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)
-    character:Respawn(Config.LobbyLocation)
+    character:Respawn(GetLobbySpawnLocation())
 end
 
 function Lobby.HandleVoidPlayers(playersOnVoid)
@@ -34,10 +34,10 @@ function TeleportToLobby(player)
     local character = player:GetControlledCharacter()
     if character and character:IsValid() then
         if character:IsDead() then
-            character:Respawn(Config.LobbyLocation)
+            character:Respawn(GetLobbySpawnLocation())
         else
             character:AddImpulse(character:GetVelocity() * -1, true)
-            character:SetLocation(Config.LobbyLocation)
+            character:SetLocation(GetLobbySpawnLocation())
         end
     end
 end
@@ -58,4 +58,12 @@ end
 
 function EnterLobbyStateUI(player)
     Events.CallRemote("EnterLobbyStateUI", player)
+end
+
+function GetLobbySpawnLocation()
+    return Vector(
+        Config.LobbyLocation.X + math.random(-1200, 1500),
+        Config.LobbyLocation.Y + math.random(-1300, 1600),
+        Config.LobbyLocation.Z
+    )
 end

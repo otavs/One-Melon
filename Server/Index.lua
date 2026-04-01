@@ -56,7 +56,7 @@ Timer.SetInterval(function()
             Playing.InitState()
         end
     elseif Game.State == State.Playing then
-        Playing.SpawnPowerUps()
+        -- Transition to PostGame is checked when a player dies
     elseif Game.State == State.PostGame then
         if Game.Timer <= 0 then
             Lobby.InitState()
@@ -91,3 +91,10 @@ function SpawnUgandan()
         PlaySound("quack.mp3", self:GetLocation(), 5, 1)
     end)
 end
+
+
+Server.Subscribe("Tick", function(delta_time)
+    if Game.State == State.Playing then
+        SpawnPowerUps(delta_time)
+    end
+end)

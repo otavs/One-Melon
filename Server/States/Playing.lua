@@ -111,22 +111,22 @@ function EnterPlayingStateUI(player)
 end
 
 local PossiblePowerUps = {"Melon", "Jump", "Speed", "Health", "Bonker", "Mysterious"}
-local PowerUpSpawnTimer = 0
+PowerUpSpawnTimer = 0
 
-function Playing.SpawnPowerUps()
-    PowerUpSpawnTimer = PowerUpSpawnTimer + 1
+function SpawnPowerUps(delta_time)
+    PowerUpSpawnTimer = PowerUpSpawnTimer + delta_time
+
     local interval = GetPowerUpSpawnInterval()
     if PowerUpSpawnTimer < interval then
         return
     end
+
     PowerUpSpawnTimer = 0
-    local amount = 1
-    for _ = 1, amount do
-        local randomType = PossiblePowerUps[math.random(1, #PossiblePowerUps)]
-        local location = GetGameSpawnLocation()
-        location.Z = 150
-        PowerUp(randomType, location)
-    end
+
+    local randomType = PossiblePowerUps[math.random(1, #PossiblePowerUps)]
+    local location = GetGameSpawnLocation()
+    location.Z = 150
+    PowerUp(randomType, location)
 end
 
 function GetPowerUpSpawnInterval()
@@ -134,7 +134,7 @@ function GetPowerUpSpawnInterval()
     local t_min = 1
     local t_max = 8
     local k = 0.1
-    return math.ceil(t_min + (t_max - t_min) * math.exp(-k * n))
+    return t_min + (t_max - t_min) * math.exp(-k * n)
 end
 
 function GetGameSpawnLocation()

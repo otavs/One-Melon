@@ -30,6 +30,8 @@ for _, player in pairs(Player.GetAll()) do
   CreateCharacter(player, Config.LobbyLocation)
 end
 
+Timer.SetTimeout(function() SpawnUgandan() end, 200)
+
 StateList = {
     [State.Lobby] = Lobby,
     [State.Playing] = Playing,
@@ -71,4 +73,20 @@ function GetPlayersOnVoid()
         end
     end
     return playersOnVoid
+end
+
+function SpawnUgandan()
+    local location = Vector(61402.10, -24949.10, 597.90 + 10)
+    local ugandan = CharacterSimple(location, Rotator(0, 90, 0), "nanos-world::SK_AncientUgandan")
+    
+    ugandan:SetScale(1.1)
+    ugandan:SetHealth(10000)
+
+    ugandan:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
+        local character = instigator:GetControlledCharacter()
+        if character and character:IsValid() then
+            local impulse = -from_direction:GetSafeNormal() * 13000 + Vector(0, 0, 200)
+            character:AddImpulse(impulse, true)
+        end
+    end)
 end

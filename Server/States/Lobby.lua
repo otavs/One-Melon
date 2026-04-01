@@ -36,6 +36,7 @@ function TeleportToLobby(player)
         if character:IsDead() then
             character:Respawn(Config.LobbyLocation)
         else
+            character:AddImpulse(character:GetVelocity() * -1, true)
             character:SetLocation(Config.LobbyLocation)
         end
     end

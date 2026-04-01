@@ -2,7 +2,6 @@ Playing = {}
 
 function Playing.InitState()
     Game.State = State.Playing
-    DestroyAllPowerUps()
     for _, player in pairs(Player.GetAll()) do
         FreezePlayer(player)
         SetGameSettings(player)

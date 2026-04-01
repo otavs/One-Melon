@@ -4,6 +4,7 @@ function Lobby.InitState()
     Game.State = State.Lobby
     Game.Timer = Config.LobbyDuration
     ClearScoreBoard()
+    DestroyAllPowerUps()
     for _, player in pairs(Player.GetAll()) do
         EnterLobbyStateUI(player)
         DestroyWeapons(player)

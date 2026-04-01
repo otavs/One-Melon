@@ -17,7 +17,7 @@ function Lobby.OnPlayerJoin(player)
     CreateCharacter(player, GetLobbySpawnLocation())
     EnterLobbyStateUI(player)
     SetLobbySettings(player)
-    ShowHelpUI(player)
+    Timer.SetTimeout(function() ShowHelpUI(player) end, 1000)
 end
 
 function Lobby.OnCharacterDeath(character, last_damage_taken, last_bone_damaged, damage_type_reason, hit_from_direction, instigator, causer)

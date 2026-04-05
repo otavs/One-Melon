@@ -17,7 +17,6 @@ end
 
 function Play2dSound(sound, volume, pitch)
     if sound:sub(1, 13) ~= "nanos-world::" then
-        print(sound:sub(1, 13))
         sound = SoundsDir .. sound
     end
     Sound(

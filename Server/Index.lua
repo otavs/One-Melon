@@ -75,9 +75,11 @@ function GetPlayersOnVoid()
     return playersOnVoid
 end
 
+Ugandan = CharacterSimple.Inherit("Ugandan")
+
 function SpawnUgandan()
     local location = Vector(61402.10, -24949.10, 597.90 + 10)
-    local ugandan = CharacterSimple(location, Rotator(0, 90, 0), "nanos-world::SK_AncientUgandan")
+    local ugandan = Ugandan(location, Rotator(0, 90, 0), "nanos-world::SK_AncientUgandan")
     
     ugandan:SetScale(1.1)
     ugandan:SetHealth(10000)

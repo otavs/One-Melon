@@ -5,7 +5,7 @@
     # contributors
     author =                "ota"
     # version
-    version =               "1.0.1"
+    version =               "1.0.2"
 
 # game-mode configurations
 [game_mode]

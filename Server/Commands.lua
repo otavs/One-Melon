@@ -17,5 +17,14 @@ Commands["/start"] = function(player, args)
     else
         Game.Timer = 0
     end
-    return false
+end
+
+Commands["/show-ugandan"] = function(player, args)
+    if #Ugandan.GetAll() == 0 then
+        Chat.BroadcastMessage("Ugandan not found")
+        return
+    end
+    for _, ugandan in pairs(Ugandan.GetAll()) do
+        Chat.BroadcastMessage("Ugandan is at: " .. tostring(ugandan:GetLocation()))
+    end
 end
